@@ -6,6 +6,9 @@
   <title>WES全流程｜见山 · 生信笔记</title>
   <meta name="description" content="从原始FASTQ到可解释的变异列表，系统梳理WES分析步骤、常用工具、数据库与质控边界。">
   <link rel="canonical" href="https://yt-er.github.io/articles/wes-workflow/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-workflow/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-workflow/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-workflow/">
   <meta property="og:title" content="WES全流程｜见山 · 生信笔记">
   <meta property="og:description" content="从原始FASTQ到可解释的变异列表，系统梳理WES分析步骤、常用工具、数据库与质控边界。">
   <meta property="og:url" content="https://yt-er.github.io/articles/wes-workflow/">
@@ -16,13 +19,7 @@
 </head>
 <body><main class="article-page">
     <a class="skip-link" href="#article-content">跳到正文</a>
-    <header class="site-header article-header">
-  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
-    <span class="brand-mark" aria-hidden="true">见</span>
-    <span><strong>见山</strong><small>生信笔记</small></span>
-  </a>
-  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
-</header>
+    <header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-workflow/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-workflow/">EN</a></div></div></header>
     <div class="article-topline" aria-label="文章信息"><span>WES流程</span><time datetime="2025-08-07">2025.08.07</time><span>约 8 分钟</span></div>
     <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-原始数据质控与预处理"><span>01</span>1.
 原始数据质控与预处理</a></li><li><a href="#2-比对alignment"><span>02</span>2. 比对（Alignment）</a></li><li><a href="#3-bam后处理base-recalibration等"><span>03</span>3. BAM后处理（Base

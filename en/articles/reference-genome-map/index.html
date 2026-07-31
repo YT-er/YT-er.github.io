@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Reference Genome: Why We Need a “Map” of the Human Genome | Jianshan Bioinformatics Notes</title>
+  <meta name="description" content="From hg19 and hg38 to T2T and the Human Pangenome: how a reference genome provides coordinates and context for sequencing data.">
+  <link rel="canonical" href="https://yt-er.github.io/en/articles/reference-genome-map/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/reference-genome-map/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/reference-genome-map/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/reference-genome-map/">
+  <meta property="og:title" content="The Reference Genome: Why We Need a “Map” of the Human Genome | Jianshan Bioinformatics Notes"><meta property="og:description" content="From hg19 and hg38 to T2T and the Human Pangenome: how a reference genome provides coordinates and context for sequencing data."><meta property="og:url" content="https://yt-er.github.io/en/articles/reference-genome-map/"><meta property="og:type" content="article"><meta property="article:published_time" content="2026-05-30"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/"><span aria-hidden="true">←</span> All articles</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/reference-genome-map/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/reference-genome-map/" aria-current="page">EN</a></div></div></header>
+  <div class="article-topline" aria-label="Article information"><span>Reference Genomes</span><time datetime="2026-05-30">2026.05.30</time><span>Approx. 11 min</span></div>
+  <div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#what-is-a-reference-genome"><span>01</span>What Is a Reference Genome?</a></li><li><a href="#why-are-there-different-versions-of-the-reference-genome"><span>02</span>Why Are There Different Versions of the Reference Genome?</a></li><li><a href="#hg19-a-long-serving-old-map"><span>03</span>hg19: A Long-Serving Old Map</a></li><li><a href="#hg38-the-more-widely-recommended-mainstream-linear-reference"><span>04</span>hg38: The More Widely Recommended Mainstream Linear Reference</a></li><li><a href="#t2t-filling-in-the-blank-areas-on-the-map"><span>05</span>T2T: Filling in the Blank Areas on the Map</a></li><li><a href="#pangenome-one-map-is-no-longer-enough"><span>06</span>Pangenome: One Map Is No Longer Enough</a></li><li><a href="#what-does-the-reference-genome-affect"><span>07</span>What Does the Reference Genome Affect?</a></li><li><a href="#will-new-builds-necessarily-replace-old-ones"><span>08</span>Will New Builds Necessarily Replace Old Ones?</a></li><li><a href="#summary"><span>09</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#what-is-a-reference-genome">What Is a Reference Genome?</a></li><li><a href="#why-are-there-different-versions-of-the-reference-genome">Why Are There Different Versions of the Reference Genome?</a></li><li><a href="#hg19-a-long-serving-old-map">hg19: A Long-Serving Old Map</a></li><li><a href="#hg38-the-more-widely-recommended-mainstream-linear-reference">hg38: The More Widely Recommended Mainstream Linear Reference</a></li><li><a href="#t2t-filling-in-the-blank-areas-on-the-map">T2T: Filling in the Blank Areas on the Map</a></li><li><a href="#pangenome-one-map-is-no-longer-enough">Pangenome: One Map Is No Longer Enough</a></li><li><a href="#what-does-the-reference-genome-affect">What Does the Reference Genome Affect?</a></li><li><a href="#will-new-builds-necessarily-replace-old-ones">Will New Builds Necessarily Replace Old Ones?</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="reference-genome-map">The Reference Genome: Why We Need a “Map” of the Human Genome</h1>
+<p>If we imagine genetic testing as solving a case, what the sequencer gives us is not a complete human-genome manual but a large collection of scattered clues.</p>
+<p>These clues may be DNA fragments tens, hundreds, or tens of thousands of bases long. On their own, they do not tell us: “I come from a particular position on chromosome 7,” “I fall within the BRCA1 gene,” “I have an extra base here,” or “I am missing a large segment here.”</p>
+<p>To understand these fragments, we need a map. That map is the reference genome.</p>
+<h2 id="what-is-a-reference-genome"><strong>What Is a Reference Genome?</strong></h2>
+<p>A reference genome can be understood as a “standard human genome sequence.”</p>
+<p>When we obtain a person's sequencing data, the first step is usually to align the DNA fragments to the reference genome. This process is called alignment. Only after alignment can we determine whether a particular position in that person differs from the reference sequence.</p>
+<p>For example, if the reference genome contains an A at a particular position but the sample contains a G at the same position, we can record it as an SNV. Similarly, if a segment is absent from the sample or has extra copies, we may proceed to analyze a CNV or structural variant.</p>
+<p>In other words, the reference genome provides a coordinate system.</p>
+<p>Without this coordinate system, sequencing data would resemble a pile of text fragments with no page numbers, chapter headings, or table of contents. We could see many characters, but it would be difficult to determine where they came from or to map them to databases, publications, and clinical reports.</p>
+<p>In genetic testing, we often encounter descriptions such as:</p>
+<p>chr7:140753336 A&gt;G</p>
+<p>BRCA1 NM_007294.4:c.5266dup</p>
+<p>17q12 deletion</p>
+<p>All these descriptions depend on a reference genome. Chromosomal coordinates, gene annotations, variant nomenclature, database indexes, and clinical interpretation all require an agreed-upon “map.”</p>
+<h2 id="why-are-there-different-versions-of-the-reference-genome"><strong>Why Are There Different Versions of the Reference Genome?</strong></h2>
+<p>Maps are updated, and so are reference genomes.</p>
+<p>Early human reference genomes were not perfect. Limited by the sequencing technologies and assembly methods available at the time, many regions were difficult to assemble completely, especially highly repetitive regions, centromeres, telomeres, segmental duplications, and structurally complex regions. These regions were like places marked “not yet surveyed” on a map.</p>
+<p>As sequencing technologies advanced, the human reference genome was repeatedly revised. Errors were corrected, missing regions were added, complex regions were represented anew, and information from additional populations was gradually incorporated.</p>
+<p>This is how several names that we often hear today arose: hg19, hg38, T2T, and the pangenome.</p>
+<p>They are not simply “old and new software versions.” More precisely, they represent different stages in our understanding of the human genome.</p>
+<p>hg19 is a classic build that has been used for a long time and has a mature ecosystem.</p>
+<p>hg38 is currently the more widely recommended mainstream linear reference genome, with clear improvements in sequence quality and structural representation over hg19.</p>
+<p>T2T seeks to fill in regions that had long remained absent from previous reference genomes, taking the human genome from “essentially complete” to “telomere to telomere.”</p>
+<p>The pangenome goes further by changing the basic concept of a reference genome. In the past, we generally used one standard sequence to represent humanity; the pangenome aims to build a reference system jointly from the genomes of many people so that the reference better reflects population diversity.</p>
+<h2 id="hg19-a-long-serving-old-map"><strong>hg19: A Long-Serving Old Map</strong></h2>
+<p>hg19 is still encountered in many clinical tests, inherited-disease analyses, oncology panels, and whole-exome sequencing workflows.</p>
+<p>hg19 corresponds to the GRCh37 system. It was released relatively early, but its influence has been profound. Large volumes of historical data, literature records, database annotations, and internal laboratory workflows were built around hg19.</p>
+<p>This is why hg19 has not completely left the stage even though newer reference builds are now available.</p>
+<p>Stability is extremely important in clinical testing. If a laboratory has used hg19 for many years, its accumulated variant database, positive-sample validation results, filtering thresholds, report templates, and internal experience are often tightly bound to hg19 coordinates.</p>
+<p>Switching from hg19 to a newer build is not as simple as changing a software parameter.</p>
+<p>The coordinates of the same variant may differ between hg19 and hg38. The sequences of some regions may differ as well. Annotation results, filtering results, and even details of the interpretation of individual variants may all be affected.</p>
+<p>Thus, hg19 is like an old map that has been used for many years. It is no longer the newest and has many historical limitations, but everyone knows its road names and annotations, and many archival records are stored according to this map.</p>
+<h2 id="hg38-the-more-widely-recommended-mainstream-linear-reference"><strong>hg38: The More Widely Recommended Mainstream Linear Reference</strong></h2>
+<p>hg38 corresponds to GRCh38 and is a major upgrade following hg19.</p>
+<p>Compared with hg19, hg38 corrects more reference-sequence issues, adds more regions, and provides a more complete representation of alternate loci. For new WGS workflows, noncoding-region analysis, structural-variant analysis, RNA analysis, and new databases intended for long-term maintenance, hg38 is a better starting point.</p>
+<p>Nevertheless, hg38 remains a linear reference genome.</p>
+<p>Put simply, a linear reference still attempts to represent the human genome with one primary reference path. For most routine analyses, this approach is clear, stable, and convenient, and it facilitates the establishment of a unified coordinate system.</p>
+<p>Human populations, however, are highly diverse. Individuals do not differ only at a few bases; they may also carry large insertions, deletions, inversions, duplications, and haplotype differences. A single linear reference path may be unable to represent these complex differences adequately.</p>
+<p>This is the boundary of hg38.</p>
+<p>It is more accurate and complete than hg19 and is better suited as the main reference build for modern genomic analysis. Yet it still does not resolve the fundamental problem of “using one reference sequence to represent everyone.”</p>
+<h2 id="t2t-filling-in-the-blank-areas-on-the-map"><strong>T2T: Filling in the Blank Areas on the Map</strong></h2>
+<p>When we used to say that “the human genome has been completed,” that statement actually required a footnote.</p>
+<p>Early reference genomes covered most of the human genome but did not cover every region completely. Many highly repetitive and structurally complex regions remained difficult to assemble accurately for a long time.</p>
+<p>Examples include centromeric regions, telomeric regions, segmental duplications, ribosomal DNA regions, and complex regions densely populated by gene families. In conventional reference genomes, these regions were often absent, simplified, or difficult to resolve.</p>
+<p>T2T stands for Telomere to Telomere.</p>
+<p>Its goal is straightforward: to assemble each chromosome as completely as possible from one end to the other.</p>
+<p>The fact that this endeavor has achieved true breakthroughs only in recent years is inseparable from advances in long-read sequencing. Long reads can span many repetitive regions that short reads could not traverse in the past, making complex structures easier to assemble.</p>
+<p>T2T is highly significant.</p>
+<p>For the first time, it brings us closer to seeing a complete human genome, particularly regions that had long been overlooked or impossible to resolve. T2T provides a new foundation for studying centromeres, telomeres, complex repeats, structural variants, gene-family evolution, and related questions.</p>
+<p>However, T2T has not yet fully replaced hg38 in routine clinical use.</p>
+<p>The reasons are practical. Most clinical databases, annotation systems, testing workflows, and report coordinates are still built primarily around hg19 or hg38. The coordinate system, annotation resources, software ecosystem, and clinical validation framework for T2T still need time to mature.</p>
+<p>T2T is therefore more like a light cast on regions of the map that had long remained obscure. It shows us that the previous map was incomplete and reveals that the newly visible regions contain much more to explore.</p>
+<h2 id="pangenome-one-map-is-no-longer-enough"><strong>Pangenome: One Map Is No Longer Enough</strong></h2>
+<p>If T2T addresses the problem that “this map still has blank areas,” the pangenome addresses another, deeper question: can one map represent everyone?</p>
+<p>Traditional reference genomes are generally derived from a small number of individuals. Comparing everyone's sequencing data against this set of reference sequences is technically convenient, but it also introduces bias.</p>
+<p>If a sequence that is common in a particular population is absent from the reference genome, sequencing data from that population may be difficult to align. If certain structural variants cannot be represented appropriately in the reference, those variants are also more likely to be missed or miscalled.</p>
+<p>This is known as reference bias.</p>
+<p>There is no single human genome structure. Many genuine differences exist among populations and individuals. A single linear reference is often insufficiently flexible, especially in complex regions, immune-related regions, regions rich in structural variation, and regions containing large insertions and deletions.</p>
+<p>The idea behind the pangenome is to build a reference system jointly from multiple high-quality individual genomes.</p>
+<p>You can think of it as an upgrade from “one standard route” to “a road network.” In the past, we had only one main road, and everyone's data had to be drawn toward it. Now we want the map to retain multiple paths so that the actual genome of each person can find a route closer to itself.</p>
+<p>This is extremely important for the future of genomic medicine.</p>
+<p>It has the potential to improve detection of complex variants, reduce population bias, increase the accuracy of genomic analysis in non-European populations, and perhaps help us reinterpret many regions that were previously difficult to explain.</p>
+<p>Of course, the pangenome is still some distance from routine clinical use.</p>
+<p>Once the reference system changes from “a line” to “a graph,” many issues become more complicated: How should coordinates be defined? How should variants be named? How should databases be indexed? How should reports be written? How can laboratories maintain consistency with one another? How should software and computing resources adapt?</p>
+<p>Resolving these issues will take time.</p>
+<p>But the direction is already clear: future reference genomes will increasingly emphasize diversity.</p>
+<h2 id="what-does-the-reference-genome-affect"><strong>What Does the Reference Genome Affect?</strong></h2>
+<p>Many people may think of the reference genome as merely a foundational file in bioinformatics analysis. In practice, its impact extends much further than one might imagine.</p>
+<p>First, it affects alignment.</p>
+<p>When the same sequencing data are aligned to different reference genomes, alignment quality may differ in some regions. This is especially true in repetitive, homologous, and structurally complex regions, where differences in the reference sequence affect where reads are placed.</p>
+<p>Second, it affects variant detection.</p>
+<p>If alignment results change, the downstream detection of SNVs, indels, CNVs, and SVs may also change. Some regions that were difficult to assess with an older reference may become clearer with a newer one.</p>
+<p>Third, it affects annotation.</p>
+<p>Differences in variant coordinates, annotation-database versions, and transcript selection may all affect which gene and exon a variant falls within, whether it alters a protein, and whether it matches a known database record.</p>
+<p>Fourth, it affects clinical reports.</p>
+<p>Clinical reports must state the reference build used. Otherwise, the same chromosomal coordinate could be misunderstood.</p>
+<p>Fifth, it affects comparisons with historical data.</p>
+<p>If a laboratory's historical data use hg19 while a new project uses hg38, cross-project comparisons require coordinate conversion, or liftover. Liftover is not 100% lossless; particular caution is required for complex, repetitive, and structurally variable regions.</p>
+<p>The reference genome is therefore not a background file that can be casually replaced. It is the foundation of the entire analysis system.</p>
+<h2 id="will-new-builds-necessarily-replace-old-ones"><strong>Will New Builds Necessarily Replace Old Ones?</strong></h2>
+<p>From the perspective of technological development, reference genomes will certainly continue to improve. In real-world applications, however, new builds do not immediately replace older ones. This is especially relevant to clinical testing. A mature clinical workflow is typically supported by extensive validation. Once the reference genome changes, the capture regions, alignment quality, variant-calling results, annotation databases, filtering thresholds, historical positive samples, and report coordinates all need to be reassessed.</p>
+<p>We will therefore see these builds coexist for a long time. hg19 will remain in many historical datasets and mature clinical systems. hg38 will increasingly be used in new workflows, new databases, and more comprehensive genomic analyses. T2T will play an important role in research on complex regions, structural variation, and newly resolved regions. The pangenome will gradually move reference genomes from the era of a single path to an era of multiple paths. Different builds are suited to different scenarios. What truly matters is not blindly adopting the newest build, but understanding what question you are addressing and why you have chosen a particular reference genome.</p>
+<h2 id="summary"><strong>Summary</strong></h2>
+<p>The reference genome is both the map and the coordinate system for genomic analysis. It determines how sequencing fragments are aligned, how variants are described, how database records are matched, and how clinical reports are written. hg19 is a classic older build with a mature ecosystem and abundant historical data. hg38 is the more widely recommended mainstream linear reference and is suitable for most modern analysis systems. T2T provides a view of a more complete human genome, particularly by adding complex regions that had long been absent. The pangenome represents a new direction: constructing a reference system jointly from the genomes of more people so that the “human reference genome” better reflects actual human diversity.</p>
+<p>The evolution from hg19 to hg38, and from T2T to the pangenome, follows a clear path: from usable to more accurate; from more accurate to more complete; and from more complete to more representative.</p>
+</article></div>
+  <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>Keep making complex questions clearer.</h2><a class="read-link" href="/en/#articles">← Browse all articles</a></section>
+  <footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer>
+</main></body></html>

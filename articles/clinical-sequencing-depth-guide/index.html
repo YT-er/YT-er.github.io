@@ -6,6 +6,9 @@
   <title>人类样本临床测序深度推荐指南｜见山 · 生信笔记</title>
   <meta name="description" content="比较WGS、WES、Panel与RNA-seq的临床测序深度，并解释深度、灵敏度、成本和应用场景的关系。">
   <link rel="canonical" href="https://yt-er.github.io/articles/clinical-sequencing-depth-guide/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/clinical-sequencing-depth-guide/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/clinical-sequencing-depth-guide/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/clinical-sequencing-depth-guide/">
   <meta property="og:title" content="人类样本临床测序深度推荐指南｜见山 · 生信笔记">
   <meta property="og:description" content="比较WGS、WES、Panel与RNA-seq的临床测序深度，并解释深度、灵敏度、成本和应用场景的关系。">
   <meta property="og:url" content="https://yt-er.github.io/articles/clinical-sequencing-depth-guide/">
@@ -16,13 +19,7 @@
 </head>
 <body><main class="article-page">
     <a class="skip-link" href="#article-content">跳到正文</a>
-    <header class="site-header article-header">
-  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
-    <span class="brand-mark" aria-hidden="true">见</span>
-    <span><strong>见山</strong><small>生信笔记</small></span>
-  </a>
-  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
-</header>
+    <header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/clinical-sequencing-depth-guide/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/clinical-sequencing-depth-guide/">EN</a></div></div></header>
     <div class="article-topline" aria-label="文章信息"><span>测序设计</span><time datetime="2025-08-10">2025.08.10</time><span>约 27 分钟</span></div>
     <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#全基因组测序wgs"><span>01</span>全基因组测序（WGS）</a></li><li><a href="#全外显子组测序wes"><span>02</span>全外显子组测序（WES）</a></li><li><a href="#靶向测序targeted-panel测序"><span>03</span>靶向测序（Targeted
 Panel测序）</a></li><li><a href="#转录组测序rna-seq"><span>04</span>转录组测序（RNA-seq）</a></li><li><a href="#结论"><span>05</span>结论</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#全基因组测序wgs">全基因组测序（WGS）</a></li><li><a href="#全外显子组测序wes">全外显子组测序（WES）</a></li><li><a href="#靶向测序targeted-panel测序">靶向测序（Targeted

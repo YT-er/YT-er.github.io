@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A Complete Workflow for WES Variant Calling | Jianshan Bioinformatics Notes</title>
+  <meta name="description" content="The full clinical WES path from samples and library preparation to sequencing, variant calling, annotation, and report interpretation.">
+  <link rel="canonical" href="https://yt-er.github.io/en/articles/wes-variant-calling-workflow/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-variant-calling-workflow/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-variant-calling-workflow/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-variant-calling-workflow/">
+  <meta property="og:title" content="A Complete Workflow for WES Variant Calling | Jianshan Bioinformatics Notes"><meta property="og:description" content="The full clinical WES path from samples and library preparation to sequencing, variant calling, annotation, and report interpretation."><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-variant-calling-workflow/"><meta property="og:type" content="article"><meta property="article:published_time" content="2025-08-05"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/"><span aria-hidden="true">←</span> All articles</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-variant-calling-workflow/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-variant-calling-workflow/" aria-current="page">EN</a></div></div></header>
+  <div class="article-topline" aria-label="Article information"><span>WES Workflow</span><time datetime="2025-08-05">2025.08.05</time><span>Approx. 4 min</span></div>
+  <div class="article-shell"><article class="article-body" id="article-content"><h1 id="wes-variant-calling-workflow">A Complete Workflow for WES Variant Calling</h1>
+<p>For physicians, whole-exome sequencing (WES) provides an unprecedented genome-wide perspective; for patients, it creates precise opportunities for personalized treatment. Understanding the WES testing workflow will help us embark together on a new chapter in precision cancer care.</p>
+<p><strong>The Eye of the Genome: Why WES Matters</strong><br />
+Genetic mutations are central drivers of cancer development. Our three billion DNA bases form the blueprint of life, and WES focuses on their most functionally important portion: the exome. It covers the core functional regions of approximately 20,000 human genes and can identify key mutations that drive tumors. Its scope extends far beyond conventional single-gene testing, giving clinical decision-making a much broader genomic view.</p>
+<p><strong>A Precision Workflow: From Sample to Interpretive Report</strong></p>
+<ol type="1">
+<li><p><strong>Sample Collection and Quality Control</strong></p>
+<ul>
+<li><strong>Collecting the evidence</strong>: Normal DNA (the control) is extracted from the patient's blood or saliva, while tumor DNA is obtained from tumor tissue.</li>
+<li><strong>Safeguarding quality</strong>: Sample concentration, purity, and integrity are rigorously assessed. Substandard samples can bias downstream results or even cause sequencing failure.</li>
+</ul></li>
+<li><p><strong>Sequencing Library Preparation: “Tagging” Genetic Information</strong></p>
+<ul>
+<li><strong>Fragmentation and end repair</strong>: Long DNA molecules are fragmented, repaired, and given uniform ends.</li>
+<li><strong>Adapter ligation</strong>: DNA fragments are fitted with “molecular barcodes” and primer-binding sites to facilitate subsequent enrichment and identification during sequencing.</li>
+<li><strong>Target capture: retrieving the key information</strong>: Specially designed probes are used to “fish out” DNA from exonic regions. Following amplification and purification, the captured material forms a high-quality sequencing library.</li>
+</ul></li>
+<li><p><strong>High-Throughput Sequencing: Rapid Decoding of Genetic Information</strong></p>
+<ul>
+<li>The library is run at high throughput on a specialized platform such as NovaSeq. Billions of DNA fragments are sequenced in parallel, ultimately generating raw data files.</li>
+</ul></li>
+<li><p><strong>Bioinformatics Analysis: Finding the “Signal” in Massive Data Sets</strong></p>
+<ul>
+<li><strong>Data cleaning</strong>: Low-quality and contaminating sequences are removed to ensure that the data entering analysis are reliable.</li>
+<li><strong>Read alignment</strong>: Sequencing reads are accurately aligned to the human reference genome.</li>
+<li><strong>Variant calling: identifying “outliers”</strong>: Comparison of the tumor and normal samples is used to identify potential somatic variants, including single-nucleotide variants (SNVs), insertions and deletions (indels), and copy-number variants (CNVs).</li>
+<li><strong>Variant annotation</strong>: Identified variants are linked to genes, effects on protein function, known cancer associations (for example, in the Catalogue of Somatic Mutations in Cancer [COSMIC]), available drug-sensitivity information (for example, OncoKB), hereditary variant classifications under American College of Medical Genetics and Genomics (ACMG) criteria, and other relevant evidence.</li>
+<li><strong>Prioritization of key mutations</strong>: Clinical significance, variant allele frequency, functional predictions, and other criteria are integrated to select potential driver mutations that warrant reporting.</li>
+</ul></li>
+<li><p><strong>Interpretation and Reporting: Clinically Actionable Conclusions</strong></p>
+<ul>
+<li><strong>Integrated interpretation</strong>: Bioinformatics specialists work with experienced physicians and genetics specialists to classify genomic variants according to the level of supporting evidence.</li>
+<li><strong>Report generation</strong>: Results are presented clearly, including detected key variants (gene, detailed variant description, and interpretation tier), potential targeted-therapy or immunotherapy implications, hereditary risk assessment, and recommendations for follow-up.</li>
+</ul></li>
+</ol>
+<p><strong>Core Clinical Value of WES Testing</strong></p>
+<ul>
+<li><strong>Identifying drug targets</strong>: WES can reveal actionable alterations in genes such as <em>EGFR</em>, <em>ALK</em>, and <em>BRCA1/2</em>, enabling matching to targeted agents such as osimertinib and olaparib.</li>
+<li><strong>Predicting immunotherapy response</strong>: Biomarkers such as tumor mutational burden (TMB) and microsatellite instability (MSI) can be analyzed to predict response to programmed cell death protein 1 (PD-1) inhibitors and identify the most appropriate treatment direction.</li>
+<li><strong>Finding clinical trials</strong>: Uncommon driver mutations can be identified, potentially revealing clinical-trial opportunities for patients with advanced disease.</li>
+<li><strong>Indicating hereditary risk</strong>: Identification of carriers of variants such as those in <em>BRCA1/2</em> may indicate a familial risk of hereditary breast cancer.</li>
+</ul>
+<p><strong>Important Considerations</strong></p>
+<ul>
+<li><strong>Accuracy challenges</strong>: Tumor heterogeneity, sample quality, and bioinformatics limitations can lead to false-positive or false-negative results.</li>
+<li><strong>Interpretation requires expertise</strong>: Some variants have uncertain clinical significance and must be treated cautiously; reports should be interpreted in consultation with a physician who has expertise in cancer genetics.</li>
+<li><strong>No guarantee of cure</strong>: Detected variants constitute only one important dimension of cancer-treatment decision-making.</li>
+<li><strong>Ethics and privacy protection</strong>: Genetic information is highly sensitive, and testing laboratories must rigorously comply with ethical standards and data-confidentiality requirements.</li>
+</ul>
+<hr />
+<p><strong>Understanding Your Test Report: Key Interpretation Tips</strong></p>
+<ul>
+<li><strong>Focus on variants with established clinical significance—such as those classified as pathogenic or likely pathogenic under ACMG criteria—or variants associated with potential targeted therapies.</strong></li>
+<li><strong>Even a low-frequency variant may create a treatment opportunity if it occurs in a key gene, such as <em>KRAS</em> G12C.</strong></li>
+<li><strong>Discuss the test results in depth with your treating physician or a cancer genetics specialist to understand how they relate to your treatment plan.</strong></li>
+</ul>
+<p>As genomic science maps the landscape of cancer, its unknowns are gradually taking shape. WES makes personalized treatment pathways more clearly visible: it is both a precision instrument of medicine and a beacon of new hope for patients. Every interpretation of the genetic code quietly tells a story of the union between the power of life and the wisdom of medicine.</p>
+</article></div>
+  <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>Keep making complex questions clearer.</h2><a class="read-link" href="/en/#articles">← Browse all articles</a></section>
+  <footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer>
+</main></body></html>

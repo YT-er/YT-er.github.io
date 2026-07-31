@@ -6,6 +6,9 @@
   <title>FFPE样本做RNA‑seq：测序前质控总结｜见山 · 生信笔记</title>
   <meta name="description" content="FFPE RNA样本应该看哪些指标、如何设置放行门槛，以及怎样选择更稳健的建库策略。">
   <link rel="canonical" href="https://yt-er.github.io/articles/ffpe-rna-seq-qc/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/ffpe-rna-seq-qc/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/ffpe-rna-seq-qc/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/ffpe-rna-seq-qc/">
   <meta property="og:title" content="FFPE样本做RNA‑seq：测序前质控总结｜见山 · 生信笔记">
   <meta property="og:description" content="FFPE RNA样本应该看哪些指标、如何设置放行门槛，以及怎样选择更稳健的建库策略。">
   <meta property="og:url" content="https://yt-er.github.io/articles/ffpe-rna-seq-qc/">
@@ -16,13 +19,7 @@
 </head>
 <body><main class="article-page">
     <a class="skip-link" href="#article-content">跳到正文</a>
-    <header class="site-header article-header">
-  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
-    <span class="brand-mark" aria-hidden="true">见</span>
-    <span><strong>见山</strong><small>生信笔记</small></span>
-  </a>
-  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
-</header>
+    <header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/ffpe-rna-seq-qc/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/ffpe-rna-seq-qc/">EN</a></div></div></header>
     <div class="article-topline" aria-label="文章信息"><span>RNA-seq</span><time datetime="2025-09-20">2025.09.20</time><span>约 6 分钟</span></div>
     <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#速览"><span>01</span>速览</a></li><li><a href="#为什么ffpe难"><span>02</span>为什么FFPE难？</a></li><li><a href="#关键质控指标与判读"><span>03</span>关键质控指标与判读</a></li><li><a href="#提取前后的操作要点"><span>04</span>提取前/后的操作要点</a></li><li><a href="#建库策略与测序参数"><span>05</span>建库策略与测序参数</a></li><li><a href="#ffpe对下游数据的影响与应对"><span>06</span>FFPE对下游数据的影响与应对</a></li><li><a href="#放行决策"><span>07</span>放行决策</a></li><li><a href="#常见陷阱与排错"><span>08</span>常见陷阱与排错</a></li><li><a href="#质控阈值"><span>09</span>质控阈值</a></li><li><a href="#小结"><span>10</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#速览">速览</a></li><li><a href="#为什么ffpe难">为什么FFPE难？</a></li><li><a href="#关键质控指标与判读">关键质控指标与判读</a></li><li><a href="#提取前后的操作要点">提取前/后的操作要点</a></li><li><a href="#建库策略与测序参数">建库策略与测序参数</a></li><li><a href="#ffpe对下游数据的影响与应对">FFPE对下游数据的影响与应对</a></li><li><a href="#放行决策">放行决策</a></li><li><a href="#常见陷阱与排错">常见陷阱与排错</a></li><li><a href="#质控阈值">质控阈值</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1
 id="ffpe样本做rnaseq测序前质控总结">FFPE样本做RNA‑seq：测序前质控总结</h1>

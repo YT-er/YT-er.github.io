@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Why Is the Mutation Count Abnormally High? | Jianshan Bioinformatics Notes</title>
+  <meta name="description" content="How to distinguish sample problems and pipeline artifacts from genuine DNA-repair defects when a somatic mutation count is unexpectedly high.">
+  <link rel="canonical" href="https://yt-er.github.io/en/articles/excessive-mutation-count/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/excessive-mutation-count/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/excessive-mutation-count/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/excessive-mutation-count/">
+  <meta property="og:title" content="Why Is the Mutation Count Abnormally High? | Jianshan Bioinformatics Notes"><meta property="og:description" content="How to distinguish sample problems and pipeline artifacts from genuine DNA-repair defects when a somatic mutation count is unexpectedly high."><meta property="og:url" content="https://yt-er.github.io/en/articles/excessive-mutation-count/"><meta property="og:type" content="article"><meta property="article:published_time" content="2025-08-22"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/"><span aria-hidden="true">←</span> All articles</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/excessive-mutation-count/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/excessive-mutation-count/" aria-current="page">EN</a></div></div></header>
+  <div class="article-topline" aria-label="Article information"><span>Variant Analysis</span><time datetime="2025-08-22">2025.08.22</time><span>Approx. 5 min</span></div>
+  <div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#i-sample-and-experimental-factors"><span>01</span>I. Sample and Experimental Factors</a></li><li><a href="#ii-genuine-biological-mechanisms"><span>02</span>II. Genuine Biological Mechanisms</a></li><li><a href="#iii-analysis-and-validation-recommendations"><span>03</span>III. Analysis and Validation Recommendations</a></li><li><a href="#iv-summary"><span>04</span>IV. Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#i-sample-and-experimental-factors">I. Sample and Experimental Factors</a></li><li><a href="#ii-genuine-biological-mechanisms">II. Genuine Biological Mechanisms</a></li><li><a href="#iii-analysis-and-validation-recommendations">III. Analysis and Validation Recommendations</a></li><li><a href="#iv-summary">IV. Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="excessive-mutation-count">Why Is the Mutation Count Abnormally High?</h1>
+<p>In somatic variant analysis of whole-exome data, we sometimes encounter results with an <strong>abnormally high number of mutations</strong>. For NGS testing professionals and clinicians, it is critical to interpret this situation correctly, avoid misclassification, and identify potential biological causes. This article organizes the possibilities at three levels: <strong>sample and experimental factors</strong>, <strong>analysis-pipeline issues</strong>, and <strong>genuine biological mechanisms</strong>.</p>
+<hr />
+<h2 id="i-sample-and-experimental-factors">I. Sample and Experimental Factors</h2>
+<ol type="1">
+<li><strong>Sample mismatch or contamination</strong></li>
+</ol>
+<ul>
+<li><p>If the tumor sample is paired with the wrong control (normal) sample, or if exogenous DNA contamination is introduced, the mutation count will increase abnormally.</p></li>
+<li><p>For example, using an unmatched normal may cause normal interindividual differences to be misclassified as “tumor mutations.”</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Artifacts in low-quality or FFPE samples</strong></li>
+</ol>
+<ul>
+<li><p>FFPE samples are prone to <strong>C&gt;T/G&gt;A false-positive mutations</strong>.</p></li>
+<li><p>DNA degradation and poor sequencing-library quality can also increase the number of artifactual mutations.</p></li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Alignment and sequencing errors</strong></li>
+</ol>
+<ul>
+<li><p>Misalignment can readily occur in repetitive sequences and regions containing homologous genes.</p></li>
+<li><p>Insufficient mapping-quality control allows large numbers of erroneous variant calls to accumulate.</p></li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Issues with variant-calling tools and parameters</strong></li>
+</ol>
+<ul>
+<li><p>Overly permissive parameters or the absence of Panel of Normals (PoN) filtering can substantially increase the mutation count.</p></li>
+<li><p>Different callers, such as Mutect2 and Strelka2, differ markedly in variant-calling sensitivity and specificity.</p></li>
+</ul>
+<hr />
+<h2 id="ii-genuine-biological-mechanisms">II. Genuine Biological Mechanisms</h2>
+<h3 id="1-dna-mismatch-repair-deficiency-dmmr-and-msi-h">1. DNA Mismatch Repair Deficiency (dMMR) and MSI-H</h3>
+<ul>
+<li><p><strong>Mechanism</strong>: The MMR pathway is primarily responsible for repairing single-base errors and small insertions/deletions during DNA replication. If genes such as MLH1, MSH2, MSH6, or PMS2 are mutated, or if MLH1 promoter methylation causes gene silencing, repair function is lost and numerous small errors accumulate.</p></li>
+<li><p><strong>Presentation</strong>: The characteristic feature is microsatellite instability-high (MSI-H) status with a very high tumor mutational burden; this is common in colorectal and endometrial cancers, among others.</p></li>
+<li><p><strong>Clinical significance</strong>: MSI-H/dMMR tumors are highly responsive to immune checkpoint inhibitors (PD-1/PD-L1 antibodies).</p></li>
+</ul>
+<h3 id="2-defective-dna-polymerase-proofreading-polepold1-mutations">2. Defective DNA Polymerase Proofreading (POLE/POLD1 Mutations)</h3>
+<ul>
+<li><p><strong>Mechanism</strong>: DNA polymerases epsilon (POLE) and delta (POLD1) possess exonuclease activity that proofreads bases incorporated incorrectly during replication. If mutations occur in their proofreading domains (e.g., POLE p.P286R or p.V411L), errors cannot be repaired promptly and mutations accumulate rapidly.</p></li>
+<li><p><strong>Presentation</strong>: This usually manifests as an extremely high tumor mutational burden (a hypermutated phenotype) with a characteristic mutational signature (C&gt;A and T&gt;G).</p></li>
+<li><p><strong>Clinical significance</strong>: These patients also frequently respond well to immunotherapy.</p></li>
+</ul>
+<h3 id="3-homologous-recombination-deficiency-hrd">3. Homologous Recombination Deficiency (HRD)</h3>
+<ul>
+<li><p><strong>Mechanism</strong>: The HR pathway primarily repairs DNA double-strand breaks; its core genes include BRCA1, BRCA2, RAD51, and PALB2. If this pathway is defective, cells resort to error-prone repair pathways such as NHEJ, causing chromosomal rearrangements and mutation accumulation.</p></li>
+<li><p><strong>Presentation</strong>: HRD more commonly manifests as structural variants, including large deletions/amplifications and translocations, but the number of point mutations can also increase.</p></li>
+<li><p><strong>Clinical significance</strong>: HRD is a major indication for treatment with PARP inhibitors.</p></li>
+</ul>
+<h3 id="4-nucleotide-excision-repair-deficiency-ner-deficiency">4. Nucleotide Excision Repair Deficiency (NER Deficiency)</h3>
+<ul>
+<li><p><strong>Mechanism</strong>: The NER pathway repairs bulky DNA lesions, such as ultraviolet-induced thymine dimers. Defects in genes such as ERCC2 and XPA impair repair and lead to mutation accumulation.</p></li>
+<li><p><strong>Presentation</strong>: This is common in skin cancer, with a mutational spectrum characterized by a UV signature (C&gt;T).</p></li>
+</ul>
+<h3 id="5-apobec-associated-mutagenesis">5. APOBEC-Associated Mutagenesis</h3>
+<ul>
+<li><p><strong>Mechanism</strong>: APOBEC-family proteins are cytidine deaminases that normally participate in antiviral defense. When aberrantly overexpressed, they cause large numbers of C&gt;T and C&gt;G mutations.</p></li>
+<li><p><strong>Presentation</strong>: Common in breast and bladder cancers, with a characteristic trinucleotide context (TCW mutations).</p></li>
+<li><p><strong>Clinical significance</strong>: It may be associated with accelerated tumor evolution and drug resistance.</p></li>
+</ul>
+<h3 id="6-ros-induced-mutations-oxidative-stress">6. ROS-Induced Mutations (Oxidative Stress)</h3>
+<ul>
+<li><p><strong>Mechanism</strong>: Reactive oxygen species can oxidize guanine to produce 8-oxoG, resulting in G&gt;T transversions.</p></li>
+<li><p><strong>Presentation</strong>: The mutational spectrum is enriched for G&gt;T changes, as commonly seen in smoking-associated lung cancer.</p></li>
+</ul>
+<h3 id="7-treatment-related-mutations">7. Treatment-Related Mutations</h3>
+<ul>
+<li><p><strong>Mechanism</strong>: Certain chemotherapeutic agents directly induce DNA damage. For example, temozolomide (TMZ) produces O6-methylguanine, resulting in G&gt;A mutations. Radiotherapy can also introduce double-strand breaks and complex mutations.</p></li>
+<li><p><strong>Presentation</strong>: This can be observed in recurrent tumors after treatment, with a substantial increase in mutation count.</p></li>
+</ul>
+<hr />
+<h2 id="iii-analysis-and-validation-recommendations">III. Analysis and Validation Recommendations</h2>
+<ol type="1">
+<li><strong>Basic QC checks</strong></li>
+</ol>
+<ul>
+<li><p>Check sequencing depth, coverage, and duplication rate.</p></li>
+<li><p>Examine the Ti/Tv ratio (transition/transversion ratio). In normal human exome variants, this ratio is generally maintained at approximately 2.5. A value that deviates markedly from this range (&lt;2 or &gt;3.5) often suggests that the variants may have been affected by technical artifacts or contamination and require further validation.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Mutational signature analysis</strong></li>
+</ol>
+<ul>
+<li><p>COSMIC mutational signatures can be used to identify features associated with POLE, APOBEC, MSI-H, and other mechanisms.</p></li>
+<li><p>This helps distinguish technical artifacts from genuine biological mechanisms.</p></li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Integration with the clinical context</strong></li>
+</ol>
+<ul>
+<li><p>Tumor mutational burden varies greatly across tumor types. For example, melanoma and lung cancer commonly have high mutation counts, whereas prostate cancer generally has a lower count.</p></li>
+<li><p>If the count falls outside a reasonable range, it should be assessed in the context of the clinical and pathological background.</p></li>
+</ul>
+<hr />
+<h2 id="iv-summary">IV. Summary</h2>
+<p>When somatic WES analysis identifies an <strong>abnormally high number of mutations</strong>, the following must be considered simultaneously:</p>
+<ul>
+<li><p><strong>Technical and experimental factors</strong>: sample contamination, FFPE artifacts, alignment errors, calling strategy, and related issues;</p></li>
+<li><p><strong>Biological mechanisms</strong>: MSI-H, POLE mutations, MMR/HRD/NER deficiencies, APOBEC activity, ROS-mediated oxidative stress, and treatment-related effects.</p></li>
+</ul>
+<p>Testing laboratories should establish a <strong>systematic troubleshooting workflow</strong>: QC → caller parameters → signature analysis → validation against the clinical context. This approach not only avoids misclassification but also helps clinicians understand test results more accurately and informs personalized treatment strategies.</p>
+</article></div>
+  <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>Keep making complex questions clearer.</h2><a class="read-link" href="/en/#articles">← Browse all articles</a></section>
+  <footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer>
+</main></body></html>

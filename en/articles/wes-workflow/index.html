@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Complete WES Workflow | Jianshan Bioinformatics Notes</title>
+  <meta name="description" content="A systematic guide from raw FASTQ files to an interpretable variant list, including tools, databases, quality control, and analytical boundaries.">
+  <link rel="canonical" href="https://yt-er.github.io/en/articles/wes-workflow/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-workflow/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-workflow/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-workflow/">
+  <meta property="og:title" content="The Complete WES Workflow | Jianshan Bioinformatics Notes"><meta property="og:description" content="A systematic guide from raw FASTQ files to an interpretable variant list, including tools, databases, quality control, and analytical boundaries."><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-workflow/"><meta property="og:type" content="article"><meta property="article:published_time" content="2025-08-07"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/"><span aria-hidden="true">←</span> All articles</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-workflow/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-workflow/" aria-current="page">EN</a></div></div></header>
+  <div class="article-topline" aria-label="Article information"><span>WES Workflow</span><time datetime="2025-08-07">2025.08.07</time><span>Approx. 9 min</span></div>
+  <div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#1-raw-data-quality-control-and-preprocessing"><span>01</span>1. Raw-Data Quality Control and Preprocessing</a></li><li><a href="#2-alignment"><span>02</span>2. Alignment</a></li><li><a href="#3-bam-post-processing-base-recalibration-etc"><span>03</span>3. BAM Post-Processing (Base Recalibration, etc.)</a></li><li><a href="#4-variant-calling"><span>04</span>4. Variant Calling</a></li><li><a href="#5-variant-annotation"><span>05</span>5. Variant Annotation</a></li><li><a href="#6-variant-filtering-and-prioritization"><span>06</span>6. Variant Filtering and Prioritization</a></li><li><a href="#7-database-resources-for-clinical-interpretation"><span>07</span>7. Database Resources for Clinical Interpretation</a></li><li><a href="#8-analysis-result-formats-and-visualization"><span>08</span>8. Analysis-Result Formats and Visualization</a></li><li><a href="#9-quality-control-standards-and-considerations"><span>09</span>9. Quality-Control Standards and Considerations</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#1-raw-data-quality-control-and-preprocessing">1. Raw-Data Quality Control and Preprocessing</a></li><li><a href="#2-alignment">2. Alignment</a></li><li><a href="#3-bam-post-processing-base-recalibration-etc">3. BAM Post-Processing (Base Recalibration, etc.)</a></li><li><a href="#4-variant-calling">4. Variant Calling</a></li><li><a href="#5-variant-annotation">5. Variant Annotation</a></li><li><a href="#6-variant-filtering-and-prioritization">6. Variant Filtering and Prioritization</a></li><li><a href="#7-database-resources-for-clinical-interpretation">7. Database Resources for Clinical Interpretation</a></li><li><a href="#8-analysis-result-formats-and-visualization">8. Analysis-Result Formats and Visualization</a></li><li><a href="#9-quality-control-standards-and-considerations">9. Quality-Control Standards and Considerations</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-workflow">The Complete WES Workflow</h1>
+<p>From raw FASTQ data to a final, clinically interpretable variant list, the process generally comprises the following major steps: sequence quality control, sequence alignment, BAM post-processing, variant calling, variant annotation and filtering, clinical interpretation, and result reporting. Commonly used tools and their functions at each step are listed below.</p>
+<table>
+<thead>
+<tr>
+<th><strong>Tool (Category)</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FastQC</strong></td>
+<td>Quality assessment of raw FASTQ data (sequence-quality distribution, GC content, duplicated sequences, etc.).</td>
+</tr>
+<tr>
+<td><strong>MultiQC</strong></td>
+<td>Aggregates FastQC reports across samples to provide an overall QC overview.</td>
+</tr>
+<tr>
+<td><strong>Cutadapt/Trimmomatic</strong></td>
+<td>Removes sequencing adapters and low-quality ends to improve downstream alignment quality.</td>
+</tr>
+<tr>
+<td><strong>BWA-MEM/Bowtie2</strong></td>
+<td>Sequence-alignment tools that align filtered reads to a reference genome (e.g., hg19/hg38).</td>
+</tr>
+<tr>
+<td><strong>SAMtools</strong></td>
+<td>Processes BAM files (sorting, indexing, format conversion, etc.) and can also call variants with mpileup.</td>
+</tr>
+<tr>
+<td><strong>Picard MarkDuplicates</strong></td>
+<td>Marks (or removes) PCR-duplicate reads to prevent duplication-induced bias.</td>
+</tr>
+<tr>
+<td><strong>GATK BaseRecalibrator</strong></td>
+<td>Recalibrates base-quality scores using known variant resources (dbSNP, 1000G, etc.; BQSR) to improve variant-calling accuracy.</td>
+</tr>
+<tr>
+<td><strong>Qualimap/Picard</strong></td>
+<td>Performs quality control on post-alignment BAM files and calculates metrics such as coverage, insert size, and sequencing-error rate.</td>
+</tr>
+<tr>
+<td><strong>GATK HaplotypeCaller</strong></td>
+<td>A commonly used SNV/indel caller that generates single-sample or GVCF-format variant calls.</td>
+</tr>
+<tr>
+<td><strong>FreeBayes/VarScan2/SAMtools mpileup</strong></td>
+<td>Alternative variant callers that can complement GATK and improve sensitivity.</td>
+</tr>
+<tr>
+<td><strong>GATK GenotypeGVCFs / CombineGVCFs</strong></td>
+<td>Joint genotyping across multiple samples (for trios or other multisample analyses).</td>
+</tr>
+<tr>
+<td><strong>GATK VQSR / VariantFiltration</strong></td>
+<td>Performs variant-quality score recalibration or hard filtering to remove low-quality false positives.</td>
+</tr>
+<tr>
+<td><strong>ANNOVAR</strong></td>
+<td>A variant-annotation tool that supports batch queries against databases such as dbSNP, 1000G, dbNSFP, and ClinVar.</td>
+</tr>
+<tr>
+<td><strong>Ensembl VEP</strong></td>
+<td>A variant-effect predictor that annotates effects on gene models and can incorporate data from ClinVar, gnomAD, and other resources.</td>
+</tr>
+<tr>
+<td><strong>IGV</strong></td>
+<td>Provides graphical inspection of alignments at variant sites for variant validation and interpretation.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key database resources:</strong> Databases commonly used for variant annotation and clinical interpretation include:</p>
+<ul>
+<li><p><strong>gnomAD/1000G/ExAC</strong>: population allele-frequency databases used to filter common polymorphisms;</p></li>
+<li><p><strong>ClinVar</strong>: a public clinical-variant database that provides pathogenicity annotations for known variants;</p></li>
+<li><p><strong>HGMD</strong>: a commercial database of disease-causing variants reported in the literature;</p></li>
+<li><p><strong>OMIM</strong>: a gene–phenotype association database used to retrieve gene-function and disease-association information;</p></li>
+<li><p><strong>dbSNP/ClinGen/HPO</strong>, etc.: used for variant registration, gene dosage-sensitivity assessment, and phenotype annotation.</p></li>
+</ul>
+<p>In addition, resources such as the <strong>ACMG recommended gene lists</strong> and the <strong>ACMG/AMP variant-classification guidelines</strong> can guide the interpretation workflow.</p>
+<h2 id="1-raw-data-quality-control-and-preprocessing"><strong>1. Raw-Data Quality Control and Preprocessing</strong></h2>
+<p>Assess the quality of the raw FASTQ files produced by sequencing. Use <strong>FastQC</strong> to examine sequence-quality score distributions, GC content, adapter contamination, duplicated-sequence proportions, and related metrics; use <strong>MultiQC</strong> to integrate QC results across samples. If substantial adapter contamination or low-quality ends are detected, use <strong>Cutadapt</strong> or <strong>Trimmomatic</strong> for adapter removal and low-quality read trimming. Common QC metrics include the total read count, the proportion of Q30 bases (usually &gt;80%), whether GC content is as expected, and the duplicated-sequence proportion.</p>
+<blockquote>
+<p><strong>Example QC metrics:</strong> An average sequencing depth of approximately 100X is recommended (or adjusted according to the intended design), the proportion of target regions covered at ≥20X should exceed 95%, and the duplication rate should generally not exceed 15%.</p>
+</blockquote>
+<h2 id="2-alignment"><strong>2. Alignment</strong></h2>
+<p>Align high-quality reads to the reference genome, generally the GRCh37 or GRCh38 primary reference, excluding non-primary contigs or including only primary-assembly contigs. <strong>BWA-MEM</strong> is the commonly used aligner and is preferred for DNA sequencing; Bowtie2 can also be used. Alignment produces files in SAM/BAM format. Use <strong>SAMtools</strong> or Picard to sort and index the BAM file, and use <strong>Picard MarkDuplicates</strong> to mark PCR-duplicate reads. PCR duplicates generally account for approximately 5–15% of exome-sequencing reads. After marking duplicates, reassess sequencing coverage and coverage uniformity using tools such as <strong>Qualimap</strong> or Picard CollectHsMetrics.</p>
+<blockquote>
+<p><strong>Post-alignment QC:</strong> After alignment, check the alignment rate (usually &gt;95%), insert-size distribution, coverage uniformity, and related metrics. Tools such as <strong>Qualimap</strong> can calculate coverage depth, error rate, duplication rate, and other statistics. In family sequencing, <strong>KING</strong> or <strong>Peddy</strong> can also be used to verify parent–child relationships and detect sample swaps.</p>
+</blockquote>
+<h2 id="3-bam-post-processing-base-recalibration-etc"><strong>3. BAM Post-Processing (Base Recalibration, etc.)</strong></h2>
+<p>Follow <strong>GATK Best Practices</strong> for downstream data cleanup. First, perform <strong>base quality score recalibration (BQSR)</strong> on the duplicate-marked BAM: GATK BaseRecalibrator uses known variant sites, such as dbSNP, to model and correct sequencing quality scores. <strong>Indel realignment</strong> may then be performed if desired; this was recommended in older GATK versions to reduce alignment errors caused by insertions and deletions. In newer GATK4 versions, HaplotypeCaller performs local realignment internally, so this step can be applied as needed. These steps primarily correct sequencing biases and may be implemented when necessary to provide a modest improvement in variant-calling accuracy. Finally, generate an “analysis-ready” BAM file for variant calling.</p>
+<h2 id="4-variant-calling"><strong>4. Variant Calling</strong></h2>
+<p>Call variants from the recalibrated BAM. <strong>GATK HaplotypeCaller</strong> is currently a commonly used clinical SNV/indel caller and can generate a VCF for a single sample or a jointly called multisample VCF (via CombineGVCFs + GenotypeGVCFs). To improve sensitivity, clinical pipelines often recommend combining multiple callers; other commonly used tools include <strong>SAMtools mpileup/BCFtools</strong>, <strong>FreeBayes</strong>, and <strong>VarScan2</strong>. Calling is generally restricted to exome-capture target regions or nearby intervals (for example, targets extended by ±100–200 bp) to avoid excessive low-quality false positives in off-target regions.</p>
+<blockquote>
+<p><strong>Filtering criteria:</strong> For small datasets, such as a single exome sample, hard filtering (GATK VariantFiltration) is generally used to remove low-quality variants based on metrics such as quality by depth (QD), sequencing depth (DP), mapping quality (MQ), and Fisher strand bias (FS). Population-frequency filters (described below) are also applied to remove common polymorphisms. For large sample cohorts, GATK <strong>variant quality score recalibration (VQSR)</strong> can provide more refined filtering.</p>
+</blockquote>
+<h2 id="5-variant-annotation"><strong>5. Variant Annotation</strong></h2>
+<p>Load the preliminary variant calls (VCF file) into an annotation tool for functional and clinical-significance annotation. Commonly used annotation tools include <strong>ANNOVAR</strong>, <strong>Ensembl VEP</strong>, and <strong>SnpEff</strong>. These tools can provide gene names, protein changes, genomic-region context, conservation metrics, and information retrieved from relevant databases. For example, ANNOVAR can query dbSNP, 1000 Genomes, dbNSFP (including predictions from SIFT, PolyPhen, CADD, etc.), COSMIC, ClinVar, and other databases in batches. Annotation provides the allele frequency, pathogenicity predictions, and known disease associations for each variant. The usual output is an annotation-rich VCF or tabular list with fields such as gene, variant type, amino acid effect, frequency, and pathogenicity.</p>
+<h2 id="6-variant-filtering-and-prioritization"><strong>6. Variant Filtering and Prioritization</strong></h2>
+<p>After annotation, candidate variants must be filtered and prioritized. Common clinical filtering criteria include:</p>
+<ul>
+<li><p><strong>Population-frequency filtering:</strong> remove variants with relatively high allele frequencies (e.g., &gt;1%) in population databases such as gnomAD and 1000G;</p></li>
+<li><p><strong>Functional-impact filtering:</strong> prioritize variants likely to alter protein function, such as missense, frameshift, nonsense, and splice-site variants; give lower priority to synonymous variants and similar classes;</p></li>
+<li><p><strong>Pathogenicity-annotation filtering:</strong> retain variants reported in ClinVar as pathogenic or likely pathogenic;</p></li>
+<li><p><strong>Gene relevance:</strong> integrate the patient's clinical phenotype and focus on disease-associated genes, using resources such as OMIM, HPO, or gene–disease association databases;</p></li>
+<li><p><strong>Inheritance criteria:</strong> filter for genotypes consistent with the family inheritance pattern, such as autosomal recessive, autosomal dominant, or X-linked inheritance.</p></li>
+</ul>
+<p>For candidate variants, establish a final prioritized list and classify pathogenicity according to the ACMG/AMP guidelines. Common tools for variant prioritization and interpretation include Exomiser, PhenIX, and Ingenuity Variant Analysis, although manual assessment remains essential.</p>
+<h2 id="7-database-resources-for-clinical-interpretation"><strong>7. Database Resources for Clinical Interpretation</strong></h2>
+<p>Databases commonly used for clinical annotation include:</p>
+<ul>
+<li><p><strong>gnomAD</strong>: provides allele frequencies across populations for identifying rare variants; high-frequency variants are generally benign.</p></li>
+<li><p><strong>ClinVar</strong>: a public variant database containing the clinical significance and classification of known variants.</p></li>
+<li><p><strong>HGMD</strong>: collects pathogenic variants reported in the literature and supplements information not available in ClinVar.</p></li>
+<li><p><strong>OMIM</strong>: supports retrieval of gene–disease associations and helps determine whether a variant occurs in a gene linked to a known inherited disorder.</p></li>
+<li><p><strong>1000G/ESP</strong>: historically important genomic resources that can be used as population-frequency references.</p></li>
+<li><p><strong>ClinGen</strong>: a gene–disease validity resource that provides assessments of gene dosage sensitivity, including haploinsufficiency.</p></li>
+<li><p><strong>COSMIC</strong>: a database of somatic mutations in cancer, used for interpreting tumor samples.</p></li>
+</ul>
+<p>These databases can be integrated to evaluate the pathological and clinical relevance of variants. For example, candidate variants can be matched against ClinVar records; population frequencies from gnomAD and related resources can be used to exclude common polymorphisms; and OMIM and the literature can be used to assess gene–phenotype relevance.</p>
+<h2 id="8-analysis-result-formats-and-visualization"><strong>8. Analysis-Result Formats and Visualization</strong></h2>
+<p>Final outputs generally include an annotated VCF file and summary tables in CSV, Excel, or PDF format. VCF is the standard output format for variant data and contains information for each variant such as genomic position, gene/transcript consequence, genotype quality, depth, and annotations. Summary tables facilitate manual review and report generation and can list detailed information for each candidate variant.</p>
+<p>In clinical practice, visualization tools such as <strong>IGV (Integrative Genomics Viewer)</strong> are also commonly used to inspect alignments at key variant sites manually, including read support on both sides of a variant, to exclude alignment artifacts and sequencing errors. Visual QC charts, such as FastQC report plots, coverage-depth distributions, Ti/Tv ratios, and tumor/normal variant-comparison plots, also help assess sample-data quality and analysis performance.</p>
+<h2 id="9-quality-control-standards-and-considerations"><strong>9. Quality-Control Standards and Considerations</strong></h2>
+<p>Clinical testing imposes stringent data-quality requirements and therefore requires explicit QC thresholds:</p>
+<ul>
+<li><p><strong>Sequencing depth and coverage:</strong> an average WES sequencing depth of approximately 100X is recommended; <strong>the proportion of target regions covered at ≥20X</strong> should exceed 90% (some guidelines recommend ≥95%); and at least 90% of target regions should have coverage above 10X.</p></li>
+<li><p><strong>PCR duplication rate:</strong> this should be kept as low as possible, generally below 15%–20%; a high rate indicates library overamplification and reduces effective coverage.</p></li>
+<li><p><strong>Alignment rate:</strong> the absolute proportion of mapped reads should generally exceed 95%, reflecting agreement between the sequencing data and the reference.</p></li>
+<li><p><strong>Base quality:</strong> the Q30 proportion (0.1% error rate) should exceed 80% to ensure sequencing reliability.</p></li>
+<li><p><strong>Variant allele frequency (VAF):</strong> heterozygous variants are expected to have a VAF of approximately 50%; deviation may indicate mosaicism or a false positive.</p></li>
+<li><p><strong>Inter-sample relationships:</strong> in family sequencing, sex and parentage should be verified; discordance may indicate sample-label swaps or contamination.</p></li>
+<li><p><strong>Contamination assessment:</strong> tools such as VerifyBamID can be used to check DNA contamination, which is generally required to be below 3%.</p></li>
+<li><p><strong>Variant-statistics metrics:</strong> the genome-wide or exome-wide Ti/Tv ratio is often calculated as a consistency check; for normal human samples, the exome Ti/Tv ratio is approximately 2.8–3.2.</p></li>
+</ul>
+<p>Comprehensive quality control throughout the workflow is essential to ensuring reliable results. If abnormal metrics are identified, such as insufficient coverage, an elevated duplication rate, or an aberrant VAF, the data workflow should be traced back to identify the cause, such as sequencing failure or analysis-parameter settings. Establishing and regularly updating these QC thresholds to accommodate changes in sequencing platforms and library preparation can effectively improve the reliability of clinical testing.</p>
+<p><strong>References:</strong> This workflow draws on GATK Best Practices and related literature for guidance on tool selection, QC metrics, and other considerations. In summary, clinical WES analysis should integrate industry guidelines with the laboratory's own experience, with rigorous validation and quality control at every step to ensure accurate and reliable variant reports.</p>
+</article></div>
+  <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>Keep making complex questions clearer.</h2><a class="read-link" href="/en/#articles">← Browse all articles</a></section>
+  <footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer>
+</main></body></html>
