@@ -6,6 +6,9 @@
   <title>漫话参考基因组：我们为什么需要一张“人类地图”？｜见山 · 生信笔记</title>
   <meta name="description" content="从hg19、hg38到T2T与Pangenome，理解参考基因组如何为测序数据提供坐标和解释基础。">
   <link rel="canonical" href="https://yt-er.github.io/articles/reference-genome-map/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/reference-genome-map/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/reference-genome-map/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/reference-genome-map/">
   <meta property="og:title" content="漫话参考基因组：我们为什么需要一张“人类地图”？｜见山 · 生信笔记">
   <meta property="og:description" content="从hg19、hg38到T2T与Pangenome，理解参考基因组如何为测序数据提供坐标和解释基础。">
   <meta property="og:url" content="https://yt-er.github.io/articles/reference-genome-map/">
@@ -16,13 +19,7 @@
 </head>
 <body><main class="article-page">
     <a class="skip-link" href="#article-content">跳到正文</a>
-    <header class="site-header article-header">
-  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
-    <span class="brand-mark" aria-hidden="true">见</span>
-    <span><strong>见山</strong><small>生信笔记</small></span>
-  </a>
-  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
-</header>
+    <header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/reference-genome-map/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/reference-genome-map/">EN</a></div></div></header>
     <div class="article-topline" aria-label="文章信息"><span>参考基因组</span><time datetime="2026-05-30">2026.05.30</time><span>约 7 分钟</span></div>
     <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#参考基因组是什么"><span>01</span>参考基因组是什么？</a></li><li><a href="#为什么参考基因组会有不同版本"><span>02</span>为什么参考基因组会有不同版本？</a></li><li><a href="#hg19一张用了很久的老地图"><span>03</span>hg19：一张用了很久的老地图</a></li><li><a href="#hg38更推荐的主流线性参考"><span>04</span>hg38：更推荐的主流线性参考</a></li><li><a href="#t2t把地图上的空白补上"><span>05</span>T2T：把地图上的空白补上</a></li><li><a href="#pangenome一张地图不够用了"><span>06</span>Pangenome：一张地图不够用了</a></li><li><a href="#参考基因组会影响什么"><span>07</span>参考基因组会影响什么？</a></li><li><a href="#新版本一定会取代旧版本吗"><span>08</span>新版本一定会取代旧版本吗？</a></li><li><a href="#小结"><span>09</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#参考基因组是什么">参考基因组是什么？</a></li><li><a href="#为什么参考基因组会有不同版本">为什么参考基因组会有不同版本？</a></li><li><a href="#hg19一张用了很久的老地图">hg19：一张用了很久的老地图</a></li><li><a href="#hg38更推荐的主流线性参考">hg38：更推荐的主流线性参考</a></li><li><a href="#t2t把地图上的空白补上">T2T：把地图上的空白补上</a></li><li><a href="#pangenome一张地图不够用了">Pangenome：一张地图不够用了</a></li><li><a href="#参考基因组会影响什么">参考基因组会影响什么？</a></li><li><a href="#新版本一定会取代旧版本吗">新版本一定会取代旧版本吗？</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1
 id="漫话参考基因组我们为什么需要一张人类地图">漫话参考基因组：我们为什么需要一张“人类地图”？</h1>

@@ -6,6 +6,9 @@
   <title>NGS里的Duplicates，到底重复了什么？｜见山 · 生信笔记</title>
   <meta name="description" content="FASTQ看序列，BAM看位置，UMI追溯原始分子：同名的重复率并不回答同一个问题。">
   <link rel="canonical" href="https://yt-er.github.io/articles/ngs-duplicates/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/ngs-duplicates/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/ngs-duplicates/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/ngs-duplicates/">
   <meta property="og:title" content="NGS里的Duplicates，到底重复了什么？｜见山 · 生信笔记">
   <meta property="og:description" content="FASTQ看序列，BAM看位置，UMI追溯原始分子：同名的重复率并不回答同一个问题。">
   <meta property="og:url" content="https://yt-er.github.io/articles/ngs-duplicates/">
@@ -16,13 +19,7 @@
 </head>
 <body><main class="article-page">
     <a class="skip-link" href="#article-content">跳到正文</a>
-    <header class="site-header article-header">
-  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
-    <span class="brand-mark" aria-hidden="true">见</span>
-    <span><strong>见山</strong><small>生信笔记</small></span>
-  </a>
-  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
-</header>
+    <header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/ngs-duplicates/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/ngs-duplicates/">EN</a></div></div></header>
     <div class="article-topline" aria-label="文章信息"><span>测序质控</span><time datetime="2026-07-30">2026.07.30</time><span>约 11 分钟</span></div>
     <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#duplicate不只有一种"><span>01</span>Duplicate不只有一种</a></li><li><a href="#fastq重复与bam重复不是一回事"><span>02</span>FASTQ重复与BAM重复不是一回事</a></li><li><a href="#为什么fastp有时更高有时更低"><span>03</span>为什么fastp有时更高，有时更低？</a></li><li><a href="#标记重复还是删除重复"><span>04</span>标记重复，还是删除重复？</a></li><li><a href="#分片并行时最容易漏掉跨分片重复"><span>05</span>分片并行时，最容易漏掉跨分片重复</a></li><li><a href="#重复率升高先别急着判失败"><span>06</span>重复率升高，先别急着判失败</a></li><li><a href="#不同检测类型不能套用同一套规则"><span>07</span>不同检测类型不能套用同一套规则</a></li><li><a href="#看到重复率时先问六个问题"><span>08</span>看到重复率时，先问六个问题</a></li><li><a href="#结语"><span>09</span>结语</a></li><li><a href="#参考资料"><span>10</span>参考资料</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#duplicate不只有一种">Duplicate不只有一种</a></li><li><a href="#fastq重复与bam重复不是一回事">FASTQ重复与BAM重复不是一回事</a></li><li><a href="#为什么fastp有时更高有时更低">为什么fastp有时更高，有时更低？</a></li><li><a href="#标记重复还是删除重复">标记重复，还是删除重复？</a></li><li><a href="#分片并行时最容易漏掉跨分片重复">分片并行时，最容易漏掉跨分片重复</a></li><li><a href="#重复率升高先别急着判失败">重复率升高，先别急着判失败</a></li><li><a href="#不同检测类型不能套用同一套规则">不同检测类型不能套用同一套规则</a></li><li><a href="#看到重复率时先问六个问题">看到重复率时，先问六个问题</a></li><li><a href="#结语">结语</a></li><li><a href="#参考资料">参考资料</a></li></ol></details><article class="article-body" id="article-content"><h1
 id="ngs里的duplicates到底重复了什么">NGS里的Duplicates，到底重复了什么？</h1>

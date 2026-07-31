@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Overlooked Role of Tumor Purity | Jianshan Bioinformatics Notes</title>
+  <meta name="description" content="Why pathological and computational purity estimates disagree, and how purity affects VAF, CNV, TMB, and clinical interpretation.">
+  <link rel="canonical" href="https://yt-er.github.io/en/articles/tumor-purity/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/tumor-purity/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/tumor-purity/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/tumor-purity/">
+  <meta property="og:title" content="The Overlooked Role of Tumor Purity | Jianshan Bioinformatics Notes"><meta property="og:description" content="Why pathological and computational purity estimates disagree, and how purity affects VAF, CNV, TMB, and clinical interpretation."><meta property="og:url" content="https://yt-er.github.io/en/articles/tumor-purity/"><meta property="og:type" content="article"><meta property="article:published_time" content="2025-08-10"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/"><span aria-hidden="true">←</span> All articles</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/tumor-purity/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/tumor-purity/" aria-current="page">EN</a></div></div></header>
+  <div class="article-topline" aria-label="Article information"><span>Cancer Genomics</span><time datetime="2025-08-10">2025.08.10</time><span>Approx. 5 min</span></div>
+  <div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#references"><span>01</span>References</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#references">References</a></li></ol></details><article class="article-body" id="article-content"><h1 id="tumor-purity">The Overlooked Role of Tumor Purity</h1>
+<p>In tumor NGS testing, tumor purity is a core parameter that directly affects the interpretation of results.</p>
+<p>It refers to the proportion of tumor-cell DNA in the total DNA of a sample. Accurate assessment of tumor purity affects not only the variant detection rate, but also downstream CNV analysis, TMB calculation, molecular subtyping, and other procedures.</p>
+<p>However, <strong>pathological purity</strong> (visually estimated by a pathologist from a tissue section) and <strong>computational purity</strong> (inferred from NGS data) often differ substantially, sometimes by more than 20%–30%.</p>
+<p>What causes this discrepancy? What does it mean for testing and clinical judgment? This article examines the methods of assessment, reasons for disagreement, and empirical research in turn.</p>
+<h3 id="why-tumor-purity-matters"><strong>Why Tumor Purity Matters</strong></h3>
+<p>In routine testing, low-purity samples often cause the following problems:</p>
+<ul>
+<li><strong>Reduced sensitivity for variant detection</strong></li>
+</ul>
+<p>Low purity dilutes the variant allele frequency (VAF) of tumor mutations, with a particularly marked effect on the detection of low-frequency variants.</p>
+<ul>
+<li><strong>Bias in variant-frequency interpretation</strong></li>
+</ul>
+<p>For the same mutation, differences in VAF between high-purity and low-purity samples may lead to different clinical interpretations.</p>
+<ul>
+<li><strong>Distortion of copy-number variant (CNV) analysis</strong></li>
+</ul>
+<p>CNV algorithms depend on the signal-to-noise ratio; low purity may cause copy-number gains or losses to be underestimated.</p>
+<ul>
+<li><strong>Bias in the inference of immune-related biomarkers</strong></li>
+</ul>
+<p>Calculations of tumor mutational burden (TMB) and MSI status, for example, may both be underestimated when purity is low.</p>
+<h3 id="common-methods-for-assessing-tumor-purity"><strong>Common Methods for Assessing Tumor Purity</strong></h3>
+<ol type="1">
+<li><p><strong>Pathological estimation</strong></p>
+<ul>
+<li><p>A pathologist visually estimates the proportion of tumor cells on an H&amp;E-stained section.</p></li>
+<li><p>Advantages: intuitive, rapid, and inexpensive.</p></li>
+<li><p>Limitations: highly subjective, dependent on the pathologist's experience, and difficult to quantify precisely.</p></li>
+</ul></li>
+<li><p><strong>Genomic-data analysis</strong></p>
+<ul>
+<li><p>Purity is inferred from WES/WGS data using loss of heterozygosity (LOH), CNV models, B-allele frequency (BAF), and related features.</p></li>
+<li><p>Commonly used tools:</p>
+<ul>
+<li><p><a href="https://doi.org/10.1038/nature10292" target="_blank" rel="noopener">ABSOLUTE</a>: jointly models CNVs and VAFs</p></li>
+<li><p><a href="https://doi.org/10.1186/s13059-016-1113-y" target="_blank" rel="noopener">FACETS</a>: suitable for WES and supports allele-specific analysis</p></li>
+</ul></li>
+<li><p>Advantages: quantitative and highly reproducible.</p></li>
+<li><p>Limitations: sensitive to sequencing depth and data quality.</p></li>
+</ul></li>
+<li><p><strong>Models based on transcriptomic or methylation data</strong></p>
+<ul>
+<li><p>Tumor and non-tumor cell fractions are inferred from gene-expression patterns or methylation features.</p></li>
+<li><p>Representative method: <a href="https://doi.org/10.1038/ncomms3612" target="_blank" rel="noopener">ESTIMATE</a> (calculates immune and stromal scores and then indirectly infers purity)</p></li>
+<li><p>Applicable when RNA-seq or methylation-array data are available for the sample.</p></li>
+</ul></li>
+</ol>
+<h3 id="concordance-between-pathological-and-computational-purity"><strong>Concordance Between Pathological and Computational Purity</strong></h3>
+<p>In practice, pathological and computational purity often differ markedly.</p>
+<ul>
+<li><p><strong>Pathological purity</strong>: a visual estimate based on the cellular morphology observed in a tissue section under the microscope.</p></li>
+<li><p><strong>Computational purity</strong>: an algorithmic estimate of the fraction of tumor DNA based on NGS data.</p></li>
+</ul>
+<blockquote>
+<p>Multiple studies and industry experience show that the correlation between the two is <strong>low to moderate</strong>, with discrepancies exceeding 20%–30% in some samples.</p>
+</blockquote>
+<p>Reasons for disagreement include:</p>
+<ol type="1">
+<li><p><strong>Tumor heterogeneity</strong>: pathological assessment is based on a local area of a tissue section, whereas NGS analysis is based on DNA from the entire sample.</p></li>
+<li><p><strong>Proportions of stromal and inflammatory cells</strong>: pathology may underestimate the proportion of non-tumor cells, particularly when many tumor-infiltrating lymphocytes (TILs) are present.</p></li>
+<li><p><strong>DNA quality and sequencing bias</strong>: technical factors such as degradation and PCR preference may affect computational estimates.</p></li>
+<li><p><strong>Differences in algorithmic assumptions</strong>: different algorithms make different assumptions about ploidy and subclonal fractions.</p></li>
+</ol>
+<p>Multiple studies have confirmed the limited concordance between pathological and computational purity:</p>
+<ul>
+<li><p><a href="https://compbio.hms.harvard.edu/publications/pdf/po.20.00016.pdf" target="_blank" rel="noopener">Haider et al., 2020</a>: compared multiple computational methods (DNA, mRNA, and miRNA) with assessments by multiple pathologists in 333 prostate cancer samples, finding low concordance and substantial variation in correlations.</p></li>
+<li><p><a href="https://doi.org/10.1093/bioinformatics/btz955" target="_blank" rel="noopener">Yadav et al., 2020</a>: some algorithmic purity estimates showed low Pearson correlation coefficients with pathological purity, indicating inadequate concordance.</p></li>
+<li><p><a href="https://doi.org/10.1038/ncomms9971" target="_blank" rel="noopener">Aran et al., 2015</a>: a pan-cancer sample analysis found substantial differences among purity-estimation methods, as well as inconsistencies between computational methods.</p></li>
+</ul>
+<h3 id="recommended-purity-thresholds"><strong>Recommended Purity Thresholds</strong></h3>
+<ul>
+<li><p><strong>NGS detection of somatic variants</strong>: ≥20% is recommended; negative results below this value should be interpreted cautiously.</p></li>
+<li><p><strong>CNV analysis</strong>: <strong>tumor purity should preferably be ≥40%</strong>, because both simulated and real data show that purity below approximately 44% often significantly affects detection sensitivity. In addition, TCGA sample-quality standards tend to use ≥60% purity as a reference.</p></li>
+<li><p><strong>Fusion-gene detection (RNA)</strong>: relatively less affected by purity, although higher purity helps improve the signal-to-noise ratio.</p></li>
+</ul>
+<h3 id="strategies-for-increasing-purity"><strong>Strategies for Increasing Purity</strong></h3>
+<ul>
+<li><p><strong>Sample microdissection/laser-capture microdissection</strong>: remove non-tumor regions to improve the signal-to-noise ratio.</p></li>
+<li><p><strong>Immunomagnetic bead enrichment</strong>: selectively remove non-tumor cells.</p></li>
+<li><p><strong>Sampling optimization</strong>: communicate with the pathology department to select a region with a high tumor burden.</p></li>
+</ul>
+<h3 id="implications-for-clinical-practice-and-the-industry"><strong>Implications for Clinical Practice and the Industry</strong></h3>
+<ul>
+<li><p>Testing reports should list both pathological and computational purity and indicate any discrepancy.</p></li>
+<li><p>Negative results from low-purity samples should be evaluated by integrating pathological and molecular-testing findings.</p></li>
+<li><p>Multicenter studies should standardize purity-assessment methods to ensure that results are comparable.</p></li>
+</ul>
+<h2 id="references"><strong>References</strong></h2>
+<ol type="1">
+<li><p>Carter SL, et al. Absolute quantification of somatic DNA alterations in human cancer. <em>Nature</em>, 2012. <a href="https://doi.org/10.1038/nature10292" target="_blank" rel="noopener"><span>https://doi.org/10.1038/nature10292</span></a></p></li>
+<li><p>Shen R, et al. FACETS: allele-specific copy number and clonal heterogeneity analysis tool for high-throughput DNA sequencing. <em>Genome Biology</em>, 2016. <a href="https://doi.org/10.1186/s13059-016-1113-y" target="_blank" rel="noopener"><span>https://doi.org/10.1186/s13059-016-1113-y</span></a></p></li>
+<li><p>Yoshihara K, et al. Inferring tumour purity and stromal and immune cell admixture from expression data. <em>Nature Communications</em>, 2013. <a href="https://doi.org/10.1038/ncomms3612" target="_blank" rel="noopener"><span>https://doi.org/10.1038/ncomms3612</span></a></p></li>
+<li><p>Haider S, et al. Systematic benchmarking reveals poor concordance between pathologic and molecular purity estimates across pan-cancer cohorts. <em>JCO Precision Oncology</em>, 2020. <a href="https://compbio.hms.harvard.edu/publications/pdf/po.20.00016.pdf" target="_blank" rel="noopener"><span>https://compbio.hms.harvard.edu/publications/pdf/po.20.00016.pdf</span></a></p></li>
+<li><p>Yadav B, et al. All-FIT: allele-frequency-based imputation of tumour purity shows low Pearson correlation with histological values. <em>Bioinformatics</em>, 2020. <a href="https://doi.org/10.1093/bioinformatics/btz955" target="_blank" rel="noopener"><span>https://doi.org/10.1093/bioinformatics/btz955</span></a></p></li>
+<li><p>Aran D, et al. Systematic pan-cancer analysis of tumour purity. <em>Nature Communications</em>, 2015. <a href="https://doi.org/10.1038/ncomms9971" target="_blank" rel="noopener"><span>https://doi.org/10.1038/ncomms9971</span></a></p></li>
+</ol>
+</article></div>
+  <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>Keep making complex questions clearer.</h2><a class="read-link" href="/en/#articles">← Browse all articles</a></section>
+  <footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer>
+</main></body></html>

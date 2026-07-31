@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>What Exactly Is Being Duplicated in NGS? | Jianshan Bioinformatics Notes</title>
+  <meta name="description" content="FASTQ compares sequences, BAM compares coordinates, and UMIs trace original molecules: metrics with the same name can answer different questions.">
+  <link rel="canonical" href="https://yt-er.github.io/en/articles/ngs-duplicates/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/ngs-duplicates/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/ngs-duplicates/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/ngs-duplicates/">
+  <meta property="og:title" content="What Exactly Is Being Duplicated in NGS? | Jianshan Bioinformatics Notes"><meta property="og:description" content="FASTQ compares sequences, BAM compares coordinates, and UMIs trace original molecules: metrics with the same name can answer different questions."><meta property="og:url" content="https://yt-er.github.io/en/articles/ngs-duplicates/"><meta property="og:type" content="article"><meta property="article:published_time" content="2026-07-30"><meta property="og:image" content="https://yt-er.github.io/og.png"><meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/"><span aria-hidden="true">←</span> All articles</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/ngs-duplicates/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/ngs-duplicates/" aria-current="page">EN</a></div></div></header>
+  <div class="article-topline" aria-label="Article information"><span>Sequencing QC</span><time datetime="2026-07-30">2026.07.30</time><span>Approx. 14 min</span></div>
+  <div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#there-is-more-than-one-type-of-duplicate"><span>01</span>There Is More Than One Type of Duplicate</a></li><li><a href="#fastq-duplication-and-bam-duplication-are-not-the-same-thing"><span>02</span>FASTQ Duplication and BAM Duplication Are Not the Same Thing</a></li><li><a href="#why-is-fastp-sometimes-higher-and-sometimes-lower"><span>03</span>Why Is fastp Sometimes Higher and Sometimes Lower?</a></li><li><a href="#mark-duplicates-or-remove-duplicates"><span>04</span>Mark Duplicates or Remove Duplicates?</a></li><li><a href="#cross-chunk-duplicates-are-the-easiest-to-miss-in-parallelized-processing"><span>05</span>Cross-Chunk Duplicates Are the Easiest to Miss in Parallelized Processing</a></li><li><a href="#do-not-rush-to-declare-failure-when-the-duplication-rate-rises"><span>06</span>Do Not Rush to Declare Failure When the Duplication Rate Rises</a></li><li><a href="#different-assay-types-cannot-use-the-same-set-of-rules"><span>07</span>Different Assay Types Cannot Use the Same Set of Rules</a></li><li><a href="#when-you-see-a-duplication-rate-ask-six-questions-first"><span>08</span>When You See a Duplication Rate, Ask Six Questions First</a></li><li><a href="#conclusion"><span>09</span>Conclusion</a></li><li><a href="#references"><span>10</span>References</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#there-is-more-than-one-type-of-duplicate">There Is More Than One Type of Duplicate</a></li><li><a href="#fastq-duplication-and-bam-duplication-are-not-the-same-thing">FASTQ Duplication and BAM Duplication Are Not the Same Thing</a></li><li><a href="#why-is-fastp-sometimes-higher-and-sometimes-lower">Why Is fastp Sometimes Higher and Sometimes Lower?</a></li><li><a href="#mark-duplicates-or-remove-duplicates">Mark Duplicates or Remove Duplicates?</a></li><li><a href="#cross-chunk-duplicates-are-the-easiest-to-miss-in-parallelized-processing">Cross-Chunk Duplicates Are the Easiest to Miss in Parallelized Processing</a></li><li><a href="#do-not-rush-to-declare-failure-when-the-duplication-rate-rises">Do Not Rush to Declare Failure When the Duplication Rate Rises</a></li><li><a href="#different-assay-types-cannot-use-the-same-set-of-rules">Different Assay Types Cannot Use the Same Set of Rules</a></li><li><a href="#when-you-see-a-duplication-rate-ask-six-questions-first">When You See a Duplication Rate, Ask Six Questions First</a></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#references">References</a></li></ol></details><article class="article-body" id="article-content"><h1 id="ngs-duplicates">What Exactly Is Being Duplicated in NGS?</h1>
+<p><img src="/images/duplicates-cover.png" alt="Cover image for the NGS Duplicates article" /></p>
+<p>When the same sequencing dataset is processed by different quality-control tools, a common situation arises: the FASTQ report gives one duplication rate, alignment and duplicate marking produce another, and recounting the duplicate flags in the BAM may yield yet another result.</p>
+<p>Which one is the “true duplication rate”?</p>
+<p>The answer is that none of them may be wrong; they are simply answering different questions.</p>
+<p>FASTQ tools see sequences, BAM tools see where fragments map on the reference genome, and UMI workflows attempt to trace reads back to their original molecules. If the statistical object, the duplicate-identification criterion, or the denominator differs, the resulting values cannot be used interchangeably.</p>
+<p><img src="/images/duplicates-fastq-vs-bam.png" alt="Comparison of FASTQ sequence duplication and BAM positional duplication metrics" /></p>
+<p><em>Figure 1: FASTQ and BAM identify duplicates from different perspectives; their duplication rates cannot be converted directly.</em></p>
+<p>Therefore, before discussing duplicates, the most important step is not to find an acceptable cutoff but to determine: <strong>what exactly is being duplicated in this duplication rate?</strong></p>
+<h2 id="there-is-more-than-one-type-of-duplicate">There Is More Than One Type of Duplicate</h2>
+<p>In routine analysis, duplicates are often loosely described as “PCR duplicates.” This is convenient in conversation but not sufficiently precise.</p>
+<h3 id="pcr-or-library-amplification-duplicates">PCR or Library-Amplification Duplicates</h3>
+<p>During library preparation, one original DNA fragment may be amplified into many copies. Although the sequencer subsequently reads multiple reads, they do not represent multiple independent molecules.</p>
+<p>If a duplicate family happens to carry an ALT allele and downstream analysis fails to recognize the duplicate reads, evidence from the same molecule may be counted repeatedly. This may inflate local depth, increase the number of ALT-supporting reads, and even shift the VAF of a low-frequency variant.</p>
+<p>What is truly lost through this type of duplication is not the “number of reads,” but the information contributed by independent molecules. One hundred reads originating from 100 original molecules and 100 reads amplified from 10 original molecules may have the same nominal depth, yet provide entirely different strengths of evidence.</p>
+<p>For further reading on how duplicates affect BAM preprocessing and downstream variant detection, see <em>WES Variant Calling</em>.</p>
+<h3 id="optical-duplicates">Optical Duplicates</h3>
+<p>Optical duplicates originate during sequencing imaging. A genuine amplified cluster may be incorrectly recognized by the optical system as multiple adjacent clusters, producing reads with highly similar content.</p>
+<p>Their origin differs from that of PCR duplicates, but they likewise cannot be treated as new, independent molecules. Identifying such duplicates generally also depends on the lane, tile, and spatial coordinates encoded in the read name. If read names have been rewritten or no longer contain this information, tools may be unable to distinguish optical duplicates accurately.</p>
+<h3 id="natural-positional-collisions">Natural Positional Collisions</h3>
+<p>Two mutually independent original molecules may happen to have the same start and end positions on the reference genome. This is not necessarily an experimental error; the molecules may simply have “collided” by chance.</p>
+<p>This is more likely in deeply sequenced WES and panel assays with limited target regions. The smaller the target region, the fewer possible combinations of fragment start and end positions. As sequencing approaches library saturation, the probability that different molecules share the same positions also increases.</p>
+<p>Identical alignment positions are therefore an important clue for duplicate identification, but they are not a direct observation of molecular origin. This is also why a relatively high duplicate rate alone does not justify immediately declaring library preparation a failure.</p>
+<h3 id="molecular-duplicates-defined-by-umis">Molecular Duplicates Defined by UMIs</h3>
+<p>UMIs add molecular tags to original molecules early in library preparation. Reads with the same alignment positions and the same UMI are more likely to originate from the same starting molecule. Through clustering, error correction, and consensus-sequence generation, a workflow can collapse a group of reads into a single item of molecular evidence.</p>
+<p>However, a UMI is not an infallible identifier: tags can contain sequencing errors, and different molecules can also experience UMI collisions. UMI workflows therefore consider not only “identical tags,” but also tag length, edit distance, alignment position, family size, and consensus-building rules.</p>
+<h2 id="fastq-duplication-and-bam-duplication-are-not-the-same-thing">FASTQ Duplication and BAM Duplication Are Not the Same Thing</h2>
+<p>The most common confusion about duplication rates comes from comparing sequence duplication at the FASTQ level with fragment duplication at the BAM level in the same table.</p>
+<h3 id="fastp-sees-sequences">fastp Sees Sequences</h3>
+<p>fastp assesses duplication at the FASTQ level. According to its official documentation, a read is considered a duplicate only when every base is identical to that of another read. If sequencing errors or <code>N</code> bases are present, reads derived from the same molecule may fail to be grouped together. For paired-end data, duplicate identification is performed at the read-pair level.</p>
+<p>This reference-free method is fast and useful for assessing how many sequences in the raw data are completely identical before alignment. However, it does not know whether two different sequences will ultimately align to the same fragment position, nor which reads will later be excluded from analysis because of quality, adapter, or alignment problems.</p>
+<p>For further reading on raw-data metrics such as quality scores, adapters, and GC distribution, see <em>Quality Control of Raw WES FASTQ Data</em>.</p>
+<h3 id="picard-and-samtools-see-alignment-positions">Picard and samtools See Alignment Positions</h3>
+<p>BWA-MEM or BWA-MEM2 aligns reads to the reference genome, but BWA itself does not mark duplicates. Duplicate identification is generally performed by Picard/GATK MarkDuplicates or samtools markdup.</p>
+<p>Picard compares information such as the 5′ positions of single-end reads and read pairs, groups records that may derive from the same original fragment into duplicate sets, selects one representative based on the sum of base qualities, and adds duplicate flags to the remaining records. samtools markdup similarly identifies duplicates using position, orientation, and mate information, while retaining the higher-quality representative record.</p>
+<p>The SAM format uses hexadecimal <code>0x400</code>, or decimal 1024, to indicate that an alignment has been marked as a PCR or optical duplicate. This flag states only that the read “has been marked as a duplicate”; by default, it does not mean that the read has been removed from the BAM or CRAM file.</p>
+<p>For further reading on the basic structure of SAM/BAM fields, FLAG values, and alignment results, see <em>From FASTQ Alignment to BAM</em>.</p>
+<h3 id="three-common-metrics">Three Common Metrics</h3>
+<table>
+<thead>
+<tr>
+<th>Metric source</th>
+<th>Question it answers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fastp <code>duplication.rate</code></td>
+<td>How many reads or read pairs in the FASTQ are completely identical at the sequence level?</td>
+</tr>
+<tr>
+<td>Picard <code>PERCENT_DUPLICATION</code></td>
+<td>Of the alignment records included in Picard's statistics, how many are marked as duplicates?</td>
+</tr>
+<tr>
+<td>Recounting based on <code>0x400</code></td>
+<td>How many records in the current BAM or CRAM already carry the duplicate flag?</td>
+</tr>
+</tbody>
+</table>
+<p>All three numbers may be called a “duplication rate,” but molecules, reads, read pairs, and alignments are not the same statistical unit. Whether unmapped, secondary, supplementary, and QC-fail reads enter the denominator also varies by tool and parameter settings.</p>
+<p>Another common trap is that Picard metrics containing <code>PERCENT</code> or <code>PCT</code> in their names are generally represented as decimals between 0 and 1. <code>PERCENT_DUPLICATION=0.12</code> means 12%, not 0.12%.</p>
+<h2 id="why-is-fastp-sometimes-higher-and-sometimes-lower">Why Is fastp Sometimes Higher and Sometimes Lower?</h2>
+<p>Either direction is possible.</p>
+<p>fastp may report a lower value. If copies derived from the same original molecule accumulate sequencing errors, their sequences will no longer be completely identical. After alignment, however, they may still map to the same fragment positions and thus be identified as duplicates by BAM-level tools.</p>
+<p>fastp may also report a higher value. Completely identical reads in a FASTQ may include low-quality sequences, adapter contamination, poly-G sequences, or low-complexity sequences. Some of these will subsequently be filtered or may fail to align reliably. They affect the FASTQ-level result but do not necessarily enter the denominator of the BAM duplication metric.</p>
+<p>Consequently, there is no stable formula for converting a fastp duplication rate into a Picard or samtools result. Even if two metrics show similar trends across a batch of samples, a cutoff for one metric cannot be copied directly to the other.</p>
+<p>The correct way to compare them is to hold assay type, library-preparation method, software version, and statistical definition constant, then establish an empirical distribution from historical samples. Especially for samples near a quality-control boundary, conclusions should be based on the number of original molecules, effective coverage, and ultimate assay performance rather than on a single percentage.</p>
+<h2 id="mark-duplicates-or-remove-duplicates">Mark Duplicates or Remove Duplicates?</h2>
+<p>These two actions are often conflated, but their practical meanings are entirely different.</p>
+<h3 id="marking-retain-the-data-and-declare-its-identity">Marking: Retain the Data and Declare Its Identity</h3>
+<p>MarkDuplicates or markdup generally writes the duplicate flag to the BAM or CRAM while retaining all reads. This has several advantages:</p>
+<ul>
+<li>It preserves the complete raw evidence and quality-control information;</li>
+<li>Downstream tools can decide whether to exclude duplicates according to their own rules;</li>
+<li>Duplicate families and library complexity can still be recalculated later;</li>
+<li>There is no need to repeatedly generate multiple primary files for different analytical purposes.</li>
+</ul>
+<p>For most variant-analysis workflows, retaining a marked BAM or CRAM is generally the safer approach. However, one should not assume from experience that “the tool automatically ignores duplicates”; the specific software's read filters and parameters must still be checked.</p>
+<h3 id="removal-exclude-duplicate-records-from-the-file">Removal: Exclude Duplicate Records from the File</h3>
+<p>If a downstream tool explicitly requires duplicate-free input, or if a custom program cannot recognize <code>0x400</code>, duplicate reads can be physically filtered after marking. Picard can remove duplicates while marking them, and samtools markdup also provides a removal option. A file that has already been marked correctly can likewise be filtered directly on <code>0x400</code>.</p>
+<p>Earlier removal is not necessarily better, however. It permanently removes some quality-control information from the output and makes it inappropriate to continue comparing pre-removal and post-removal metrics as if they used the same definition. A more robust practice is generally to retain one marked primary file and generate clearly designated filtered versions when needed.</p>
+<h2 id="cross-chunk-duplicates-are-the-easiest-to-miss-in-parallelized-processing">Cross-Chunk Duplicates Are the Easiest to Miss in Parallelized Processing</h2>
+<p>To accelerate processing, a paired-end FASTQ can be split into multiple chunks, each aligned and sorted separately with BWA. The issue is not whether splitting is possible, but when duplicate marking occurs.</p>
+<p>The correct order is:</p>
+<pre class="text"><code>Synchronously split the FASTQ files
+    ↓
+Align and sort each chunk separately
+    ↓
+Merge them into a complete BAM
+    ↓
+Perform unified duplicate marking
+    ↓
+Downstream analysis</code></pre>
+<p><img src="/images/duplicates-chunk-flow.png" alt="Duplicate-marking workflow after chunked FASTQ alignment" /></p>
+<p><em>Figure 2: Chunking is used only for parallel computation; duplicates should be marked jointly across the complete library after merging.</em></p>
+<p>If MarkDuplicates is run separately on each chunk before the BAM files are merged, reads from the same family that fall into different chunks are invisible to one another. They will be misclassified as multiple independent molecules, resulting in an underestimated duplicate rate and overestimated unique depth. If these reads carry an ALT allele, the supporting evidence for a low-frequency variant may also be amplified.</p>
+<p>Read Group and Library settings are equally important. Computational chunks are divisions made at the processing level, not new experimental libraries. An RG can represent genuine experimental information such as the lane, but <code>LB</code> must correspond to the actual library; different libraries must not be fabricated merely to distinguish chunks. Otherwise, reads that should be evaluated together for duplication may be isolated in different statistical groups.</p>
+<p>In one sentence: <strong>alignment can be split, but duplicate marking that depends on whole-sample molecular relationships must be performed jointly within the correct library scope.</strong></p>
+<h2 id="do-not-rush-to-declare-failure-when-the-duplication-rate-rises">Do Not Rush to Declare Failure When the Duplication Rate Rises</h2>
+<p>A high duplication rate may arise from an experimental problem or from the sequencing design itself. Troubleshooting can be divided into four levels.</p>
+<h3 id="level-1-sample-and-library-preparation">Level 1: Sample and Library Preparation</h3>
+<ul>
+<li>Was the starting amount of nucleic acid too low?</li>
+<li>Was the sample severely degraded or derived from FFPE material?</li>
+<li>Were too many PCR cycles used?</li>
+<li>Was the library fragment-size distribution too narrow?</li>
+<li>Was there pronounced GC or capture bias during library preparation?</li>
+</ul>
+<p>These problems reduce the number of unique molecules in the library, causing subsequent sequencing to repeatedly sample the same templates.</p>
+<h3 id="level-2-has-sequencing-approached-saturation">Level 2: Has Sequencing Approached Saturation?</h3>
+<p>When library complexity is limited, adding reads does not necessarily add new information. At first, deeper sequencing can still identify many new molecules. Near saturation, however, most additional data come from molecules that have already been observed.</p>
+<p>Looking only at total read count or mean depth can therefore create a false impression. More informative metrics include:</p>
+<ul>
+<li>The number of non-duplicate reads or read pairs;</li>
+<li>Effective coverage after deduplication;</li>
+<li>Estimated library complexity;</li>
+<li>The curve describing growth in unique molecules at different downsampling fractions;</li>
+<li>The number of new molecules expected from additional sequencing.</li>
+</ul>
+<p>Note that <code>ESTIMATED_LIBRARY_SIZE</code> relies on assumptions such as random sampling and equal sampling probabilities. It is suitable only as an indicator of trends, not as a precise measurement of the true number of molecules.</p>
+<p>For further reading on the relationship among sequencing depth, library complexity, and saturation in RNA-seq, see <em>RNA-Seq Sequencing Depth and Saturation</em>.</p>
+<h3 id="level-3-sequencing-and-raw-data-anomalies">Level 3: Sequencing and Raw-Data Anomalies</h3>
+<ul>
+<li>Have optical duplicates increased markedly?</li>
+<li>Do read names still retain the coordinates required to identify optical duplicates?</li>
+<li>Are there large amounts of adapter contamination, poly-G sequences, or low-complexity sequences?</li>
+<li>Are any tiles or lanes abnormal?</li>
+<li>Are there systematic changes between batches or sequencing instruments?</li>
+</ul>
+<p>If the fastp duplication rate rises while the BAM duplication rate changes little, raw-sequence quality and unmapped reads should be investigated first rather than attributing the increase directly to PCR overamplification.</p>
+<h3 id="level-4-has-the-workflows-statistical-definition-changed">Level 4: Has the Workflow's Statistical Definition Changed?</h3>
+<ul>
+<li>Has the software version or any parameter changed?</li>
+<li>Does the denominator exclude the same types of reads?</li>
+<li>Is the metric calculated per read, read pair, or fragment?</li>
+<li>Are FASTQ and BAM metrics being judged against the same cutoff?</li>
+<li>After chunked alignment, were duplicates marked jointly across the complete library?</li>
+<li>Do custom depth, pileup, or phasing programs filter <code>0x400</code>?</li>
+</ul>
+<p>An “abnormal duplication rate” caused by a workflow change may in fact be nothing more than a change in the statistical definition.</p>
+<h2 id="different-assay-types-cannot-use-the-same-set-of-rules">Different Assay Types Cannot Use the Same Set of Rules</h2>
+<h3 id="wgs">WGS</h3>
+<p>WGS covers a large genomic space, and random fragmentation therefore produces more possible combinations of fragment start and end positions. At conventional depths, independent original molecules are generally less likely to collide by position than in WES or small panels. Consequently, a relatively high duplication rate more directly suggests insufficient input DNA, excessive PCR amplification, reduced library complexity, or increased optical duplication.</p>
+<p>Nevertheless, WGS cannot use a fixed cutoff divorced from context. Sequencing depth, library input, fragment-length distribution, PCR-free versus PCR-based preparation, duplicate-marking software, and the statistical denominator all affect the final result. When deciding whether additional sequencing is warranted, non-duplicate reads, post-deduplication coverage, and library complexity should be evaluated together. If the library is already near saturation, generating more data may yield only more duplicate molecules.</p>
+<h3 id="wes-and-hybrid-capture-panels">WES and Hybrid-Capture Panels</h3>
+<p>Because the target region is limited and coverage is deep, independent original molecules are more likely to collide by position. Capture efficiency and probe preference can also produce local over-enrichment. Such data should therefore be evaluated jointly with the on-target rate, coverage uniformity, non-duplicate coverage, and library complexity.</p>
+<h3 id="amplicon-sequencing">Amplicon Sequencing</h3>
+<p>Amplicon designs inherently cause large numbers of reads to share the same start and end positions. Conventional position-based duplicate identification may misclassify large numbers of genuinely independent molecules as duplicates. Without UMIs, coordinates alone generally cannot recover the number of original molecules.</p>
+<h3 id="rna-seq">RNA-seq</h3>
+<p>Highly expressed transcripts naturally generate large numbers of identical or similar fragments. These may reflect PCR amplification, true biological abundance, or both. Whether to deduplicate depends on the library-preparation protocol and the purpose of the analysis; rules from DNA variant detection cannot simply be copied. UMI-based 3′-end counting protocols should generally collapse reads at the molecular level before expression quantification.</p>
+<h3 id="ctdna-and-mrd">ctDNA and MRD</h3>
+<p>These applications target extremely low-frequency signals, so amplified copies of a few original molecules cannot be treated as multiple independent observations. The analytical focus should shift from the conventional duplicate rate to UMI families, consensus molecules, the number of unique starting molecules, and error-suppression performance.</p>
+<h2 id="when-you-see-a-duplication-rate-ask-six-questions-first">When You See a Duplication Rate, Ask Six Questions First</h2>
+<p>Regardless of the value reported, its definition can first be calibrated with the following six questions:</p>
+<ol type="1">
+<li>Was it calculated at the FASTQ or BAM stage?</li>
+<li>Are duplicates identified by complete sequence, alignment position, or UMI?</li>
+<li>Is the statistical unit a read, read pair, fragment, or molecule?</li>
+<li>Which unmapped, secondary, supplementary, or QC-fail records are excluded from the denominator?</li>
+<li>Are duplicates merely marked, or have they already been removed from the file?</li>
+<li>Has the current cutoff been validated for the same assay type, library-preparation method, and software-based definition?</li>
+</ol>
+<p>If these six questions have no answers, the statement “the duplication rate is 12%” says almost nothing about the quality of the sample.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Duplicates are not a bin of “junk reads” waiting to be emptied. They are more like a fingerprint of a library, bearing the combined traces of the number of starting molecules, PCR amplification, capture bias, sequencing imaging, data saturation, and analytical algorithms.</p>
+<p>What should truly raise concern is not merely an increased duplication rate, but the practice of treating values from different tools, different stages, and different assay types as if they were the same metric.</p>
+<p>Standardize the definition before comparing samples; evaluate unique molecules and effective coverage before deciding whether to sequence more deeply or rebuild the library. Only then does the duplication rate cease to be an isolated percentage in a quality-control table and become a useful clue as to whether the data are still yielding new information.</p>
+<h2 id="references">References</h2>
+<ol type="1">
+<li><a href="https://github.com/OpenGene/fastp#duplication-rate-and-deduplication" target="_blank" rel="noopener">Official fastp documentation: duplication rate and deduplication</a></li>
+<li><a href="https://gatk.broadinstitute.org/hc/en-us/articles/4405443615771-MarkDuplicates-Picard" target="_blank" rel="noopener">GATK/Picard MarkDuplicates documentation</a></li>
+<li><a href="https://broadinstitute.github.io/picard/picard-metric-definitions.html" target="_blank" rel="noopener">Picard Metrics Definitions</a></li>
+<li><a href="https://samtools.github.io/hts-specs/SAMv1.pdf" target="_blank" rel="noopener">SAM Format Specification</a></li>
+<li><a href="https://www.htslib.org/doc/samtools-markdup.html" target="_blank" rel="noopener">samtools markdup documentation</a></li>
+</ol>
+</article></div>
+  <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>Keep making complex questions clearer.</h2><a class="read-link" href="/en/#articles">← Browse all articles</a></section>
+  <footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer>
+</main></body></html>

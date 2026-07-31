@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FFPE RNA-seq: A Guide to Pre-Sequencing Quality Control | Jianshan Bioinformatics Notes</title>
+  <meta name="description" content="Which metrics matter for FFPE RNA, how to set release thresholds, and how to choose a robust library-preparation strategy.">
+  <link rel="canonical" href="https://yt-er.github.io/en/articles/ffpe-rna-seq-qc/">
+  <link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/ffpe-rna-seq-qc/">
+  <link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/ffpe-rna-seq-qc/">
+  <link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/ffpe-rna-seq-qc/">
+  <meta property="og:title" content="FFPE RNA-seq: A Guide to Pre-Sequencing Quality Control | Jianshan Bioinformatics Notes"><meta property="og:description" content="Which metrics matter for FFPE RNA, how to set release thresholds, and how to choose a robust library-preparation strategy."><meta property="og:url" content="https://yt-er.github.io/en/articles/ffpe-rna-seq-qc/"><meta property="og:type" content="article"><meta property="article:published_time" content="2025-09-20"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+  <a class="skip-link" href="#article-content">Skip to content</a>
+  <header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/"><span aria-hidden="true">←</span> All articles</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/ffpe-rna-seq-qc/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/ffpe-rna-seq-qc/" aria-current="page">EN</a></div></div></header>
+  <div class="article-topline" aria-label="Article information"><span>RNA-seq</span><time datetime="2025-09-20">2025.09.20</time><span>Approx. 8 min</span></div>
+  <div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#at-a-glance"><span>01</span>At a Glance</a></li><li><a href="#why-is-ffpe-challenging"><span>02</span>Why Is FFPE Challenging?</a></li><li><a href="#key-quality-control-metrics-and-interpretation"><span>03</span>Key Quality-Control Metrics and Interpretation</a></li><li><a href="#key-procedures-before-and-after-extraction"><span>04</span>Key Procedures Before and After Extraction</a></li><li><a href="#library-preparation-strategies-and-sequencing-parameters"><span>05</span>Library-Preparation Strategies and Sequencing Parameters</a></li><li><a href="#effects-of-ffpe-on-downstream-data-and-mitigation-strategies"><span>06</span>Effects of FFPE on Downstream Data and Mitigation Strategies</a></li><li><a href="#release-decision"><span>07</span>Release Decision</a></li><li><a href="#common-pitfalls-and-troubleshooting"><span>08</span>Common Pitfalls and Troubleshooting</a></li><li><a href="#quality-control-thresholds"><span>09</span>Quality-Control Thresholds</a></li><li><a href="#summary"><span>10</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#at-a-glance">At a Glance</a></li><li><a href="#why-is-ffpe-challenging">Why Is FFPE Challenging?</a></li><li><a href="#key-quality-control-metrics-and-interpretation">Key Quality-Control Metrics and Interpretation</a></li><li><a href="#key-procedures-before-and-after-extraction">Key Procedures Before and After Extraction</a></li><li><a href="#library-preparation-strategies-and-sequencing-parameters">Library-Preparation Strategies and Sequencing Parameters</a></li><li><a href="#effects-of-ffpe-on-downstream-data-and-mitigation-strategies">Effects of FFPE on Downstream Data and Mitigation Strategies</a></li><li><a href="#release-decision">Release Decision</a></li><li><a href="#common-pitfalls-and-troubleshooting">Common Pitfalls and Troubleshooting</a></li><li><a href="#quality-control-thresholds">Quality-Control Thresholds</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="ffpe-rna-seq-qc">FFPE RNA-seq: A Guide to Pre-Sequencing Quality Control</h1>
+<h2 id="at-a-glance">At a Glance</h2>
+<ul>
+<li><p><strong>Primary metric: DV200</strong>. DV200 &gt;70%: high quality; 50–70%: moderate; 30–50%: low quality; &lt;30%: library preparation is not recommended.</p></li>
+<li><p><strong>RIN is not sensitive for FFPE samples</strong> and is commonly 2–3; it is insufficient for predicting whether library preparation will succeed. Base decisions on DV200 and concentration.</p></li>
+<li><p><strong>Recommended input</strong> (total RNA): 20 ng when DV200 &gt;70%; 20–40 ng when DV200 is 50–70%; 50-100 ng when DV200 is 30–50%.</p></li>
+<li><p><strong>Priority of library-preparation strategies</strong>: rRNA depletion ≥ capture enrichment (RNA exome/targeted exons) ≫ poly(A)-only enrichment (FFPE samples are prone to 3′-end bias).</p></li>
+</ul>
+<hr />
+<h2 id="why-is-ffpe-challenging">Why Is FFPE Challenging?</h2>
+<p>FFPE (formalin-fixed, paraffin-embedded) preservation provides excellent tissue morphology but also causes nucleic-acid crosslinking, fragmentation, and chemical modification. The direct consequences are:</p>
+<ol type="1">
+<li><p><strong>RNA length is markedly reduced</strong>, decreasing the proportion of usable fragments &gt;200 nt;</p></li>
+<li><p><strong>RIN loses discriminatory power</strong>, with atypical electropherogram profiles and poorly defined rRNA peaks;</p></li>
+<li><p><strong>Reverse-transcription and PCR efficiency decrease</strong>, potentially introducing base errors;</p></li>
+<li><p><strong>Library complexity is low and the duplication rate is high</strong>, requiring greater sequencing depth to achieve comparable sensitivity. The goal of pre-sequencing quality control is therefore to identify as many “usable” samples as possible and match low-quality samples with more robust library-preparation and sequencing parameters.</p></li>
+</ol>
+<hr />
+<h2 id="key-quality-control-metrics-and-interpretation">Key Quality-Control Metrics and Interpretation</h2>
+<h3 id="1-dv200-proportion-of-fragments-200-nt">1) DV200 (Proportion of Fragments &gt;200 nt)</h3>
+<p><strong>Definition</strong>: the percentage of RNA fragments in the sample that are longer than 200 nt. A higher DV200 indicates that more usable fragments are available for library preparation. Recommended thresholds:</p>
+<ul>
+<li><p><strong>&gt;70% (high)</strong>: fragments are relatively long, and the success rate of library preparation and stability of expression quantification are high. A 20 ng input is recommended.</p></li>
+<li><p><strong>50–70% (moderate)</strong>: usable, but the input should be increased appropriately to 20–40 ng; during library preparation, monitor short-fragment enrichment and 3′ bias.</p></li>
+<li><p><strong>30–50% (low)</strong>: highly degraded. An input of 40-100 ng is recommended; prioritize rRNA depletion or capture-based methods and apply stringent release criteria.</p></li>
+<li><p><strong>&lt;30% (very low)</strong>: library preparation is not recommended. If the sample is extremely precious, a capture-based, low-input strategy may be attempted, but the boundary of “research use only/not reportable” must be explicitly defined in the SOP.</p></li>
+</ul>
+<h3 id="2-rin">2) RIN</h3>
+<p>Values of 2–3 are common in FFPE samples, and RIN <strong>does not have discriminatory power</strong>. It may be recorded but should not be used as a release criterion.</p>
+<h3 id="3-concentration-and-purity">3) Concentration and Purity</h3>
+<ul>
+<li><p><strong>Quantification</strong>: prioritize <strong>Qubit/fluorometric quantification</strong> (well suited to short fragments and avoids overestimation by NanoDrop).</p></li>
+<li><p><strong>Purity</strong>: A260/280 ≈ 2.0; A260/230 should preferably be &gt;1.8. Contaminants such as protein, salts, phenol, or residual xylene inhibit reverse transcription and PCR.</p></li>
+<li><p><strong>DNA contamination</strong>: <strong>DNase treatment</strong> is essential during extraction; include a no-RT control for verification when necessary.</p></li>
+</ul>
+<h3 id="4-histology-and-sample-information">4) Histology and Sample Information</h3>
+<ul>
+<li><p><strong>Age of the paraffin block</strong>: preferably ≤3 years; degradation increases with prolonged storage.</p></li>
+<li><p><strong>Tumor content</strong>: preferably ≥20–30%; enrich the tumor area by macrodissection to improve the signal-to-noise ratio.</p></li>
+<li><p><strong>Sample amount and area</strong>: record section thickness and number of sections to support batch comparability and traceability.</p></li>
+</ul>
+<hr />
+<h2 id="key-procedures-before-and-after-extraction">Key Procedures Before and After Extraction</h2>
+<h3 id="before-extraction">Before Extraction</h3>
+<ul>
+<li><p>Select <strong>unstained sections</strong>; avoid residual H&amp;E stain, which may interfere with purification.</p></li>
+<li><p>Perform thorough <strong>deparaffinization</strong> (xylene/substitute) → sequential graded ethanol washes to remove solvent → complete drying; residual organic solvent inhibits downstream reactions.</p></li>
+<li><p>Estimate tissue amount and tumor content, and create sample records and chain-of-custody records in the LIMS.</p></li>
+</ul>
+<h3 id="recommended-extraction-procedure">Recommended Extraction Procedure</h3>
+<ul>
+<li><p>Perform <strong>thorough proteinase K digestion</strong> (which may be extended to several hours);</p></li>
+<li><p>Include a <strong>high-temperature crosslink-reversal</strong> step (e.g., staged treatment at 65–80 °C) to improve reversal of crosslinks;</p></li>
+<li><p>Use <strong>DNase digestion</strong> to remove genomic DNA;</p></li>
+<li><p>Purify using a <strong>silica column or magnetic beads</strong>; whenever possible, choose a commercial kit designed for FFPE material;</p></li>
+<li><p>Follow strict <strong>RNase-free procedures</strong> and minimize freeze–thaw cycles.</p></li>
+</ul>
+<h3 id="rapid-post-extraction-qc-release-criteria">Rapid Post-Extraction QC (Release Criteria)</h3>
+<ol type="1">
+<li><p><strong>Qubit concentration</strong> ≥ the specified minimum input (stratified by DV200);</p></li>
+<li><p><strong>DV200</strong> meets the project threshold (≥30% or a more stringent team standard);</p></li>
+<li><p><strong>A260/280 and A260/230</strong> fall within acceptable ranges;</p></li>
+<li><p>For low-volume samples, a subset may undergo <strong>Bioanalyzer/TapeStation</strong> analysis to confirm fragment-size distribution (optional).</p></li>
+</ol>
+<blockquote>
+<p><strong>Recommendation</strong>: Link DV200 and minimum input as a “binary release criterion.” For example: DV200 ≥50% and input ≥20 ng; DV200 30–50% and input ≥40 ng. Samples that do not meet the criteria are designated <strong>QC Fail</strong> (with optional review/re-extraction procedures).</p>
+</blockquote>
+<hr />
+<h2 id="library-preparation-strategies-and-sequencing-parameters">Library-Preparation Strategies and Sequencing Parameters</h2>
+<h3 id="1-prioritize-rrna-depletion">1) Prioritize rRNA Depletion</h3>
+<ul>
+<li><p><strong>Rationale</strong>: damage to poly(A) tails is common in FFPE samples, and poly(A)-only enrichment readily causes 3′ bias and information loss.</p></li>
+<li><p><strong>Advantages</strong>: more tolerant of fragmented RNA; covers mRNA and some noncoding RNA, providing a more comprehensive expression profile.</p></li>
+<li><p><strong>Considerations</strong>: background complexity increases; library size and adapter dimers must be controlled.</p></li>
+</ul>
+<h3 id="2-capture-enrichment-rna-exometargeted-exonstargeted-panel">2) Capture Enrichment (RNA Exome/Targeted Exons/Targeted Panel)</h3>
+<ul>
+<li><p><strong>Advantages</strong>: well suited to short fragments; even scattered fragments can still be captured by probes as long as they fall within target regions;</p></li>
+<li><p><strong>Applications</strong>: translational-research/clinical panels (expression quantification, fusion detection, alternative-splicing hotspots, etc.);</p></li>
+<li><p><strong>Low input</strong>: some methods support stable library preparation from <strong>10–50 ng</strong>, substantially expanding the range of usable samples;</p></li>
+<li><p><strong>UMIs</strong>: if low-abundance fusions/variants are of interest, prioritize methods that include UMIs.</p></li>
+</ul>
+<h3 id="3-trade-offs-of-polya-enrichment">3) Trade-Offs of Poly(A) Enrichment</h3>
+<ul>
+<li><p><strong>Advantages</strong>: low background and a focus on mature mRNA;</p></li>
+<li><p><strong>Disadvantages</strong>: sensitive to poly(A)-tail integrity in FFPE samples, with pronounced 3′-end bias;</p></li>
+<li><p><strong>Recommendation</strong>: consider only when DV200 is relatively high (≥70%) and the objective is conventional expression profiling.</p></li>
+</ul>
+<h3 id="4-recommended-technical-parameters">4) Recommended Technical Parameters</h3>
+<ul>
+<li><p><strong>Fragmentation</strong>: most FFPE samples <strong>do not require additional fragmentation</strong> because the RNA is already naturally short;</p></li>
+<li><p><strong>Insert size</strong>: keep within the <strong>~200–300 bp</strong> range to prevent adapter read-through caused by inserts that are too short;</p></li>
+<li><p><strong>Number of PCR cycles</strong>: FFPE samples often require <strong>1–3 additional cycles</strong> to achieve an acceptable library yield, but overamplification must be avoided;</p></li>
+<li><p><strong>Sequencing read length</strong>: <strong>PE75–PE100</strong> is recommended; longer reads provide limited benefit for extremely short fragments;</p></li>
+<li><p><strong>Sequencing depth</strong>: for whole-transcriptome sequencing, <strong>≥40–50M read pairs/sample</strong> is recommended; for targeted panels, follow the manufacturer's or empirically established coverage thresholds (e.g., gene-level coverage ≥500–1000×).</p></li>
+</ul>
+<hr />
+<h2 id="effects-of-ffpe-on-downstream-data-and-mitigation-strategies">Effects of FFPE on Downstream Data and Mitigation Strategies</h2>
+<ul>
+<li><p><strong>Higher duplication rate and lower complexity</strong>: increase sequencing depth appropriately while applying <strong>deduplication/UMI quantification</strong> during bioinformatic analysis;</p></li>
+<li><p><strong>3′-end bias</strong>: prioritize rRNA-depletion or capture workflows; use <strong>gene-body models/segment-level normalization</strong> for expression quantification;</p></li>
+<li><p><strong>Increased alignment mismatches</strong>: modestly relax alignment parameters and strengthen <strong>soft-clipping and mismatch filters</strong>;</p></li>
+<li><p><strong>Fusion-detection sensitivity</strong>: increase depth and the minimum supporting-read threshold, and use a <strong>capture/AMP strategy</strong>;</p></li>
+<li><p><strong>Batch effects</strong>: strengthen the control system (matched FF/FFPE samples, reference RNA/ERCC) and use <strong>batch correction</strong> (e.g., ComBat) to support assessment.</p></li>
+</ul>
+<hr />
+<h2 id="release-decision">Release Decision</h2>
+<ol type="1">
+<li><p><strong>Sample registration</strong> → histological assessment (tumor content ≥20–30%? block age ≤3 years?) → record whether macrodissection was performed;</p></li>
+<li><p><strong>Extraction</strong> (deparaffinization → digestion → crosslink reversal → DNase → purification) → Qubit quantification and purity assessment;</p></li>
+<li><p><strong>DV200 measurement</strong>:</p></li>
+</ol>
+<ul>
+<li><p><strong>≥70%</strong> → Release category A: rRNA depletion, capture, or poly(A) can be used; input 20 ng;</p></li>
+<li><p><strong>50–70%</strong> → Release category B: prioritize rRNA depletion or capture; input 40–50 ng;</p></li>
+<li><p><strong>30–50%</strong> → Release category C: rRNA depletion or capture only; input 50–100 ng; use UMIs if necessary;</p></li>
+<li><p><strong>&lt;30%</strong> → Do not release/research-use pathway (requires supervisor approval and disclosure of risk).</p></li>
+</ul>
+<ol start="4" type="1">
+<li><p><strong>Library QC</strong>: library fragment peak at 200–300 bp, adapter dimers &lt;2%, and acceptable quantification;</p></li>
+<li><p><strong>Sequencing-run QC</strong>: Q30, duplication rate, on-target rate, and depth meet expected thresholds;</p></li>
+<li><p><strong>Data QC</strong>: number of detected genes, inter-sample correlation, and positive controls for fusions/variants pass → report.</p></li>
+</ol>
+<hr />
+<h2 id="common-pitfalls-and-troubleshooting">Common Pitfalls and Troubleshooting</h2>
+<ul>
+<li><p><strong>Residual xylene/solvent</strong>: wash thoroughly with ethanol and dry completely;</p></li>
+<li><p><strong>Genomic DNA contamination</strong>: strengthen the DNase step and include a no-RT control;</p></li>
+<li><p><strong>Insufficient tissue</strong>: combine multiple sections and increase the extraction volume;</p></li>
+<li><p><strong>Excessive PCR</strong>: if the library is too short and displays a step-like peak profile, optimize the cycle number and input;</p></li>
+<li><p><strong>Extreme 3′ bias</strong>: switch to rRNA depletion or capture;</p></li>
+<li><p><strong>Excessive duplication rate</strong>: use a UMI strategy, increase total sequencing depth, and optimize input and fragment-size distribution;</p></li>
+<li><p><strong>Large batch-to-batch differences</strong>: use fixed controls, standardize the SOP, strengthen trend-chart monitoring, and implement corrective and preventive action (CAPA).</p></li>
+</ul>
+<hr />
+<h2 id="quality-control-thresholds">Quality-Control Thresholds</h2>
+<ul>
+<li><p><strong>Release criteria</strong>: DV200 ≥30% (may be raised to ≥40–50%); Qubit ≥ minimum input; A260/280 ≈ 2.0.</p></li>
+<li><p><strong>Recommended input</strong>:</p></li>
+<li><p>DV200 ≥70%: 20 ng;</p></li>
+<li><p>50–70%: 20–40 ng;</p></li>
+<li><p>30–50%: 40-100 ng.</p></li>
+<li><p><strong>Library targets</strong>: insert size 200–300 bp; adapter dimers &lt;2%; number of PCR cycles per the manufacturer's recommendation +1–3 (without overamplification).</p></li>
+<li><p><strong>Sequencing recommendations</strong>: PE75–PE100; whole transcriptome ≥40–50M read pairs; for panels, follow the on-target coverage threshold.</p></li>
+<li><p><strong>Data release</strong>: duplication rate, on-target rate, and number of detected genes are consistent with batch controls; positive controls meet acceptance criteria.</p></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>FFPE samples are not inherently incompatible with RNA-seq. With an <strong>FFPE-oriented extraction strategy</strong>, <strong>DV200-centered release logic</strong>, and a <strong>library-preparation method matched to the characteristics of the material</strong>, supported by <strong>clinical-grade SOPs and end-to-end traceability</strong>, the great majority of FFPE samples can produce data that are <strong>interpretable, reproducible, and reportable</strong>. Once these practices become routine in the laboratory, FFPE will shift from being a “difficult sample” to a “controllable sample.”</p>
+</article></div>
+  <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>Keep making complex questions clearer.</h2><a class="read-link" href="/en/#articles">← Browse all articles</a></section>
+  <footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer>
+</main></body></html>
