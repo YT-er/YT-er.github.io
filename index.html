@@ -1,2 +1,175 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" href="/images/duplicates-cover.png" as="image"/><link rel="stylesheet" href="/assets/index-BNOyXF6v.css" data-precedence="vite-rsc/importer-resources"/><title>见山 · 生信笔记</title><meta name="description" content="记录生物信息、测序质控与数据分析中的方法、边界和实践。"/><meta property="og:title" content="见山 · 生信笔记"/><meta property="og:description" content="把复杂的生信问题，讲清楚一点。"/><meta property="og:type" content="website"/><meta property="og:image" content="https://yt-er.github.io/og.png"/><meta property="og:image:width" content="1923"/><meta property="og:image:height" content="818"/><meta property="og:image:alt" content="见山 · 生信笔记"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="见山 · 生信笔记"/><meta name="twitter:description" content="把复杂的生信问题，讲清楚一点。"/><meta name="twitter:image" content="https://yt-er.github.io/og.png"/><link rel="shortcut icon" href="https://yt-er.github.io/icon.png"/><link rel="icon" href="https://yt-er.github.io/icon.png"/>
-</head><body><main><a class="skip-link" href="#main-content">跳到正文</a><header class="site-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><nav aria-label="主导航"><a href="#articles">文章</a><a href="#about">关于</a></nav></header><section class="home-hero" id="main-content"><div class="hero-copy"><p class="eyebrow">BIOINFORMATICS · NOTES</p><h1>把复杂的生信问题，<br/><em>讲清楚一点。</em></h1><p class="hero-intro">记录测序质控、流程设计与数据分析里的方法、边界和实践。 不追逐术语，先把问题问对。</p><a class="text-link" href="#articles">阅读最新文章 <span aria-hidden="true">↘</span></a></div><div class="hero-visual" aria-hidden="true"><div class="sequence-label">READ 01</div><div class="read read-a"></div><div class="read read-b"></div><div class="read read-c"></div><div class="read read-d"></div><div class="alignment-line"></div><div class="duplicate-note">duplicate family</div><div class="visual-index">01 / 01</div></div></section><section class="article-section" id="articles"><div class="section-heading"><p class="eyebrow">LATEST WRITING</p><h2>最近更新</h2><span class="article-count">01 篇</span></div><article class="featured-card"><a class="featured-image" href="/articles/ngs-duplicates" aria-label="阅读文章：NGS里的Duplicates，到底重复了什么？"><img src="/images/duplicates-cover.png" alt="NGS Duplicates文章封面"/><span class="image-number">01</span></a><div class="featured-copy"><div class="article-meta"><span>测序质控</span><time dateTime="2026-07-30">2026.07.30</time><span>约 15 分钟</span></div><h3><a href="/articles/ngs-duplicates">NGS里的Duplicates，<br/>到底重复了什么？</a></h3><p>FASTQ工具看到序列，BAM工具看到片段位置，UMI试图追溯原始分子。 同样叫“重复率”，它们回答的并不是同一个问题。</p><a class="read-link" href="/articles/ngs-duplicates">开始阅读 <span aria-hidden="true">→</span></a></div></article></section><section class="about-section" id="about"><p class="eyebrow">ABOUT THIS BLOG</p><div><h2>为什么写这些笔记？</h2><p>生信工作里，真正困难的往往不是记住一个命令，而是理解指标在什么条件下成立、 流程在哪个边界会失效，以及结果究竟能支持怎样的结论。</p><p>这里保存那些值得被重新讲清楚的问题。</p></div></section><footer class="site-footer"><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#main-content">回到顶部 ↑</a></footer></main></body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>见山 · 生信笔记</title>
+  <meta name="description" content="记录生物信息、测序质控与数据分析中的方法、边界和实践。">
+  <link rel="canonical" href="https://yt-er.github.io/">
+  <meta property="og:title" content="见山 · 生信笔记">
+  <meta property="og:description" content="记录生物信息、测序质控与数据分析中的方法、边界和实践。">
+  <meta property="og:url" content="https://yt-er.github.io/">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/icon.png">
+  <link rel="stylesheet" href="/assets/index-BNOyXF6v.css">
+  <link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main>
+  <a class="skip-link" href="#main-content">跳到正文</a>
+  <header class="site-header">
+  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <nav aria-label="主导航"><a href="#articles">文章</a><a href="#about">关于</a></nav>
+</header>
+  <section class="home-hero" id="main-content">
+    <div class="hero-copy">
+      <p class="eyebrow">BIOINFORMATICS · NOTES</p>
+      <h1>把复杂的生信问题，<br><em>讲清楚一点。</em></h1>
+      <p class="hero-intro">记录测序质控、流程设计与数据分析里的方法、边界和实践。 不追逐术语，先把问题问对。</p>
+      <a class="text-link" href="#articles">浏览全部文章 <span aria-hidden="true">↘</span></a>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="sequence-label">READ 01</div><div class="read read-a"></div><div class="read read-b"></div><div class="read read-c"></div><div class="read read-d"></div><div class="alignment-line"></div><div class="duplicate-note">evidence first</div><div class="visual-index">11 ARTICLES</div>
+    </div>
+  </section>
+  <section class="article-section archive-section" id="articles">
+    <div class="section-heading"><p class="eyebrow">ALL WRITING</p><h2>全部文章</h2><span class="article-count">11 篇</span></div>
+    <div class="articles-list"><article class="featured-card article-list-featured">
+        <a class="featured-image" href="/articles/ngs-duplicates/" aria-label="阅读文章：NGS里的Duplicates，到底重复了什么？">
+          <img src="/images/duplicates-cover.png" alt="NGS里的Duplicates，到底重复了什么？封面">
+          <span class="image-number">01</span>
+        </a>
+        <div class="featured-copy">
+          <div class="article-meta"><span>测序质控</span><time datetime="2026-07-30">2026.07.30</time><span>约 11 分钟</span></div>
+          <h3><a href="/articles/ngs-duplicates/">NGS里的Duplicates，到底重复了什么？</a></h3>
+          <p>FASTQ看序列，BAM看位置，UMI追溯原始分子：同名的重复率并不回答同一个问题。</p>
+          <a class="read-link" href="/articles/ngs-duplicates/">开始阅读 <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+<article class="post-card">
+      <a class="post-card-visual tone-2" href="/articles/hg19-clinical-use/" aria-label="阅读文章：hg19：一张老地图，为什么还在临床里常用？">
+        <span>02</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>参考基因组</span><time datetime="2026-05-30">2026.05.30</time><span>约 8 分钟</span></div>
+        <h3><a href="/articles/hg19-clinical-use/">hg19：一张老地图，为什么还在临床里常用？</a></h3>
+        <p>hg19并非最新参考基因组，却仍深植于数据库、流程和临床验证体系；理解它为何难以被简单替换。</p>
+        <a class="post-card-link" href="/articles/hg19-clinical-use/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-3" href="/articles/reference-genome-map/" aria-label="阅读文章：漫话参考基因组：我们为什么需要一张“人类地图”？">
+        <span>03</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>参考基因组</span><time datetime="2026-05-30">2026.05.30</time><span>约 7 分钟</span></div>
+        <h3><a href="/articles/reference-genome-map/">漫话参考基因组：我们为什么需要一张“人类地图”？</a></h3>
+        <p>从hg19、hg38到T2T与Pangenome，理解参考基因组如何为测序数据提供坐标和解释基础。</p>
+        <a class="post-card-link" href="/articles/reference-genome-map/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-4" href="/articles/ffpe-rna-seq-qc/" aria-label="阅读文章：FFPE样本做RNA‑seq：测序前质控总结">
+        <span>04</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>RNA-seq</span><time datetime="2025-09-20">2025.09.20</time><span>约 6 分钟</span></div>
+        <h3><a href="/articles/ffpe-rna-seq-qc/">FFPE样本做RNA‑seq：测序前质控总结</a></h3>
+        <p>FFPE RNA样本应该看哪些指标、如何设置放行门槛，以及怎样选择更稳健的建库策略。</p>
+        <a class="post-card-link" href="/articles/ffpe-rna-seq-qc/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-1" href="/articles/mrd-natural-selection/" aria-label="阅读文章：MRD：自然选择在癌症中的隐秘回声">
+        <span>05</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>癌症生物学</span><time datetime="2025-08-22">2025.08.22</time><span>约 4 分钟</span></div>
+        <h3><a href="/articles/mrd-natural-selection/">MRD：自然选择在癌症中的隐秘回声</a></h3>
+        <p>从自然选择的视角理解微小残留病灶，以及ctDNA MRD如何改变复发监测和治疗决策。</p>
+        <a class="post-card-link" href="/articles/mrd-natural-selection/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-2" href="/articles/excessive-mutation-count/" aria-label="阅读文章：突变数量异常多的原因分析">
+        <span>06</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>变异分析</span><time datetime="2025-08-22">2025.08.22</time><span>约 4 分钟</span></div>
+        <h3><a href="/articles/excessive-mutation-count/">突变数量异常多的原因分析</a></h3>
+        <p>当体细胞突变数量异常偏高时，如何区分样本问题、流程伪影与真实的DNA修复缺陷。</p>
+        <a class="post-card-link" href="/articles/excessive-mutation-count/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-3" href="/articles/clinical-sequencing-depth-guide/" aria-label="阅读文章：人类样本临床测序深度推荐指南">
+        <span>07</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>测序设计</span><time datetime="2025-08-10">2025.08.10</time><span>约 27 分钟</span></div>
+        <h3><a href="/articles/clinical-sequencing-depth-guide/">人类样本临床测序深度推荐指南</a></h3>
+        <p>比较WGS、WES、Panel与RNA-seq的临床测序深度，并解释深度、灵敏度、成本和应用场景的关系。</p>
+        <a class="post-card-link" href="/articles/clinical-sequencing-depth-guide/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-4" href="/articles/tumor-purity/" aria-label="阅读文章：被忽略的肿瘤纯度">
+        <span>08</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>肿瘤基因组</span><time datetime="2025-08-10">2025.08.10</time><span>约 5 分钟</span></div>
+        <h3><a href="/articles/tumor-purity/">被忽略的肿瘤纯度</a></h3>
+        <p>病理纯度与计算纯度为何会不一致，以及纯度如何影响VAF、CNV、TMB和临床判断。</p>
+        <a class="post-card-link" href="/articles/tumor-purity/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-1" href="/articles/wes-workflow/" aria-label="阅读文章：WES全流程">
+        <span>09</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>WES流程</span><time datetime="2025-08-07">2025.08.07</time><span>约 8 分钟</span></div>
+        <h3><a href="/articles/wes-workflow/">WES全流程</a></h3>
+        <p>从原始FASTQ到可解释的变异列表，系统梳理WES分析步骤、常用工具、数据库与质控边界。</p>
+        <a class="post-card-link" href="/articles/wes-workflow/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-2" href="/articles/wes-variant-calling-workflow/" aria-label="阅读文章：WES突变检测全流程">
+        <span>10</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>WES流程</span><time datetime="2025-08-05">2025.08.05</time><span>约 4 分钟</span></div>
+        <h3><a href="/articles/wes-variant-calling-workflow/">WES突变检测全流程</a></h3>
+        <p>面向临床场景理解WES从样本、建库、测序到变异检测、注释和报告解读的完整链路。</p>
+        <a class="post-card-link" href="/articles/wes-variant-calling-workflow/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article>
+<article class="post-card">
+      <a class="post-card-visual tone-3" href="/articles/wes-positive-variant-filtering/" aria-label="阅读文章：全外显子测序（WES）突变检测阳性位点筛选标准">
+        <span>11</span><i></i><i></i><i></i>
+      </a>
+      <div class="post-card-copy">
+        <div class="article-meta"><span>变异解读</span><time datetime="2025-08-05">2025.08.05</time><span>约 4 分钟</span></div>
+        <h3><a href="/articles/wes-positive-variant-filtering/">全外显子测序（WES）突变检测阳性位点筛选标准</a></h3>
+        <p>从测序质量、人群频率、功能影响和验证策略出发，建立WES阳性位点筛选框架。</p>
+        <a class="post-card-link" href="/articles/wes-positive-variant-filtering/">阅读全文 <span aria-hidden="true">→</span></a>
+      </div>
+    </article></div>
+  </section>
+  <section class="about-section" id="about">
+    <p class="eyebrow">ABOUT THIS BLOG</p>
+    <div><h2>为什么写这些笔记？</h2><p>生信工作里，真正困难的往往不是记住一个命令，而是理解指标在什么条件下成立、流程在哪个边界会失效，以及结果究竟能支持怎样的结论。</p><p>这里保存那些值得被重新讲清楚的问题。</p></div>
+  </section>
+  <footer class="site-footer">
+  <a class="brand footer-brand" href="/">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <p>写作，是为了让判断更有依据。</p>
+  <a href="#main-content">回到顶部 ↑</a>
+</footer>
+</main></body>
+</html>

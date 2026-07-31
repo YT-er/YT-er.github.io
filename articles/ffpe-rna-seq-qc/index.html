@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FFPE样本做RNA‑seq：测序前质控总结｜见山 · 生信笔记</title>
+  <meta name="description" content="FFPE RNA样本应该看哪些指标、如何设置放行门槛，以及怎样选择更稳健的建库策略。">
+  <link rel="canonical" href="https://yt-er.github.io/articles/ffpe-rna-seq-qc/">
+  <meta property="og:title" content="FFPE样本做RNA‑seq：测序前质控总结｜见山 · 生信笔记">
+  <meta property="og:description" content="FFPE RNA样本应该看哪些指标、如何设置放行门槛，以及怎样选择更稳健的建库策略。">
+  <meta property="og:url" content="https://yt-er.github.io/articles/ffpe-rna-seq-qc/">
+  <meta property="og:type" content="article"><meta property="article:published_time" content="2025-09-20"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png">
+  <link rel="stylesheet" href="/assets/index-BNOyXF6v.css">
+  <link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+    <a class="skip-link" href="#article-content">跳到正文</a>
+    <header class="site-header article-header">
+  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
+</header>
+    <div class="article-topline" aria-label="文章信息"><span>RNA-seq</span><time datetime="2025-09-20">2025.09.20</time><span>约 6 分钟</span></div>
+    <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#速览"><span>01</span>速览</a></li><li><a href="#为什么ffpe难"><span>02</span>为什么FFPE难？</a></li><li><a href="#关键质控指标与判读"><span>03</span>关键质控指标与判读</a></li><li><a href="#提取前后的操作要点"><span>04</span>提取前/后的操作要点</a></li><li><a href="#建库策略与测序参数"><span>05</span>建库策略与测序参数</a></li><li><a href="#ffpe对下游数据的影响与应对"><span>06</span>FFPE对下游数据的影响与应对</a></li><li><a href="#放行决策"><span>07</span>放行决策</a></li><li><a href="#常见陷阱与排错"><span>08</span>常见陷阱与排错</a></li><li><a href="#质控阈值"><span>09</span>质控阈值</a></li><li><a href="#小结"><span>10</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#速览">速览</a></li><li><a href="#为什么ffpe难">为什么FFPE难？</a></li><li><a href="#关键质控指标与判读">关键质控指标与判读</a></li><li><a href="#提取前后的操作要点">提取前/后的操作要点</a></li><li><a href="#建库策略与测序参数">建库策略与测序参数</a></li><li><a href="#ffpe对下游数据的影响与应对">FFPE对下游数据的影响与应对</a></li><li><a href="#放行决策">放行决策</a></li><li><a href="#常见陷阱与排错">常见陷阱与排错</a></li><li><a href="#质控阈值">质控阈值</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1
+id="ffpe样本做rnaseq测序前质控总结">FFPE样本做RNA‑seq：测序前质控总结</h1>
+<h2 id="速览">速览</h2>
+<ul>
+<li><p><strong>首要指标：DV200</strong>。DV200&gt;70%：高质量；50–70%：中等；30–50%：低质量；&lt;30%：不建议建库。</p></li>
+<li><p><strong>RIN在FFPE中不敏感</strong>，常见2–3，不足以预测建库成功与否；以DV200和浓度为准。</p></li>
+<li><p><strong>推荐起始量</strong>（总RNA）：DV200&gt;70% 时20
+ng；50–70% 时20–40 ng；30–50% 时50-100 ng。</p></li>
+<li><p><strong>建库策略优先级</strong>：rRNA去除 ≥ 捕获富集（RNA
+exome/目标外显子） ≫ 纯Poly(A)富集（FFPE易偏3′端）。</p></li>
+</ul>
+<hr />
+<h2 id="为什么ffpe难">为什么FFPE难？</h2>
+<p>FFPE（福尔马林固定石蜡包埋）让组织形态学保存出色，却也带来核酸交联、片段化与化学修饰。其直接后果是：</p>
+<ol type="1">
+<li><p><strong>RNA长度显著变短</strong>，&gt;200nt
+的有效片段比例下降；</p></li>
+<li><p><strong>RIN失去判别力</strong>，电泳峰形不典型、rRNA峰不清晰；</p></li>
+<li><p><strong>逆转录与PCR效率下降</strong>，并可能引入碱基错误；</p></li>
+<li><p><strong>文库复杂度低、重复率高</strong>，需要更高测序深度才能达到可比灵敏度。因此，测序前的质控目标，是尽可能筛出“可用”样本，并为低质量样本匹配更稳健的建库与测序参数。</p></li>
+</ol>
+<hr />
+<h2 id="关键质控指标与判读">关键质控指标与判读</h2>
+<h3 id="1-dv200200nt片段比例">1) DV200（&gt;200nt片段比例）</h3>
+<p><strong>定义</strong>：样本中长度&gt;200nt
+的RNA片段所占比例。DV200越高，说明能进入建库的有效片段越多。推荐阈值：</p>
+<ul>
+<li><p><strong>&gt;70%（高）</strong>：片段较长，建库成功率与表达定量稳定性高。建议投入20
+ng。</p></li>
+<li><p><strong>50–70%（中）</strong>：可用，但需适当提高起始量至20–40
+ng；建库时关注片段偏短与3′偏倚。</p></li>
+<li><p><strong>30–50%（低）</strong>：高度降解。投入量建议40-100
+ng，优先采用rRNA去除或捕获法，严格设置放行门槛。</p></li>
+<li><p><strong>&lt;30%（极低）</strong>：不建议建库；若样本极为珍贵，可选择捕获法+低投入策略试探，但务必在SOP中定义“仅研究性/不报告”的边界。</p></li>
+</ul>
+<h3 id="2-rin">2) RIN</h3>
+<p>在FFPE样本中常见2–3，<strong>不具备判别力</strong>。可记录但不作为放行依据。</p>
+<h3 id="3-浓度与纯度">3) 浓度与纯度</h3>
+<ul>
+<li><p><strong>定量</strong>：优先
+<strong>Qubit/Fluorometer</strong>（对小片段友好，避免Nanodrop高估）。</p></li>
+<li><p><strong>纯度</strong>：A260/280≈2.0；A260/230&gt;1.8
+为宜。污染（蛋白、盐、酚/二甲苯残留）会抑制逆转录与PCR。</p></li>
+<li><p><strong>DNA污染</strong>：提取流程中务必 <strong>DNase
+处理</strong>；必要时设置无RT对照验证。</p></li>
+</ul>
+<h3 id="4-组织学与样本信息">4) 组织学与样本信息</h3>
+<ul>
+<li><p><strong>石蜡块保存年限</strong>：建议优先≤3年；过久保存降解加剧。</p></li>
+<li><p><strong>肿瘤含量</strong>：建议≥20–30%；宏切（macrodissection）富集肿瘤区以提升信噪比。</p></li>
+<li><p><strong>样本量与面积</strong>：记录切片厚度与张数，便于批次可比与追溯。</p></li>
+</ul>
+<hr />
+<h2 id="提取前后的操作要点">提取前/后的操作要点</h2>
+<h3 id="提取前">提取前</h3>
+<ul>
+<li><p>选择
+<strong>未染色切片</strong>；避免HE残留染料影响纯化。</p></li>
+<li><p>充分 <strong>脱蜡</strong>（二甲苯/替代物）→ 依次乙醇梯度去溶剂 →
+完全干燥；残留有机溶剂会抑制下游反应。</p></li>
+<li><p>预估组织量、肿瘤含量，并在LIMS中创建样本条目与流转记录。</p></li>
+</ul>
+<h3 id="提取流程建议">提取流程建议</h3>
+<ul>
+<li><p><strong>蛋白酶K 充分消化</strong>（可延长至数小时）；</p></li>
+<li><p><strong>高温逆交联</strong>步骤（如65–80
+℃阶段性处理）改善交联修复；</p></li>
+<li><p><strong>DNase消化</strong>去除gDNA；</p></li>
+<li><p>采用
+<strong>硅胶柱/磁珠</strong>纯化方式；尽量选择适配FFPE的商业试剂盒；</p></li>
+<li><p>严格 <strong>RNA酶无污染</strong>操作，减少冻融循环。</p></li>
+</ul>
+<h3 id="提取后快速质控放行门槛">提取后快速质控（放行门槛）</h3>
+<ol type="1">
+<li><p><strong>Qubit浓度</strong> ≥
+设定最小投入量（结合DV200分层）；</p></li>
+<li><p><strong>DV200</strong>
+达到项目阈值（≥30%或团队更严格的标准）；</p></li>
+<li><p><strong>A260/280、A260/230</strong> 在合格范围；</p></li>
+<li><p>小体量样本可抽样上机做 <strong>Bioanalyzer/Tapestation</strong>
+片段分布确认（可选）。</p></li>
+</ol>
+<blockquote>
+<p><strong>建议</strong>：将DV200与最小投入量绑定为“二元放行门槛”，例如：DV200≥50%
+且 ≥20 ng；DV200 30–50% 且 ≥40 ng；不达标则判定<strong>QC
+Fail</strong>（可设复核/复提流程）。</p>
+</blockquote>
+<hr />
+<h2 id="建库策略与测序参数">建库策略与测序参数</h2>
+<h3 id="1-rrna去除优先">1) rRNA去除优先</h3>
+<ul>
+<li><p><strong>原因</strong>：FFPE中poly(A)尾受损常见，纯Poly(A)富集易导致3′偏倚与信息损失。</p></li>
+<li><p><strong>优点</strong>：对片段化RNA更包容，覆盖mRNA与部分非编码RNA，表达谱更全面。</p></li>
+<li><p><strong>注意</strong>：背景复杂度上升；需控制文库尺寸与接头二聚体。</p></li>
+</ul>
+<h3 id="2-捕获富集rna-exome目标外显子靶向panel">2) 捕获富集（RNA
+exome/目标外显子/靶向panel）</h3>
+<ul>
+<li><p><strong>优势</strong>：对短片段友好；即使片段零散，只要在靶区内仍可被探针捕获；</p></li>
+<li><p><strong>场景</strong>：转化研究/临床panel（表达定量、融合检测、可变剪接热点等）；</p></li>
+<li><p><strong>低投入</strong>：部分方案对 <strong>10–50 ng</strong>
+亦可稳定建库，显著扩大可用样本范围；</p></li>
+<li><p><strong>UMI</strong>：若关注低丰度融合/变异，优先选择含UMI的方案。</p></li>
+</ul>
+<h3 id="3-polya富集的权衡">3) Poly(A)富集的权衡</h3>
+<ul>
+<li><p><strong>优点</strong>：背景低、专注成熟mRNA；</p></li>
+<li><p><strong>缺点</strong>：在FFPE中对尾巴完整性敏感、3′端偏倚重；</p></li>
+<li><p><strong>建议</strong>：仅在DV200较高（≥70%）且目标是常规表达谱时考虑。</p></li>
+</ul>
+<h3 id="4-技术参数建议">4) 技术参数建议</h3>
+<ul>
+<li><p><strong>片段化</strong>：FFPE多数
+<strong>无需额外片段化</strong>（天然已短）；</p></li>
+<li><p><strong>插入片段</strong>：控制在 <strong>~200–300 bp</strong>
+区间，避免过短导致接头读入；</p></li>
+<li><p><strong>PCR循环数</strong>：FFPE常需 <strong>多1–3个循环</strong>
+才能达标文库量，但警惕过度扩增；</p></li>
+<li><p><strong>测序读长</strong>：建议
+<strong>PE75–PE100</strong>；过长读长对极短片段收益有限；</p></li>
+<li><p><strong>测序深度</strong>：全转录组建议 <strong>≥40–50M read
+pairs/样本</strong>；靶向panel按厂商或经验覆盖阈值设置（如基因级≥500–1000×）。</p></li>
+</ul>
+<hr />
+<h2 id="ffpe对下游数据的影响与应对">FFPE对下游数据的影响与应对</h2>
+<ul>
+<li><p><strong>重复率上升、复杂度下降</strong>：适当提升测序深度，同时在生信侧使用
+<strong>去重复/UMI定量</strong>；</p></li>
+<li><p><strong>3′端偏倚</strong>：优先
+rRNA去除或捕获流程；表达定量时使用
+<strong>基因体模型/区段归一</strong>；</p></li>
+<li><p><strong>比对错配增加</strong>：比对参数略放宽、加强
+<strong>软剪切与错配过滤</strong>；</p></li>
+<li><p><strong>融合检测灵敏度</strong>：提高深度与最小支持读段阈值，选用
+<strong>捕获/AMP策略</strong>；</p></li>
+<li><p><strong>批次效应</strong>：强化对照体系（FF/FFPE配对、参考RNA/ERCC）、采用
+<strong>批次校正</strong>（如ComBat）辅助评估。</p></li>
+</ul>
+<hr />
+<h2 id="放行决策">放行决策</h2>
+<ol type="1">
+<li><p><strong>样本登记</strong> →
+组织学评估（肿瘤含量≥20–30%？保存年限≤3年？）→
+宏切/不宏切记录；</p></li>
+<li><p><strong>提取</strong>（脱蜡→消化→逆交联→DNase→纯化）→
+Qubit定量、纯度；</p></li>
+<li><p><strong>DV200测定</strong>：</p></li>
+</ol>
+<ul>
+<li><p><strong>≥70%</strong> → 放行A：rRNA去除/捕获/Poly(A)均可；投入20
+ng；</p></li>
+<li><p><strong>50–70%</strong> → 放行B：优先 rRNA去除或捕获；投入40–50
+ng；</p></li>
+<li><p><strong>30–50%</strong> → 放行C：仅rRNA去除或捕获；投入50–100
+ng；必要时UMI；</p></li>
+<li><p><strong>&lt;30%</strong> →
+不放行/研究性路径（需主管审核与风险告知）。</p></li>
+</ul>
+<ol start="4" type="1">
+<li><p><strong>建库QC</strong>：文库片段峰值200–300
+bp、接头二聚体&lt;2%、定量达标；</p></li>
+<li><p><strong>上机QC</strong>：Q30、dup率、在靶率与深度达成预期阈值；</p></li>
+<li><p><strong>数据QC</strong>：可检测基因数、样本间相关性、融合/变异阳性对照通过
+→ 报告。</p></li>
+</ol>
+<hr />
+<h2 id="常见陷阱与排错">常见陷阱与排错</h2>
+<ul>
+<li><p><strong>二甲苯/溶剂残留</strong>：彻底乙醇洗、充分干燥；</p></li>
+<li><p><strong>gDNA污染</strong>：加强DNase步骤，设置无RT对照；</p></li>
+<li><p><strong>组织量不足</strong>：合并多张切片、增加提取体积；</p></li>
+<li><p><strong>过度PCR</strong>：文库过短且台阶化峰形，优化循环数与投入量；</p></li>
+<li><p><strong>3′极端偏倚</strong>：改用rRNA去除/捕获；</p></li>
+<li><p><strong>重复率过高</strong>：UMI策略、提升总深度、优化起始量与片段分布；</p></li>
+<li><p><strong>批次差异大</strong>：固定对照、标准化SOP、加强趋势图监控与CAPA纠偏。</p></li>
+</ul>
+<hr />
+<h2 id="质控阈值">质控阈值</h2>
+<ul>
+<li><p><strong>放行门槛</strong>：DV200≥30%（可上调至≥40–50%）；Qubit≥最小投入量；A260/280≈2.0。</p></li>
+<li><p><strong>推荐投入量</strong>：</p></li>
+<li><p>DV200≥70%：20 ng；</p></li>
+<li><p>50–70%：20–40 ng；</p></li>
+<li><p>30–50%：40-100 ng。</p></li>
+<li><p><strong>文库目标</strong>：插入片段200–300
+bp；接头二聚体&lt;2%；PCR循环数按厂商建议+1–3（以不过度为准）。</p></li>
+<li><p><strong>测序建议</strong>：PE75–PE100；全转录组≥40–50M read
+pairs；panel按在靶覆盖阈值执行。</p></li>
+<li><p><strong>数据放行</strong>：dup率、在靶率、可检测基因数与批对照一致；阳性对照达标。</p></li>
+</ul>
+<hr />
+<h2 id="小结">小结</h2>
+<p>FFPE样本并非RNA‑seq的天然敌人。通过<strong>面向FFPE的提取策略</strong>、<strong>以DV200为核心的放行逻辑</strong>、<strong>与材料特性匹配的建库方式</strong>，再辅以<strong>临床级的SOP与全链路追溯</strong>，绝大多数FFPE样本都能得到<strong>可解释、可复现、可报告</strong>的数据。把这些要点固化为实验室的“日常”，FFPE将从“困难样本”变成“可控样本”。</p>
+</article></div>
+    <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>继续把问题讲清楚。</h2><a class="read-link" href="/#articles">← 返回所有文章</a></section>
+    <footer class="site-footer article-footer">
+  <a class="brand footer-brand" href="/">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <p>写作，是为了让判断更有依据。</p>
+  <a href="#article-content">回到顶部 ↑</a>
+</footer>
+  </main></body>
+</html>

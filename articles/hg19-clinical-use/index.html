@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>hg19：一张老地图，为什么还在临床里常用？｜见山 · 生信笔记</title>
+  <meta name="description" content="hg19并非最新参考基因组，却仍深植于数据库、流程和临床验证体系；理解它为何难以被简单替换。">
+  <link rel="canonical" href="https://yt-er.github.io/articles/hg19-clinical-use/">
+  <meta property="og:title" content="hg19：一张老地图，为什么还在临床里常用？｜见山 · 生信笔记">
+  <meta property="og:description" content="hg19并非最新参考基因组，却仍深植于数据库、流程和临床验证体系；理解它为何难以被简单替换。">
+  <meta property="og:url" content="https://yt-er.github.io/articles/hg19-clinical-use/">
+  <meta property="og:type" content="article"><meta property="article:published_time" content="2026-05-30"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png">
+  <link rel="stylesheet" href="/assets/index-BNOyXF6v.css">
+  <link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+    <a class="skip-link" href="#article-content">跳到正文</a>
+    <header class="site-header article-header">
+  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
+</header>
+    <div class="article-topline" aria-label="文章信息"><span>参考基因组</span><time datetime="2026-05-30">2026.05.30</time><span>约 8 分钟</span></div>
+    <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#hg19-到底是什么"><span>01</span>hg19 到底是什么？</a></li><li><a href="#为什么-hg19-曾经如此重要"><span>02</span>为什么 hg19
+曾经如此重要？</a></li><li><a href="#hg19-的优势生态成熟历史数据多"><span>03</span>hg19
+的优势：生态成熟，历史数据多</a></li><li><a href="#hg19-的问题老地图终究有局限"><span>04</span>hg19
+的问题：老地图终究有局限</a></li><li><a href="#为什么不能简单地把-hg19-换成-hg38"><span>05</span>为什么不能简单地把
+hg19 换成 hg38？</a></li><li><a href="#hg19-适合哪些场景"><span>06</span>hg19 适合哪些场景？</a></li><li><a href="#使用-hg19-时要注意什么"><span>07</span>使用 hg19
+时要注意什么？</a></li><li><a href="#hg19-会被淘汰吗"><span>08</span>hg19 会被淘汰吗？</a></li><li><a href="#小结"><span>09</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#hg19-到底是什么">hg19 到底是什么？</a></li><li><a href="#为什么-hg19-曾经如此重要">为什么 hg19
+曾经如此重要？</a></li><li><a href="#hg19-的优势生态成熟历史数据多">hg19
+的优势：生态成熟，历史数据多</a></li><li><a href="#hg19-的问题老地图终究有局限">hg19
+的问题：老地图终究有局限</a></li><li><a href="#为什么不能简单地把-hg19-换成-hg38">为什么不能简单地把
+hg19 换成 hg38？</a></li><li><a href="#hg19-适合哪些场景">hg19 适合哪些场景？</a></li><li><a href="#使用-hg19-时要注意什么">使用 hg19
+时要注意什么？</a></li><li><a href="#hg19-会被淘汰吗">hg19 会被淘汰吗？</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1
+id="hg19一张老地图为什么还在临床里常用">hg19：一张老地图，为什么还在临床里常用？</h1>
+<p>在参考基因组的世界里，<code>hg19</code>
+是一个很特别的名字。它不算新。它也不算最完整。如果只从技术版本的角度看，<code>hg19</code>
+早就不是最新的人类参考基因组。后面有 <code>hg38</code>，有
+<code>T2T</code>，还有正在快速发展的 <code>pangenome</code>。</p>
+<p>可是，只要走进真实的临床检测场景，尤其是遗传病、肿瘤
+<code>Panel</code>、全外显子组测序、历史样本复盘和数据库比对，我们仍然经常会遇到
+<code>hg19</code>。很多实验室的流程还在用它。很多老数据库的坐标还在用它。很多报告中的经典位点，最早也是在
+<code>hg19</code> 坐标体系下被大家熟悉的。</p>
+<p>这就像一张用了很多年的城市地图。它不是最新的地图，有些地方画得不够精细，有些新区没有标全，可是很多路名、门牌号、老档案、办事流程，仍然和它绑定在一起。</p>
+<h2 id="hg19-到底是什么"><strong>hg19 到底是什么？</strong></h2>
+<p><code>hg19</code> 是 <code>UCSC Genome Browser</code>
+对人类参考基因组 <code>GRCh37</code>
+的命名。在不同系统里，我们经常会看到几个相近的名字：<code>hg19、GRCh37、b37</code>。它们经常被混在一起说，但严格来说并不完全等同。</p>
+<p><code>hg19</code> 通常指 <code>UCSC</code> 体系下的
+<code>GRCh37</code> 版本，染色体命名习惯是
+<code>chr1、chr2、chrX、chrM</code>。</p>
+<p><code>GRCh37</code> 是 <code>Genome Reference Consortium</code>
+发布的人类参考基因组版本，染色体命名更常见的是
+<code>1、2、X、MT</code>。</p>
+<p><code>b37</code> 则是 <code>Broad</code> 等流程中常用的一套
+<code>GRCh37</code> 相关参考，常见于 <code>GATK</code>
+早期最佳实践和很多历史分析流程。</p>
+<p>对很多刚接触生信的人来说，这些名字看起来只是格式差异。实际工作中，它们会带来不少麻烦。比如同样是<code>1</code>号染色体，在
+<code>hg19</code> 里常写作 <code>chr1</code>，在 <code>GRCh37</code> 或
+<code>b37</code> 里可能写作<code>1</code>。线粒体在不同版本里可能叫
+<code>chrM</code>，也可能叫 <code>MT</code>。有些参考文件是否包含
+<code>decoy</code>
+序列、<code>alt contig</code>、<code>unplaced contig</code>，也可能不同。所以，当我们说“这个流程用
+<code>hg19</code>”时，最好不要只停留在一个名字上，还要具体确认参考
+<code>FASTA</code> 文件、染色体命名、索引文件、注释资源和
+<code>bed</code> 区域是否完全匹配。</p>
+<p>很多看似奇怪的报错，比如 <code>contig</code> 不一致、<code>chr</code>
+前缀不匹配、<code>tabix</code> 查不到区域、<code>VEP</code>
+注释失败，背后都可能是这些细节没有对齐。</p>
+<h2 id="为什么-hg19-曾经如此重要"><strong>为什么 hg19
+曾经如此重要？</strong></h2>
+<p>要理解 hg19 的地位，需要把时间往回拨。在很长一段时间里，hg19
+是人类基因组分析事实上的主力参考版本。早期的大量二代测序流程，都是围绕
+<code>hg19</code> 或 <code>GRCh37</code> 建立的。无论是
+<code>WES</code>、<code>WGS</code>、肿瘤
+<code>Panel</code>、<code>GWAS</code>，还是很多公共数据库和商业检测平台，都曾经长期使用这一套坐标体系。</p>
+<p>这带来了一个非常强大的生态效应。工具支持它，数据库收录它，文献引用它，实验室验证它，临床报告熟悉它，用户也习惯它，于是
+<code>hg19</code>
+不再只是一套参考序列，而是逐渐变成了一个巨大的历史坐标系统。</p>
+<p>很多经典变异位点、疾病相关区域、商业 <code>Panel</code> 的
+<code>bed</code> 文件、实验室内部阳性样本库，都是在 <code>hg19</code>
+体系下积累起来的。</p>
+<p>这就是 <code>hg19</code>
+最强的地方。它的优势不是<strong>最新</strong>，而是<strong>大家都用过</strong>。在临床检测里，这一点非常重要。新不一定马上胜过旧。对于一个已经验证过、积累过、运行稳定的临床流程来说，参考基因组版本一旦改变，整个体系都要重新评估。</p>
+<p>变异坐标会变，注释结果可能会变，过滤阈值可能要重新设定，历史阳性样本需要重新回测，报告系统和数据库也要跟着迁移。这不是改一个参数就能完成的事情。</p>
+<h2 id="hg19-的优势生态成熟历史数据多"><strong>hg19
+的优势：生态成熟，历史数据多</strong></h2>
+<p><code>hg19</code>
+最大的优势，可以概括成四个字：<strong>生态成熟</strong>。</p>
+<p>第一，它有大量历史数据。</p>
+<p>很多实验室从早期就开始基于 <code>hg19</code>
+建库。每一次检测，每一个阳性样本，每一次人工判读，每一个报告结论，都会逐渐沉淀成经验。这些经验很珍贵。对于临床实验室来说，历史数据不是负担，也是资产。尤其在遗传病和肿瘤检测中，内部数据库往往能帮助快速判断一个变异是否曾经出现过、是否与某种表型相关、是否有类似家系或类似病例。</p>
+<p>如果这些数据都基于 <code>hg19</code>，那么继续使用 <code>hg19</code>
+就可以减少大量转换成本。</p>
+<p>第二，很多数据库长期支持 <code>hg19</code>。</p>
+<p><code>ClinVar、dbSNP、gnomAD、COSMIC、1000 Genomes、ExAC</code>
+以及各种疾病数据库，都曾经提供过 <code>hg19</code> 或
+<code>GRCh37</code> 坐标版本。虽然很多新资源正在向 <code>hg38</code>
+迁移，但 <code>hg19</code> 版本的资源仍然非常常见。</p>
+<p>第三，工具链非常成熟。</p>
+<p>从
+<code>BWA、GATK、samtools、bcftools，到 VEP、ANNOVAR、SnpEff</code>，再到各种
+<code>CNV、SV、Panel</code> 分析流程，<code>hg19</code>
+相关的参数、资源和经验都非常丰富。</p>
+<p>第四，临床人员熟悉。</p>
+<p>很多医生、遗传咨询师、生信分析人员、报告审核人员，对
+<code>hg19</code>
+坐标下的经典区域和经典位点已经非常熟悉。熟悉本身就是一种稳定性。这也是为什么
+<code>hg19</code> 到今天依然有现实价值。</p>
+<h2 id="hg19-的问题老地图终究有局限"><strong>hg19
+的问题：老地图终究有局限</strong></h2>
+<p>不过，<code>hg19</code> 的问题也很明确。</p>
+<p>第一，它不够完整。</p>
+<p>早期参考基因组中有很多
+<code>gap</code>。尤其是高度重复区域、着丝粒、端粒、大片段重复区域，受限于当时的测序和组装技术，很多地方没有被准确表示。这些区域在常规
+<code>WES</code> 中影响可能没有那么明显，但在
+<code>WGS</code>、<code>SV</code>、重复区域分析、复杂基因家族分析中，影响会更突出。</p>
+<p>第二，它有一些参考序列错误或不理想区域。</p>
+<p>任何参考基因组都不是绝对完美的。<code>hg19</code>
+作为较早版本，里面有一些后来被修正的问题。对于某些位点、某些基因区域，使用更高质量的参考版本可能会获得更合理的比对和变异检测结果。</p>
+<p>第三，它对复杂变异不友好。</p>
+<p><code>hg19</code>
+是线性参考基因组。它用一条主参考路径表示人类基因组。对于
+<code>SNV</code> 和小
+<code>Indel</code>，这种方式通常足够实用。但对于大片段插入、缺失、倒位、重复、复杂重排，以及人群中高度多态的区域，一条线性参考很难充分表示所有真实差异。</p>
+<p>第四，它可能带来 <code>reference bias</code>。</p>
+<p>参考基因组并不是从所有人群平均构建出来的。传统参考序列更接近少数个体的基因组。如果某些人群中常见的序列没有被参考基因组很好表示，那么这些人的测序数据在比对和变异检测时就可能处于不利位置。这类偏倚在复杂区域和结构变异中尤其值得关注。所以，<code>hg19</code>
+的确好用，但它不是没有代价。</p>
+<p>它像一张老地图。熟悉、稳定、资料多，但有些地方画得粗，有些地方没有画，有些新道路根本不存在。</p>
+<h2 id="为什么不能简单地把-hg19-换成-hg38"><strong>为什么不能简单地把
+hg19 换成 hg38？</strong></h2>
+<p>很多人会问：既然 <code>hg38</code> 更好，为什么不直接全部换成
+<code>hg38</code>？这个问题在技术上看起来简单，在临床实践中却很复杂。因为参考基因组是整个流程的地基。一旦地基改变，上面的很多东西都要跟着调整。</p>
+<p>首先，坐标会改变。</p>
+<p>同一个变异，在 <code>hg19</code> 和 <code>hg38</code>
+中可能对应不同的染色体位置。对于 <code>SNV</code> 和小
+<code>Indel</code>，可以通过 <code>liftover</code>
+进行坐标转换，但转换并不是百分之百无损。有些区域能顺利转换，有些区域转换后位置不唯一，有些区域无法转换，有些复杂变异本身就很难用简单坐标转换描述。</p>
+<p>其次，<code>bed</code> 区域要重新处理。</p>
+<p><code>WES</code> 和 <code>Panel</code> 流程通常依赖捕获区域
+<code>bed</code> 文件。<code>hg19</code> 的 <code>bed</code>
+不能直接拿到 <code>hg38</code> 上用。即使用 <code>liftover</code>
+转换，也需要检查区域是否丢失、是否拆分、是否发生边界变化。</p>
+<p>第三，注释数据库要匹配。</p>
+<p>参考基因组版本变了，<code>VEP cache</code>、<code>ANNOVAR</code>
+数据库、<code>ClinVar</code> 坐标、<code>gnomAD</code> 版本、基因注释
+<code>GTF/GFF</code>、转录本资源，都要确认是否同步。</p>
+<p>第四，质控阈值可能变化。</p>
+<p>比对率、重复率、覆盖度、目标区域捕获效率、<code>CNV log2 ratio</code>、<code>MAPD</code>、<code>fold80</code>
+等指标，可能因为参考版本或 <code>bed</code>
+区域变化而出现差异。临床流程不能默认旧阈值继续适用。</p>
+<p>第五，历史病例要重新比较。</p>
+<p>如果实验室多年积累的数据都在 <code>hg19</code>，迁移到
+<code>hg38</code>
+后，需要考虑历史病例如何复用，内部数据库如何转换，旧报告如何追溯，新旧流程如何并行。</p>
+<p>这就是为什么很多临床实验室即使知道 <code>hg38</code>
+更先进，也不会轻易在短时间内全部迁移。换参考基因组，不是升级软件那么简单，更像是给整栋楼换地基。</p>
+<h2 id="hg19-适合哪些场景"><strong>hg19 适合哪些场景？</strong></h2>
+<p>虽然 <code>hg19</code> 有局限，但它仍然适合一些场景。</p>
+<p>第一，历史数据复盘。</p>
+<p>如果过去的检测结果、报告坐标、内部数据库都基于
+<code>hg19</code>，那么复盘时继续使用 <code>hg19</code>
+可以减少转换误差。</p>
+<p>第二，成熟临床流程。</p>
+<p>一些已经经过充分验证的
+<code>WES</code>、<code>Panel</code>、遗传病或肿瘤检测流程，如果短期内没有足够资源重新验证
+<code>hg38</code>，继续使用 <code>hg19</code> 是现实选择。</p>
+<p>第三，依赖旧数据库或旧软件的项目。</p>
+<p>有些项目的核心资源只有 <code>hg19</code> 版本，或者 <code>hg38</code>
+版本质量不稳定。此时使用 hg19 可能更稳妥。</p>
+<p>第四，与历史文献和既往研究保持一致。</p>
+<p>一些老文章、老队列、老 <code>GWAS</code>、老 <code>Panel</code>
+数据使用 <code>hg19</code>。为了可比性，后续分析可能也会保留
+<code>hg19</code>。</p>
+<p>但是，如果是新建流程，尤其是
+<code>WGS</code>、结构变异、非编码区、<code>RNA</code>
+分析或长期维护的大型项目，就应该认真考虑使用 <code>hg38</code>
+作为起点。</p>
+<h2 id="使用-hg19-时要注意什么"><strong>使用 hg19
+时要注意什么？</strong></h2>
+<p>如果一个流程继续使用 <code>hg19</code>，建议特别关注几个细节。</p>
+<p>第一，明确写清楚参考版本。</p>
+<p>报告、流程文档、数据库字段中，最好明确标注 <code>hg19</code> 或
+<code>GRCh37</code>，并说明对应的参考 <code>FASTA</code>
+来源。不要只写“人类参考基因组”。</p>
+<p>第二，统一染色体命名。</p>
+<p><code>chr1</code>
+和<code>1</code>的差异看似很小，却能导致很多工具报错。<code>VCF</code>、<code>BED</code>、<code>FASTA</code>、<code>BAM</code>、注释数据库之间必须统一。</p>
+<p>第三，确认线粒体命名。</p>
+<p><code>chrM</code>、<code>MT</code>、<code>M</code>
+的差异在实际流程中很常见。尤其是 <code>mtDNA</code>
+分析或全基因组流程中，需要提前处理。</p>
+<p>第四，注意 <code>decoy</code> 和 <code>alt contig</code>。</p>
+<p>不同 <code>hg19/GRCh37</code>
+参考构建可能包含不同的附加序列。是否加入
+<code>decoy</code>，会影响某些重复区域和污染序列的比对表现。不同流程之间比较结果时，不能只看名字都叫
+<code>hg19</code>，还要看具体 <code>FASTA</code> 是否一致。</p>
+<p>第五，<code>liftover</code> 后必须检查。</p>
+<p>从 <code>hg19</code> 转 <code>hg38</code>，或者从 <code>hg38</code>
+转回
+<code>hg19</code>，都不能只相信转换结果。关键位点、复杂区域、临床报告变异，需要人工或程序化复核。</p>
+<p>第六，注释资源要成套匹配。</p>
+<p><code>hg19</code> 的 <code>VCF</code> 不应该直接用 <code>hg38</code>
+的注释库。<code>bed、FASTA、VEP cache、ClinVar、gnomAD</code>、转录本资源，都需要在同一坐标体系下工作。</p>
+<p>这些细节看起来琐碎，却是保证结果可靠的关键。</p>
+<h2 id="hg19-会被淘汰吗"><strong>hg19 会被淘汰吗？</strong></h2>
+<p>从长期趋势看，hg19
+的使用比例会逐渐下降。新数据库、新工具、新研究会更多支持
+<code>hg38</code>，复杂区域研究会更多关注 <code>T2T</code> 和
+<code>pangenome</code>。对于新建的大型基因组项目，继续从
+<code>hg19</code> 起步的理由会越来越少。</p>
+<p>但在临床场景中，<code>hg19</code>
+不会很快消失。因为临床检测重视连续性、可解释性和可追溯性。只要大量历史报告、历史数据库、验证体系、经典位点还在
+<code>hg19</code> 坐标下，<code>hg19</code> 就会继续存在。</p>
+<p>更可能出现的局面，是多版本长期共存。<code>hg19</code>
+负责承接历史和成熟流程。<code>hg38</code>
+成为新流程和主流线性参考的核心。<code>T2T</code>
+用于补充复杂区域和完整基因组研究。<code>pangenome</code>
+逐渐进入更前沿的群体和复杂变异分析。</p>
+<p>所以，<code>hg19</code>
+的角色会变化。它会从<strong>主流新项目的默认选择</strong>，逐渐变成<strong>历史数据和成熟临床生态的重要坐标</strong>。但它不会立刻退出。</p>
+<h2 id="小结"><strong>小结</strong></h2>
+<p>hg19
+是一张老地图。它的优势在于生态成熟、历史数据丰富、工具支持广泛、临床体系熟悉。它的问题也很明显：不够完整，对复杂区域和结构变异不够友好，也可能带来参考偏倚。对于已经成熟的临床流程，继续使用
+<code>hg19</code> 有现实理由。对于新建流程，尤其是
+<code>WGS</code>、<code>SV</code>、<code>RNA</code>、非编码区和长期维护项目，<code>hg38</code>
+通常更值得优先考虑。</p>
+<p>真正重要的是，不要把 <code>hg19</code> 当成一个简单的文件名。使用
+<code>hg19</code>，就要确认
+<code>FASTA</code>、<code>BED</code>、<code>BAM</code>、<code>VCF</code>、注释数据库、转录本资源、坐标命名和报告系统都在同一个坐标体系里。</p>
+<p>参考基因组是地图，也是坐标系统。地图可以老，但不能混。</p>
+</article></div>
+    <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>继续把问题讲清楚。</h2><a class="read-link" href="/#articles">← 返回所有文章</a></section>
+    <footer class="site-footer article-footer">
+  <a class="brand footer-brand" href="/">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <p>写作，是为了让判断更有依据。</p>
+  <a href="#article-content">回到顶部 ↑</a>
+</footer>
+  </main></body>
+</html>
