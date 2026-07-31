@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://yt-er.github.io/sitemap.xml

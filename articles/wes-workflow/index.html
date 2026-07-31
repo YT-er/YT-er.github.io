@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WES全流程｜见山 · 生信笔记</title>
+  <meta name="description" content="从原始FASTQ到可解释的变异列表，系统梳理WES分析步骤、常用工具、数据库与质控边界。">
+  <link rel="canonical" href="https://yt-er.github.io/articles/wes-workflow/">
+  <meta property="og:title" content="WES全流程｜见山 · 生信笔记">
+  <meta property="og:description" content="从原始FASTQ到可解释的变异列表，系统梳理WES分析步骤、常用工具、数据库与质控边界。">
+  <meta property="og:url" content="https://yt-er.github.io/articles/wes-workflow/">
+  <meta property="og:type" content="article"><meta property="article:published_time" content="2025-08-07"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png">
+  <link rel="stylesheet" href="/assets/index-BNOyXF6v.css">
+  <link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+    <a class="skip-link" href="#article-content">跳到正文</a>
+    <header class="site-header article-header">
+  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
+</header>
+    <div class="article-topline" aria-label="文章信息"><span>WES流程</span><time datetime="2025-08-07">2025.08.07</time><span>约 8 分钟</span></div>
+    <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-原始数据质控与预处理"><span>01</span>1.
+原始数据质控与预处理</a></li><li><a href="#2-比对alignment"><span>02</span>2. 比对（Alignment）</a></li><li><a href="#3-bam后处理base-recalibration等"><span>03</span>3. BAM后处理（Base
+Recalibration等）</a></li><li><a href="#4-变异检测variant-calling"><span>04</span>4. 变异检测（Variant
+Calling）</a></li><li><a href="#5-变异注释annotation"><span>05</span>5.
+变异注释（Annotation）</a></li><li><a href="#6-变异过滤与优先级评估"><span>06</span>6.
+变异过滤与优先级评估</a></li><li><a href="#7-临床解读数据库资源"><span>07</span>7.
+临床解读数据库资源</a></li><li><a href="#8-分析结果格式与可视化"><span>08</span>8.
+分析结果格式与可视化</a></li><li><a href="#9-质控标准和注意事项"><span>09</span>9.
+质控标准和注意事项</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-原始数据质控与预处理">1.
+原始数据质控与预处理</a></li><li><a href="#2-比对alignment">2. 比对（Alignment）</a></li><li><a href="#3-bam后处理base-recalibration等">3. BAM后处理（Base
+Recalibration等）</a></li><li><a href="#4-变异检测variant-calling">4. 变异检测（Variant
+Calling）</a></li><li><a href="#5-变异注释annotation">5.
+变异注释（Annotation）</a></li><li><a href="#6-变异过滤与优先级评估">6.
+变异过滤与优先级评估</a></li><li><a href="#7-临床解读数据库资源">7.
+临床解读数据库资源</a></li><li><a href="#8-分析结果格式与可视化">8.
+分析结果格式与可视化</a></li><li><a href="#9-质控标准和注意事项">9.
+质控标准和注意事项</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes全流程">WES全流程</h1>
+<p>从原始FASTQ数据到最终可临床解读的突变列表，一般包含如下主要步骤：序列质量控制、序列比对、BAM后处理、变异检测、变异注释与过滤、临床解读及结果输出。各步骤常用的工具及其功能列于下表。</p>
+<table>
+<thead>
+<tr>
+<th><strong>工具（类别）</strong></th>
+<th><strong>功能描述</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FastQC</strong></td>
+<td>原始FASTQ质量评估（序列质量分布、GC含量、重复序列等） 。</td>
+</tr>
+<tr>
+<td><strong>MultiQC</strong></td>
+<td>汇总多样本FastQC报告，提供整体QC概览。</td>
+</tr>
+<tr>
+<td><strong>Cutadapt/Trimmomatic</strong></td>
+<td>去除测序接头和低质量末端，提高后续比对质量 。</td>
+</tr>
+<tr>
+<td><strong>BWA-MEM/Bowtie2</strong></td>
+<td>序列比对工具，将过滤后的reads比对到参考基因组（如hg19/hg38） 。</td>
+</tr>
+<tr>
+<td><strong>SAMtools</strong></td>
+<td>BAM文件处理（排序、索引、格式转换等），也可做mpileup调用变异。</td>
+</tr>
+<tr>
+<td><strong>Picard MarkDuplicates</strong></td>
+<td>标记（或移除）PCR重复reads，避免重复引入偏差 。</td>
+</tr>
+<tr>
+<td><strong>GATK BaseRecalibrator</strong></td>
+<td>基于已知变异库（dbSNP、1000G等）重校正测序质量分数（BQSR），提高突变检测准确性
+。</td>
+</tr>
+<tr>
+<td><strong>Qualimap/Picard</strong></td>
+<td>对齐后BAM文件质控，计算覆盖度、插入片段大小、测序误差率等指标
+。</td>
+</tr>
+<tr>
+<td><strong>GATK HaplotypeCaller</strong></td>
+<td>常用的SNV/Indel变异检测工具，生成单样本或GVCF格式变异调用结果。</td>
+</tr>
+<tr>
+<td><strong>FreeBayes/VarScan2/SAMtools mpileup</strong></td>
+<td>其他变异检测工具，可与GATK互补提高敏感性 。</td>
+</tr>
+<tr>
+<td><strong>GATK GenotypeGVCFs / CombineGVCFs</strong></td>
+<td>多样本联合基因分型（若有亲子或多人样本联调）。</td>
+</tr>
+<tr>
+<td><strong>GATK VQSR / VariantFiltration</strong></td>
+<td>变异质量重校准或硬过滤，去除低质量假阳性。</td>
+</tr>
+<tr>
+<td><strong>ANNOVAR</strong></td>
+<td>变异注释工具，可批量查询dbSNP、1000G、dbNSFP、ClinVar等数据库
+。</td>
+</tr>
+<tr>
+<td><strong>Ensembl VEP</strong></td>
+<td>变异效应预测工具，注释基因模型影响，可并入ClinVar、gnomAD等数据。</td>
+</tr>
+<tr>
+<td><strong>IGV</strong></td>
+<td>图形化查看突变位点的比对情况，用于变异验证和解读。</td>
+</tr>
+</tbody>
+</table>
+<p><strong>主要数据库资源：</strong>
+变异注释和临床解读常用数据库包括：</p>
+<ul>
+<li><p><strong>gnomAD/1000G/ExAC</strong>：人群等位基因频率库，用于过滤常见多态性；</p></li>
+<li><p><strong>ClinVar</strong>：公共临床变异数据库，提供已知变异的致病性注释
+；</p></li>
+<li><p><strong>HGMD</strong>：商业致病变异数据库，收录文献报道的病理变异；</p></li>
+<li><p><strong>OMIM</strong>：基因-表型关联数据库，用于基因功能和疾病关联检索
+；</p></li>
+<li><p><strong>dbSNP/ClinGen/HPO</strong>等：用于变异登记、基因剂量敏感性及表型注释。</p></li>
+</ul>
+<p>此外，还可参考<strong>ACMG基因推荐列表</strong>、<strong>ACMG/AMP变异分类指南</strong>等资源指导解读流程。</p>
+<h2 id="1-原始数据质控与预处理"><strong>1.
+原始数据质控与预处理</strong></h2>
+<p>对测序产生的原始FASTQ文件进行质量评估。使用<strong>FastQC</strong>检测序列质量分数分布、GC含量、接头污染、重复序列比例等
+；使用<strong>MultiQC</strong>整合多样本QC结果。若发现大量接头序列或低质量末端，可使用<strong>Cutadapt</strong>或<strong>Trimmomatic</strong>进行接头切除和低质量序列修剪
+。QC常用指标包括：总reads数、Q30碱基比例（通常&gt;80%）、GC含量是否符合预期、序列重复比例等。</p>
+<blockquote>
+<p><strong>QC指标示例：</strong> 建议测序深度达到平均约100X
+（或根据设计目标调整），目标区≥20X覆盖度占比应在95%以上
+ ，duplication率一般不超过15% 。</p>
+</blockquote>
+<h2 id="2-比对alignment"><strong>2. 比对（Alignment）</strong></h2>
+<p>将高质量reads比对到参考基因组（一般使用GRCh37或GRCh38主参考基因组，不包含或仅包含主组拼接体）。常用比对工具为<strong>BWA-MEM</strong>（DNA测序首选）
+，也可使用Bowtie2。比对完成后生成SAM/BAM格式文件。利用<strong>SAMtools</strong>或Picard对BAM文件进行排序、索引；使用<strong>Picard
+MarkDuplicates</strong>标记PCR重复reads
+。一般外显子测序PCR重复占5–15%左右
+。标记重复后，建议再次统计测序覆盖度和覆盖均匀性（如使用<strong>Qualimap</strong>、Picard
+CollectHsMetrics等）。</p>
+<blockquote>
+<p><strong>对齐后QC：</strong>
+对齐后应检查比对率（通常&gt;95%）、插入片段大小分布、一致性覆盖度等。可以利用<strong>Qualimap</strong>等工具计算覆盖深度、错误率、重复率等统计值
+。在家系测序中，还可使用<strong>KING</strong>或<strong>Peddy</strong>进行亲子关系验证、样本混淆检测等
+。</p>
+</blockquote>
+<h2 id="3-bam后处理base-recalibration等"><strong>3. BAM后处理（Base
+Recalibration等）</strong></h2>
+<p>参考<strong>GATK Best
+Practices</strong>进行后续数据清理。首先使用标记重复的BAM进行<strong>基线质量重校准（BQSR）</strong>：GATK的BaseRecalibrator根据已知变异位点（如dbSNP）统计并校正测序质量分数
+。接下来可选择进行<strong>Indel重定位</strong>（older
+GATK版本推荐），减少插入缺失引起的比对错误；新版GATK4中HaplotypeCaller已集成局部重定位，可视需要采用
+。上述步骤主要是纠正测序偏差，可在必要时实施以略微提高变异检测准确率
+。最后，生成“analysis-ready”BAM文件，用于变异检测。</p>
+<h2 id="4-变异检测variant-calling"><strong>4. 变异检测（Variant
+Calling）</strong></h2>
+<p>使用校正后的BAM调用变异。<strong>GATK
+HaplotypeCaller</strong>是目前临床常用的SNV/Indel检测工具，可生成单个样本的VCF或多样本联合调用的VCF（通过CombineGVCFs+GenotypeGVCFs）
+。为提高敏感性，临床管线通常推荐结合多种调用器：常见工具还包括<strong>SAMtools
+mpileup/BCFtools</strong>, <strong>FreeBayes</strong>,
+<strong>VarScan2</strong>等
+。调用时一般只在外显子捕获目标区域或附近（例如扩展±100–200bp）进行，以避免过多低质量的非靶区假阳性
+。</p>
+<blockquote>
+<p><strong>过滤条件：</strong>
+对于小样本（如单个外显子样本），通常采用硬过滤（GATK
+VariantFiltration）去除低质量变异，例如质量/深度比（QD）、测序深度（DP）、映射质量（MQ）、FisherStrand偏倚（FS）等指标。同时应用频率过滤（见下文）去除常见多态性。对于大批量样本，可采用GATK的**变异质量重校准（VQSR）**方法进行更精细的过滤。</p>
+</blockquote>
+<h2 id="5-变异注释annotation"><strong>5.
+变异注释（Annotation）</strong></h2>
+<p>将初步变异调用结果（VCF文件）导入注释工具进行功能和临床意义注释。常用注释工具包括<strong>ANNOVAR</strong>、<strong>Ensembl
+VEP</strong>、<strong>SnpEff</strong>等。这些工具可提供变异基因名、蛋白变化、基因区位置、保守性指标，以及调用相关数据库的信息。例如，ANNOVAR可批量查询dbSNP、1000
+Genomes、dbNSFP（含SIFT、PolyPhen、CADD等预测）、COSMIC、ClinVar等
+。通过注释可以获得每个变异的等位基因频率、致病性预测以及与已知疾病的关联。注释后，一般输出带有丰富信息的注释VCF或表格列表，列出基因、变异类型、氨基酸影响、频率、致病性等字段。</p>
+<h2 id="6-变异过滤与优先级评估"><strong>6.
+变异过滤与优先级评估</strong></h2>
+<p>注释后需对候选变异进行过滤和优先级排序。常用临床过滤标准包括：</p>
+<ul>
+<li><p><strong>人群频率过滤：</strong>
+去除在常见人群数据库（如gnomAD、1000G）的等位基因频率较高（如&gt;1%）的变异；</p></li>
+<li><p><strong>功能影响过滤：</strong>
+优先考虑可能改变蛋白功能的变异（如错义、移码、无义、剪切位点突变），次要关注同义突变等；</p></li>
+<li><p><strong>致病性注释过滤：</strong>
+保留ClinVar中已报告为致病或可能致病的变异 ；</p></li>
+<li><p><strong>基因相关性：</strong>
+结合患者临床表型，重点关注与疾病相关基因（如使用OMIM、HPO或基因-病症关联数据库）；</p></li>
+<li><p><strong>继发标准：</strong>
+根据家系遗传模式（单纯隐性、常染色体显性、X连锁等）筛选合适的基因型；</p></li>
+</ul>
+<p>对于候选突变，最终建立优先级名单并根据ACMG/AMP指南对其致病性进行分类。常用变异优先化和解读工具包括Exomiser、PhenIX、Ingenuity
+Variant Analysis等，但手动评估也是必要的。</p>
+<h2 id="7-临床解读数据库资源"><strong>7.
+临床解读数据库资源</strong></h2>
+<p>临床注释常用数据库包括：</p>
+<ul>
+<li><p><strong>gnomAD</strong>：提供各人群等位基因频率，用于鉴别稀有变异；高频变异一般为良性。</p></li>
+<li><p><strong>ClinVar</strong>：公共变异数据库，收录已知变异的临床意义和等级
+。</p></li>
+<li><p><strong>HGMD</strong>：收集文献报道的致病变异，补充ClinVar未收录的信息。</p></li>
+<li><p><strong>OMIM</strong>：检索基因-疾病关联，有助于判断变异是否在已知遗传疾病基因上。</p></li>
+<li><p><strong>1000G/ESP</strong>：历史上重要的基因组资源，可作为频率参考。</p></li>
+<li><p><strong>ClinGen</strong>：基因致病证据数据库，提供基因剂量敏感性（haploinsufficiency）等评估。</p></li>
+<li><p><strong>COSMIC</strong>：肿瘤体细胞突变数据库（针对肿瘤样本解析）。</p></li>
+</ul>
+<p>利用上述数据库可综合评估变异的病理学和临床相关性。例如，将候选变异与ClinVar记录比对
+，结合gnomAD等频率排除常见多态性，利用OMIM和文献判断基因与表型的相关性等。</p>
+<h2 id="8-分析结果格式与可视化"><strong>8.
+分析结果格式与可视化</strong></h2>
+<p>最终输出形式通常包括带注释的VCF文件和汇总表格（CSV/Excel/PDF）。VCF格式是标准的变异数据输出格式
+，其中包含了每个变异的基因组位置、基因/转录本变体、基因型质量、深度、注释等信息。汇总表格便于人工查看和报告生成，可列出候选变异的详细信息。</p>
+<p>在临床工作中，还常用**IGV（Integrative Genomics
+Viewer）**等可视化工具手动检查关键变异的比对情况（查看突变位点两端的reads支持情况），以排除比对假象和测序错误。可视化的QC图表（如FastQC报告图、覆盖深度分布图、T/Tv比率和病/正常样本变异比较图）也有助于评估样本数据质量和分析效果。</p>
+<h2 id="9-质控标准和注意事项"><strong>9.
+质控标准和注意事项</strong></h2>
+<p>临床检测对数据质量要求较高，需要设定明确的QC阈值：</p>
+<ul>
+<li><p><strong>测序深度与覆盖度：</strong>
+建议WES平均测序深度在~100X左右
+；<strong>目标区≥20X覆盖度</strong>应达到90%以上（某些指南推荐≥95%）
+；10X以上覆盖度占比至少90% 。</p></li>
+<li><p><strong>PCR重复率：</strong> 应尽量低（一般小于15%–20%）
+；过高表明文库过扩增，影响有效覆盖。</p></li>
+<li><p><strong>比对率：</strong> 绝对比例（mapped
+reads）通常应在95%以上，反映测序与参考一致性。</p></li>
+<li><p><strong>碱基质量：</strong>
+Q30比例（错误率0.1%）应在80%以上，保证测序可靠性。</p></li>
+<li><p><strong>异同等位基因频率（VAF）：</strong>
+对于杂合突变，期望VAF约为50%
+；偏离该值可能提示嵌合性突变或假阳性。</p></li>
+<li><p><strong>样本间关系：</strong>
+家系测序时应验证性别和亲子关系，一致性异常可能反映样本标记错配或污染。</p></li>
+<li><p><strong>污染度检测：</strong>
+利用工具（如VerifyBamID）检查样本DNA污染，通常要求污染率低于3%。</p></li>
+<li><p><strong>突变统计指标：</strong>
+常计算全基因组或外显子组的Ti/Tv比值（人源正常样本Ti/Tv约2.8–3.2）作为一项一致性检查。</p></li>
+</ul>
+<p>嵌入全面的质控是保证结果可信度的关键
+。如发现异常指标（覆盖度不足、重复率增高、VAF偏离等），需回溯数据流程查找原因（如测序失败或分析参数设置）。建立并定期更新上述质控阈值，以适应测序平台和文库制备的变化，可有效提升临床检测的可靠性。</p>
+<p><strong>参考资料：</strong> 本流程参考了GATK Best
+Practices和相关文献，对于工具选择和质控指标等提供指导
+。总之，在临床WES分析中，应结合行业指南和本实验室经验，对每一步进行严格验证和质控，确保变异报告的准确可靠。</p>
+</article></div>
+    <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>继续把问题讲清楚。</h2><a class="read-link" href="/#articles">← 返回所有文章</a></section>
+    <footer class="site-footer article-footer">
+  <a class="brand footer-brand" href="/">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <p>写作，是为了让判断更有依据。</p>
+  <a href="#article-content">回到顶部 ↑</a>
+</footer>
+  </main></body>
+</html>

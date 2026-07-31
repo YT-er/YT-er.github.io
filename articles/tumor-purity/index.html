@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>被忽略的肿瘤纯度｜见山 · 生信笔记</title>
+  <meta name="description" content="病理纯度与计算纯度为何会不一致，以及纯度如何影响VAF、CNV、TMB和临床判断。">
+  <link rel="canonical" href="https://yt-er.github.io/articles/tumor-purity/">
+  <meta property="og:title" content="被忽略的肿瘤纯度｜见山 · 生信笔记">
+  <meta property="og:description" content="病理纯度与计算纯度为何会不一致，以及纯度如何影响VAF、CNV、TMB和临床判断。">
+  <meta property="og:url" content="https://yt-er.github.io/articles/tumor-purity/">
+  <meta property="og:type" content="article"><meta property="article:published_time" content="2025-08-10"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png">
+  <link rel="stylesheet" href="/assets/index-BNOyXF6v.css">
+  <link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+    <a class="skip-link" href="#article-content">跳到正文</a>
+    <header class="site-header article-header">
+  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
+</header>
+    <div class="article-topline" aria-label="文章信息"><span>肿瘤基因组</span><time datetime="2025-08-10">2025.08.10</time><span>约 5 分钟</span></div>
+    <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#参考文献"><span>01</span>参考文献</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#参考文献">参考文献</a></li></ol></details><article class="article-body" id="article-content"><h1 id="被忽略的肿瘤纯度">被忽略的肿瘤纯度</h1>
+<p>在肿瘤NGS检测中，肿瘤纯度（Tumor
+Purity）是一个直接影响结果解读的核心参数。</p>
+<p>它指的是样本中肿瘤细胞 DNA 占总 DNA
+的比例。准确评估肿瘤纯度，不仅关系到突变检出率，还影响后续 CNV 分析、TMB
+计算和分子分型等环节。</p>
+<p>然而，<strong>病理纯度</strong>（病理医生在切片上目测评估）与<strong>计算纯度</strong>（基于
+NGS 数据推算）往往差距不小，有时甚至相差 20%–30% 以上。</p>
+<p>这种差异从何而来？它对检测和临床判断意味着什么？本文将从评估方法、差异原因到实证研究，一一解析。</p>
+<h3 id="肿瘤纯度的重要性"><strong>肿瘤纯度的重要性</strong></h3>
+<p>在日常检测中，低纯度样本常常带来以下问题：</p>
+<ul>
+<li><strong>突变检出灵敏度下降</strong></li>
+</ul>
+<p>低纯度意味着肿瘤突变等位基因频率（VAF）被稀释，尤其对低频变异的检测影响显著。</p>
+<ul>
+<li><strong>变异频率解读偏差</strong></li>
+</ul>
+<p>同一突变在高纯度与低纯度样本中，VAF 差异可能导致临床解读的不同。</p>
+<ul>
+<li><strong>拷贝数变异（CNV）分析失真</strong></li>
+</ul>
+<p>CNV 算法依赖信噪比，低纯度可能导致拷贝数放大或缩小被低估。</p>
+<ul>
+<li><strong>免疫相关指标的推断偏差</strong></li>
+</ul>
+<p>如肿瘤突变负荷（TMB）和 MSI 状态的计算，均可能因纯度低而被低估。</p>
+<h3
+id="常用的肿瘤纯度评估方法"><strong>常用的肿瘤纯度评估方法</strong></h3>
+<ol type="1">
+<li><p><strong>病理学估算</strong></p>
+<ul>
+<li><p>通过 H&amp;E 染色切片，病理医生目测肿瘤细胞比例。</p></li>
+<li><p>优点：直观、快速，成本低。</p></li>
+<li><p>缺点：主观性强，依赖病理医师经验，难以精确量化。</p></li>
+</ul></li>
+<li><p><strong>基因组数据分析</strong></p>
+<ul>
+<li><p>基于 WES/WGS 数据，利用杂合性缺失（LOH）、CNV 模型、B-allele
+frequency（BAF）等推算。</p></li>
+<li><p>常用工具：</p>
+<ul>
+<li><p> <a
+href="https://doi.org/10.1038/nature10292">ABSOLUTE</a> ：综合 CNV 和
+VAF 建模</p></li>
+<li><p> <a
+href="https://doi.org/10.1186/s13059-016-1113-y">FACETS</a> ：适合
+WES，支持等位基因特异性分析</p></li>
+</ul></li>
+<li><p>优点：可定量化、可重复性好。</p></li>
+<li><p>缺点：对测序深度和数据质量敏感。</p></li>
+</ul></li>
+<li><p><strong>转录组/甲基化数据模型</strong></p>
+<ul>
+<li><p>利用基因表达模式或甲基化特征推断肿瘤与非肿瘤细胞比例。</p></li>
+<li><p>代表方法： <a
+href="https://doi.org/10.1038/ncomms3612">ESTIMATE</a> （推算免疫和基质得分，再间接推算纯度）</p></li>
+<li><p>适用场景：样本有 RNA-seq 或甲基化芯片数据。</p></li>
+</ul></li>
+</ol>
+<h3
+id="病理纯度与计算纯度一致性问题"><strong>病理纯度与计算纯度一致性问题</strong></h3>
+<p>在实际工作中，病理纯度与计算纯度常常存在明显差异。</p>
+<ul>
+<li><p><strong>病理纯度</strong>：基于显微镜下切片的细胞形态目测估算。</p></li>
+<li><p><strong>计算纯度</strong>：基于 NGS 数据通过算法模型推算肿瘤 DNA
+占比。</p></li>
+</ul>
+<blockquote>
+<p>多项研究和行业经验均显示，这两者的相关性<strong>中等偏低</strong>，部分样本差异可达
+20%–30% 以上。</p>
+</blockquote>
+<p>造成不一致的原因包括：</p>
+<ol type="1">
+<li><p><strong>肿瘤异质性</strong>：病理评估基于切片局部区域，而 NGS
+分析基于样本整体 DNA。</p></li>
+<li><p><strong>间质和炎症细胞比例</strong>：病理可能低估非肿瘤细胞比例，尤其是在
+TILs 较多时。</p></li>
+<li><p><strong>DNA 质量与测序偏倚</strong>：降解、PCR
+偏好等技术因素可能影响计算结果。</p></li>
+<li><p><strong>算法模型假设差异</strong>：不同算法对倍体、亚克隆比例的假设不同。</p></li>
+</ol>
+<p>多项研究已经证实了病理纯度与计算纯度一致性有限：</p>
+<ul>
+<li><p> <a
+href="https://compbio.hms.harvard.edu/publications/pdf/po.20.00016.pdf">Haider
+等人, 2020</a> ：在 333
+例前列腺癌样本中，比较多种计算方法（DNA、mRNA、miRNA）与多位病理医生的评估结果，发现一致性偏低，相关性差异显著。</p></li>
+<li><p> <a href="https://doi.org/10.1093/bioinformatics/btz955" target="_blank" rel="noopener">Yadav
+等人, 2020</a> ：部分算法计算纯度与病理纯度的 Pearson
+相关系数偏低，显示一致性不足。</p></li>
+<li><p> <a href="https://doi.org/10.1038/ncomms9971" target="_blank" rel="noopener">Aran 等人,
+2015</a> ：全癌种样本分析中，不同纯度估算方法差异显著，且计算方法之间也存在不一致。</p></li>
+</ul>
+<h3 id="纯度阈值建议"><strong>纯度阈值建议</strong></h3>
+<ul>
+<li><p><strong>NGS 体细胞突变检测</strong>：建议
+≥20%，低于该值需谨慎解读阴性结果。</p></li>
+<li><p><strong>CNV 分析</strong>： <strong>建议肿瘤纯度尽量
+≥40%</strong>，因为在模拟与真实数据中，低于约 44%
+的纯度往往显著影响检测灵敏度；同时，TCGA 样本质量标准也倾向选择 ≥60%
+的纯度作为参考。</p></li>
+<li><p><strong>融合基因检测（RNA）</strong>：受纯度影响相对较小，但高纯度有助于提升信噪比。</p></li>
+</ul>
+<h3 id="提高纯度的策略"><strong>提高纯度的策略</strong></h3>
+<ul>
+<li><p><strong>样本微切/激光显微切割</strong>：去除非肿瘤区域，提高检测信噪比。</p></li>
+<li><p><strong>免疫磁珠富集</strong>：选择性去除非肿瘤细胞。</p></li>
+<li><p><strong>取样优化</strong>：与病理科沟通，选择肿瘤负荷高的部位。</p></li>
+</ul>
+<h3 id="对临床与行业的提示"><strong>对临床与行业的提示</strong></h3>
+<ul>
+<li><p>检测报告应同时列出病理纯度与计算纯度，并标注差异。</p></li>
+<li><p>对低纯度样本的阴性结果，应结合病理与分子检测综合判断。</p></li>
+<li><p>多中心研究应统一纯度评估方法，保证结果可比性。</p></li>
+</ul>
+<h2 id="参考文献"><strong>参考文献</strong></h2>
+<ol type="1">
+<li><p>Carter SL, et al. Absolute quantification of somatic DNA
+alterations in human cancer. <em>Nature</em>, 2012.  <a
+href="https://doi.org/10.1038/nature10292"><span>https://doi.org/10.1038/nature10292</span></a> </p></li>
+<li><p>Shen R, et al. FACETS: allele-specific copy number and clonal
+heterogeneity analysis tool for high-throughput DNA sequencing.
+<em>Genome Biology</em>, 2016.  <a
+href="https://doi.org/10.1186/s13059-016-1113-y"><span>https://doi.org/10.1186/s13059-016-1113-y</span></a> </p></li>
+<li><p>Yoshihara K, et al. Inferring tumour purity and stromal and
+immune cell admixture from expression data. <em>Nature
+Communications</em>, 2013.  <a
+href="https://doi.org/10.1038/ncomms3612"><span>https://doi.org/10.1038/ncomms3612</span></a> </p></li>
+<li><p>Haider S, et al. Systematic benchmarking reveals poor concordance
+between pathologic and molecular purity estimates across pan-cancer
+cohorts. <em>JCO Precision Oncology</em>, 2020.  <a
+href="https://compbio.hms.harvard.edu/publications/pdf/po.20.00016.pdf"><span>https://compbio.hms.harvard.edu/publications/pdf/po.20.00016.pdf</span></a> </p></li>
+<li><p>Yadav B, et al. All-FIT: allele-frequency-based imputation of
+tumour purity shows low Pearson correlation with histological values.
+<em>Bioinformatics</em>, 2020.  <a
+href="https://doi.org/10.1093/bioinformatics/btz955"><span>https://doi.org/10.1093/bioinformatics/btz955</span></a> </p></li>
+<li><p>Aran D, et al. Systematic pan-cancer analysis of tumour purity.
+<em>Nature Communications</em>, 2015.  <a
+href="https://doi.org/10.1038/ncomms9971"><span>https://doi.org/10.1038/ncomms9971</span></a></p></li>
+</ol>
+</article></div>
+    <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>继续把问题讲清楚。</h2><a class="read-link" href="/#articles">← 返回所有文章</a></section>
+    <footer class="site-footer article-footer">
+  <a class="brand footer-brand" href="/">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <p>写作，是为了让判断更有依据。</p>
+  <a href="#article-content">回到顶部 ↑</a>
+</footer>
+  </main></body>
+</html>

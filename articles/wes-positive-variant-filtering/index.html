@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>全外显子测序（WES）突变检测阳性位点筛选标准｜见山 · 生信笔记</title>
+  <meta name="description" content="从测序质量、人群频率、功能影响和验证策略出发，建立WES阳性位点筛选框架。">
+  <link rel="canonical" href="https://yt-er.github.io/articles/wes-positive-variant-filtering/">
+  <meta property="og:title" content="全外显子测序（WES）突变检测阳性位点筛选标准｜见山 · 生信笔记">
+  <meta property="og:description" content="从测序质量、人群频率、功能影响和验证策略出发，建立WES阳性位点筛选框架。">
+  <meta property="og:url" content="https://yt-er.github.io/articles/wes-positive-variant-filtering/">
+  <meta property="og:type" content="article"><meta property="article:published_time" content="2025-08-05"><meta name="twitter:card" content="summary">
+  <link rel="icon" href="/icon.png">
+  <link rel="stylesheet" href="/assets/index-BNOyXF6v.css">
+  <link rel="stylesheet" href="/assets/blog-articles.css">
+</head>
+<body><main class="article-page">
+    <a class="skip-link" href="#article-content">跳到正文</a>
+    <header class="site-header article-header">
+  <a class="brand" href="/" aria-label="见山 · 生信笔记首页">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a>
+</header>
+    <div class="article-topline" aria-label="文章信息"><span>变异解读</span><time datetime="2025-08-05">2025.08.05</time><span>约 4 分钟</span></div>
+    <div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#一引言"><span>01</span>一、引言</a></li><li><a href="#二wes突变检测流程简述"><span>02</span>二、WES突变检测流程简述</a></li><li><a href="#三阳性位点筛选标准"><span>03</span>三、阳性位点筛选标准</a></li><li><a href="#四常见注意事项"><span>04</span>四、常见注意事项</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#一引言">一、引言</a></li><li><a href="#二wes突变检测流程简述">二、WES突变检测流程简述</a></li><li><a href="#三阳性位点筛选标准">三、阳性位点筛选标准</a></li><li><a href="#四常见注意事项">四、常见注意事项</a></li></ol></details><article class="article-body" id="article-content"><h1
+id="全外显子测序wes突变检测阳性位点筛选标准">全外显子测序（WES）突变检测阳性位点筛选标准</h1>
+<h2 id="一引言"><strong>一、引言</strong></h2>
+<p>全外显子测序（Whole Exome Sequencing,
+WES）作为一种高效的基因变异检测手段，广泛应用于肿瘤、罕见遗传病、免疫疾病等领域。其聚焦于编码区（exome），可在成本可控的前提下捕获大多数功能相关突变。突变检测完成后，如何从海量变异信息中筛选出具有生物学意义的“阳性位点”，成为下游分析与解读的关键步骤。</p>
+<p>本文将系统梳理WES数据中突变检测后的阳性位点筛选标准，结合实际项目经验，提供一套可操作性强的筛选框架。</p>
+<hr />
+<h2
+id="二wes突变检测流程简述"><strong>二、WES突变检测流程简述</strong></h2>
+<ol type="1">
+<li><strong>样本准备与建库</strong>：提取DNA → 建库 → 外显子捕获。</li>
+<li><strong>测序平台</strong>：Illumina NovaSeq/Hiseq等。</li>
+<li><strong>数据处理</strong>：
+<ul>
+<li>质控（FastQC, Trimmomatic）</li>
+<li>比对（BWA-MEM至hg38或hg19）</li>
+<li>去重（Picard）</li>
+<li>突变检测（GATK HaplotypeCaller / Mutect2）</li>
+</ul></li>
+<li><strong>变异注释</strong>：
+<ul>
+<li>工具：ANNOVAR、VEP、SnpEff</li>
+<li>数据库：dbSNP、ClinVar、1000G、gnomAD、COSMIC等</li>
+</ul></li>
+</ol>
+<hr />
+<h2 id="三阳性位点筛选标准"><strong>三、阳性位点筛选标准</strong></h2>
+<p>筛选阳性突变位点的目标是：提高可信度、排除测序伪阳性、聚焦可能致病或功能突变。具体标准如下：</p>
+<h3
+id="1-测序质量过滤"><strong>1.</strong> <strong>测序质量过滤</strong></h3>
+<table>
+<thead>
+<tr>
+<th><strong>指标</strong></th>
+<th><strong>过滤标准</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mapping Quality (MQ)</td>
+<td>MQ ≥ 30</td>
+<td>去除低质量比对</td>
+</tr>
+<tr>
+<td>Depth (DP)</td>
+<td>DP ≥ 10（体细胞）或≥20（胚系）</td>
+<td>保证覆盖度</td>
+</tr>
+<tr>
+<td>Variant Quality (QUAL)</td>
+<td>QUAL ≥ 100</td>
+<td>表征变异可信度</td>
+</tr>
+<tr>
+<td>Variant Allele Frequency (VAF)</td>
+<td>一般 ≥ 5%（体细胞）或 40-60%（杂合胚系）</td>
+<td>控制突变丰度下限</td>
+</tr>
+<tr>
+<td>Strand Bias (FS, SOR)</td>
+<td>FS ≤ 60, SOR ≤ 3</td>
+<td>剔除有明显方向偏倚的突变</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3
+id="2-数据库参考与频率过滤"><strong>2.</strong> <strong>数据库参考与频率过滤</strong></h3>
+<ul>
+<li><p><strong>群体频率过滤</strong>：</p>
+<ul>
+<li>gnomAD/ExAC/1000 Genomes 中的频率 &lt; 0.01（1%）</li>
+<li>若分析罕见遗传病，通常要求频率 &lt; 0.001（0.1%）</li>
+</ul></li>
+<li><p><strong>已知致病性数据库</strong>：</p>
+<ul>
+<li>ClinVar：筛选为“Pathogenic”或“Likely pathogenic”变异</li>
+<li>COSMIC：用于肿瘤相关变异判断</li>
+</ul></li>
+</ul>
+<hr />
+<h3
+id="3-生物学功能注释"><strong>3.</strong> <strong>生物学功能注释</strong></h3>
+<p>仅保留可能导致蛋白质功能改变的变异：</p>
+<table>
+<thead>
+<tr>
+<th><strong>变异类型</strong></th>
+<th><strong>是否保留</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>无义突变（Nonsense）</td>
+<td>是</td>
+<td>产生提前终止密码子</td>
+</tr>
+<tr>
+<td>错义突变（Missense）</td>
+<td>是</td>
+<td>引起氨基酸改变，需结合功能预测</td>
+</tr>
+<tr>
+<td>剪切位点突变</td>
+<td>是</td>
+<td>可能影响mRNA剪接</td>
+</tr>
+<tr>
+<td>框移突变（Frameshift）</td>
+<td>是</td>
+<td>极可能致病</td>
+</tr>
+<tr>
+<td>同义突变（Synonymous）</td>
+<td>否</td>
+<td>一般不致病，除非已知功能变异</td>
+</tr>
+</tbody>
+</table>
+<p>可结合功能预测工具（如
+SIFT、PolyPhen-2、CADD）评估missense变异的潜在影响。</p>
+<hr />
+<h3
+id="4-体细胞变异特异筛选针对肿瘤"><strong>4.</strong> <strong>体细胞变异特异筛选（针对肿瘤）</strong></h3>
+<ul>
+<li><strong>过滤良性突变</strong>：排除常见SNP（dbSNP中 rs编号 +
+高频率）</li>
+<li><strong>与正常样本对照（matched
+normal）</strong>：若有对照样本，仅保留tumor-specific变异</li>
+<li><strong>VAF区间设定</strong>：
+<ul>
+<li>克隆性突变：VAF &gt; 20%</li>
+<li>亚克隆性突变：VAF 5%-20%</li>
+</ul></li>
+<li><strong>去除FFPE伪影</strong>：如C&gt;T /
+G&gt;A富集，结合Mutect2的FilterMutectCalls结果判断</li>
+</ul>
+<hr />
+<h3
+id="5-技术重复和验证建议"><strong>5.</strong> <strong>技术重复和验证建议</strong></h3>
+<ul>
+<li><strong>交叉验证</strong>：
+<ul>
+<li>不同caller（如Mutect2, VarScan2）结果交集</li>
+<li>多平台复核（如Panel验证）</li>
+</ul></li>
+<li><strong>生物学验证</strong>：
+<ul>
+<li>Sanger测序</li>
+<li>qPCR/ddPCR验证变异丰度</li>
+<li>RNA-seq验证表达层面影响</li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="四常见注意事项"><strong>四、常见注意事项</strong></h2>
+<ol type="1">
+<li><strong>参考基因组版本一致性</strong>：注释与比对需一致（hg19 vs
+hg38）</li>
+<li><strong>FFPE样本特异性噪音</strong>：注意C&gt;T / G&gt;A伪突变</li>
+<li><strong>批次效应和污染监测</strong>：增加多样本QC（如VerifyBamID,
+ContEst）</li>
+<li><strong>自动化与审阅结合</strong>：建议构建标准化Snakemake或Nextflow流程，但重要位点应人工核查（如IGV验证）</li>
+</ol>
+</article></div>
+    <section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>继续把问题讲清楚。</h2><a class="read-link" href="/#articles">← 返回所有文章</a></section>
+    <footer class="site-footer article-footer">
+  <a class="brand footer-brand" href="/">
+    <span class="brand-mark" aria-hidden="true">见</span>
+    <span><strong>见山</strong><small>生信笔记</small></span>
+  </a>
+  <p>写作，是为了让判断更有依据。</p>
+  <a href="#article-content">回到顶部 ↑</a>
+</footer>
+  </main></body>
+</html>
