@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="/assets/index-BNOyXF6v.css" data-precedence="vite-rsc/importer-resources"/><title>NGS里的Duplicates，到底重复了什么？｜见山 · 生信笔记</title><meta name="description" content="FASTQ、BAM与UMI流程中的Duplicates分别在统计什么，以及如何正确理解重复率。"/><meta property="og:title" content="NGS里的 Duplicates，到底重复了什么？"/><meta property="og:description" content="FASTQ看序列，BAM看位置，UMI追溯原始分子。"/><meta property="og:type" content="article"/><meta property="article:published_time" content="2026-07-30T21:49:54+08:00"/><meta property="og:image" content="https://yt-er.github.io/og.png"/><meta property="og:image:width" content="1923"/><meta property="og:image:height" content="818"/><meta property="og:image:alt" content="NGS里的 Duplicates，到底重复了什么？"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="NGS里的 Duplicates，到底重复了什么？"/><meta name="twitter:description" content="FASTQ看序列，BAM看位置，UMI追溯原始分子。"/><meta name="twitter:image" content="https://yt-er.github.io/og.png"/><link rel="shortcut icon" href="https://yt-er.github.io/icon.png"/><link rel="icon" href="https://yt-er.github.io/icon.png"/>
+</head><body><main class="article-page"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><a class="back-link" href="/"><span aria-hidden="true">←</span> 返回首页</a></header><div class="article-topline" aria-label="文章信息"><span>测序质控</span><time dateTime="2026-07-30">2026.07.30</time><span>约 15 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#duplicate不只有一种"><span>01</span>Duplicate不只有一种</a></li><li><a href="#fastq重复与bam重复不是一回事"><span>02</span>FASTQ重复与BAM重复</a></li><li><a href="#为什么fastp有时更高有时更低"><span>03</span>为什么fastp有时更高，有时更低？</a></li><li><a href="#标记重复还是删除重复"><span>04</span>标记重复，还是删除重复？</a></li><li><a href="#分片并行时最容易漏掉跨分片重复"><span>05</span>分片并行与跨分片重复</a></li><li><a href="#重复率升高先别急着判失败"><span>06</span>重复率升高，先别急着判失败</a></li><li><a href="#不同检测类型不能套用同一套规则"><span>07</span>不同检测类型的规则</a></li><li><a href="#看到重复率时先问六个问题"><span>08</span>先问六个问题</a></li><li><a href="#结语"><span>09</span>结语</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#duplicate不只有一种">Duplicate不只有一种</a></li><li><a href="#fastq重复与bam重复不是一回事">FASTQ重复与BAM重复</a></li><li><a href="#为什么fastp有时更高有时更低">为什么fastp有时更高，有时更低？</a></li><li><a href="#标记重复还是删除重复">标记重复，还是删除重复？</a></li><li><a href="#分片并行时最容易漏掉跨分片重复">分片并行与跨分片重复</a></li><li><a href="#重复率升高先别急着判失败">重复率升高，先别急着判失败</a></li><li><a href="#不同检测类型不能套用同一套规则">不同检测类型的规则</a></li><li><a href="#看到重复率时先问六个问题">先问六个问题</a></li><li><a href="#结语">结语</a></li></ol></details><article class="article-body" id="article-content"><h1
+id="ngs里的duplicates到底重复了什么">NGS里的Duplicates，到底重复了什么？</h1>
+<p><img
+src="/images/duplicates-cover.png"
+alt="NGS Duplicates文章封面" /></p>
+<p>一份测序数据送进不同的质控工具，常常会出现这样的情况：FASTQ报告里有一个重复率，完成比对和重复标记后又得到另一个数字，用BAM中的duplicate
+flag重新统计，结果可能还不完全一样。</p>
+<p>哪一个才是“真正的重复率”？</p>
+<p>答案是：它们可能都没有算错，只是在回答不同的问题。</p>
+<p>FASTQ工具看到的是序列，BAM工具看到的是片段在参考基因组上的位置，UMI流程试图追溯原始分子。统计对象、判重依据和分母只要有一个不同，最后的数字就不能直接互换。</p>
+<p><img
+src="/images/duplicates-fastq-vs-bam.png"
+alt="FASTQ序列重复与BAM位置重复的统计口径对比" /></p>
+<p><em>图1：FASTQ与BAM从不同角度识别Duplicates，两个重复率不能直接换算。</em></p>
+<p>所以，讨论Duplicates之前，最重要的不是先找一条合格线，而是先弄清楚：<strong>这个重复率究竟重复了什么？</strong></p>
+<h2 id="duplicate不只有一种">Duplicate不只有一种</h2>
+<p>在日常分析中，Duplicates经常被笼统地翻译成“PCR重复”。这种说法便于交流，却不够准确。</p>
+<h3 id="pcr或文库扩增重复">PCR或文库扩增重复</h3>
+<p>建库时，一个原始DNA片段可能被扩增成许多拷贝。测序仪随后读到的虽然是多条reads，但它们并不代表多个独立分子。</p>
+<p>如果某个duplicate
+family恰好携带一个ALT等位基因，而下游分析又没有识别这些重复reads，就可能把同一个分子的证据计算多次。结果可能表现为局部深度被高估、ALT支持数增加，甚至让低频变异的VAF发生偏移。</p>
+<p>这类重复真正损失的不是“reads数量”，而是独立分子带来的信息量。100条来自100个原始分子的reads，和100条由10个原始分子扩增出来的reads，统计深度可能相同，证据强度却完全不同。</p>
+<p>Duplicates如何影响BAM预处理和后续变异识别，可延伸阅读WES变异检测。</p>
+<h3 id="optical-duplicates">Optical duplicates</h3>
+<p>Optical
+duplicates来自测序成像过程。一个真实的扩增簇可能被光学系统错误识别成多个相邻簇，从而产生内容高度相似的reads。</p>
+<p>它与PCR重复的来源不同，但同样不能被当作新的独立分子。识别这类重复通常还依赖read
+name中的lane、tile以及空间坐标。read
+name被改写或不再包含这些信息时，工具可能无法准确区分optical
+duplicate。</p>
+<h3 id="自然位置碰撞">自然位置碰撞</h3>
+<p>两个彼此独立的原始分子，也可能在参考基因组上呈现相同的起止位置。这不一定是实验错误，而可能只是“碰巧撞在一起”。</p>
+<p>这种情况在目标区域有限、测序很深的WES和Panel中更容易出现。靶区越小，可用的片段起止组合越有限；当测序逐渐接近文库饱和时，不同分子落到相同位置的概率也会增加。</p>
+<p>因此，比对位置相同是识别重复的重要线索，却不等于对分子来源的直接观察。这也是为什么不能仅凭一个较高的duplicate
+rate，就立即判定建库失败。</p>
+<h3 id="umi定义的分子重复">UMI定义的分子重复</h3>
+<p>UMI在建库早期给原始分子加上分子标签。比对位置相同、UMI也一致的reads，更有可能来自同一个起始分子。通过聚类、纠错和共识序列生成，分析流程可以把一组reads还原成一份分子证据。</p>
+<p>不过，UMI也不是绝对身份证：标签可能发生测序错误，不同分子也可能出现UMI碰撞。因此，UMI流程关注的不只是“相同标签”，还包括标签长度、编辑距离、比对位置、family大小以及共识构建规则。</p>
+<h2 id="fastq重复与bam重复不是一回事">FASTQ重复与BAM重复不是一回事</h2>
+<p>重复率最常见的混乱，来自把FASTQ层面的序列重复和BAM层面的片段重复放在同一张表里比较。</p>
+<h3 id="fastp看到的是序列">fastp看到的是序列</h3>
+<p>fastp在FASTQ层面评估重复。按照其官方说明，只有read的全部碱基都与另一条read相同，才会被视为重复；如果存在测序错误或<code>N</code>，原本来自同一分子的reads也可能无法被归为同一组。对于双端数据，判重发生在read
+pair层面。</p>
+<p>这种方法不需要参考基因组，速度快，适合在比对前观察原始数据中有多少完全相同的序列。但它不知道两条不同序列最终是否会比对到相同片段位置，也不知道哪些reads随后会因质量、接头或比对问题退出分析。</p>
+<p>关于质量值、接头、GC分布等原始数据指标，可延伸阅读WES原始FASTQ质控。</p>
+<h3
+id="picard和samtools看到的是比对位置">Picard和samtools看到的是比对位置</h3>
+<p>BWA-MEM或BWA-MEM2负责把reads比对到参考基因组，但BWA本身不负责标记重复。重复识别通常由Picard/GATK
+MarkDuplicates或samtools markdup完成。</p>
+<p>Picard会比较单端reads和read
+pairs的5′位置等信息，将可能来自同一原始片段的记录组成duplicate
+set，再根据碱基质量总和选择一个代表，其余记录添加duplicate标记。samtools
+markdup同样利用位置、方向以及mate信息识别重复，并保留质量更好的代表记录。</p>
+<p>SAM格式使用十六进制<code>0x400</code>，也就是十进制1024，表示一条alignment被标记为PCR或optical
+duplicate。这个flag只说明“已被标记为重复”，默认并不意味着这条read已经从BAM或CRAM中删除。</p>
+<p>关于SAM/BAM字段、FLAG和比对结果的基础结构，可延伸阅读从FASTQ比对到BAM。</p>
+<h3 id="三种常见数字">三种常见数字</h3>
+<table>
+<thead>
+<tr>
+<th>数字来源</th>
+<th>它回答的问题</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>fastp <code>duplication.rate</code></td>
+<td>FASTQ中有多少reads或read pairs在序列层面完全相同</td>
+</tr>
+<tr>
+<td>Picard <code>PERCENT_DUPLICATION</code></td>
+<td>被纳入Picard统计的比对记录中，有多少被标记为duplicate</td>
+</tr>
+<tr>
+<td>根据<code>0x400</code>重新计数</td>
+<td>当前BAM或CRAM里有多少记录已经带有duplicate flag</td>
+</tr>
+</tbody>
+</table>
+<p>这三个数字看起来都叫“重复率”，但分子、read、read
+pair和alignment并不是同一个统计单位。unmapped、secondary、supplementary以及QC-fail
+reads是否进入分母，也会因工具和参数而异。</p>
+<p>还有一个常见陷阱：Picard名称中带<code>PERCENT</code>或<code>PCT</code>的指标实际通常以0到1之间的小数表示。<code>PERCENT_DUPLICATION=0.12</code>代表12%，不是0.12%。</p>
+<h2
+id="为什么fastp有时更高有时更低">为什么fastp有时更高，有时更低？</h2>
+<p>这两个方向都可能出现。</p>
+<p>fastp可能更低。来自同一原始分子的拷贝如果积累了测序错误，序列就不再完全相同；但比对后，它们仍可能落在相同的片段位置，从而被BAM工具识别为duplicate。</p>
+<p>fastp也可能更高。FASTQ中完全相同的reads，可能包含低质量序列、接头残留、polyG或低复杂度序列；其中一部分随后会被过滤，或者根本无法可靠比对。它们影响FASTQ层面的结果，却不一定进入BAM重复率的统计范围。</p>
+<p>因此，不存在一个稳定公式，可以把fastp的重复率换算成Picard或samtools的结果。即使两个指标在一批样本中走势相似，也不能把一个指标的阈值直接复制给另一个指标。</p>
+<p>正确的比较方式是固定检测类型、建库方法、软件版本和统计口径，再用历史样本建立自己的分布。尤其对接近质控边界的样本，应该回到原始分子数、有效覆盖和最终检测性能，而不是只根据一个百分数做结论。</p>
+<h2 id="标记重复还是删除重复">标记重复，还是删除重复？</h2>
+<p>这两个动作经常被混用，实际意义完全不同。</p>
+<h3 id="标记保留数据声明身份">标记：保留数据，声明身份</h3>
+<p>MarkDuplicates或markdup通常把duplicate
+flag写入BAM或CRAM，但仍保留全部reads。这样做的好处是：</p>
+<ul>
+<li>保留完整的原始证据和质控信息；</li>
+<li>下游工具可以根据自己的规则决定是否排除duplicates；</li>
+<li>后续仍能重新统计duplicate family和文库复杂度；</li>
+<li>不需要为不同分析目的反复生成多个主文件。</li>
+</ul>
+<p>对于多数变异分析流程，保留marked
+BAM或CRAM通常更加稳妥。不过，“工具会自动忽略duplicates”不能凭经验假设，仍应核对具体软件的read
+filter和参数。</p>
+<h3 id="删除把重复记录从文件中排除">删除：把重复记录从文件中排除</h3>
+<p>如果下游工具明确要求无重复输入，或者自定义程序无法识别<code>0x400</code>，可以在标记完成后物理过滤duplicate
+reads。Picard可以在标记时选择删除，samtools
+markdup也提供删除选项；对于已经正确标记的文件，也可以直接按照<code>0x400</code>过滤。</p>
+<p>但删除不是越早越好。它会让部分质控信息永久离开输出文件，也不适合拿删除前后的不同口径继续横向比较。更稳妥的做法通常是保留一份marked主文件，需要时再生成用途明确的过滤版本。</p>
+<h2
+id="分片并行时最容易漏掉跨分片重复">分片并行时，最容易漏掉跨分片重复</h2>
+<p>为了提速，可以把一份双端FASTQ拆成多个chunk，分别用BWA进行比对和排序。问题不在“能不能拆”，而在“什么时候标记重复”。</p>
+<p>正确顺序是：</p>
+<pre class="text"><code>FASTQ同步分片
+    ↓
+分别比对和排序
+    ↓
+合并成完整BAM
+    ↓
+统一标记重复
+    ↓
+后续分析</code></pre>
+<p><img
+src="/images/duplicates-chunk-flow.png"
+alt="FASTQ分片比对后的重复标记流程" /></p>
+<p><em>图2：分片只用于并行计算，重复标记应在合并后的完整文库范围内统一进行。</em></p>
+<p>如果每个chunk先单独MarkDuplicates，再合并BAM，落在不同chunk中的同一家族reads彼此不可见。它们会被误当成多个独立分子，导致duplicate
+rate偏低、unique
+depth偏高；如果这些reads携带ALT，低频变异的支持证据还可能被放大。</p>
+<p>Read
+Group和Library设置同样重要。计算分片只是运行层面的拆分，不是新的实验文库。RG可以反映真实lane等实验信息，但<code>LB</code>应对应真实文库，不能为了区分chunk而人为制造不同的library。否则，原本应该共同判重的reads可能被隔离在不同统计组中。</p>
+<p>一句话概括：<strong>比对可以分，依赖全样本分子关系的重复标记必须在正确的文库范围内统一完成。</strong></p>
+<h2 id="重复率升高先别急着判失败">重复率升高，先别急着判失败</h2>
+<p>高重复率可能来自实验问题，也可能来自测序设计本身。排查时可以分成四层。</p>
+<h3 id="第一层样本和建库">第一层：样本和建库</h3>
+<ul>
+<li>起始核酸量是否过低？</li>
+<li>样本是否严重降解或来自FFPE？</li>
+<li>PCR循环数是否过多？</li>
+<li>文库片段分布是否过窄？</li>
+<li>建库过程中是否存在明显的GC或捕获偏倚？</li>
+</ul>
+<p>这类问题会减少文库中的独特分子，使后续测序不断抽到相同模板。</p>
+<h3 id="第二层测序是否已经接近饱和">第二层：测序是否已经接近饱和</h3>
+<p>当文库复杂度有限时，增加reads不一定增加新信息。早期加深测序还能发现大量新分子；接近饱和后，新增数据主要来自已经见过的分子。</p>
+<p>此时单看总reads数或平均深度会产生错觉。更有意义的指标包括：</p>
+<ul>
+<li>非重复reads或read pairs数量；</li>
+<li>去重后的有效覆盖；</li>
+<li>文库复杂度估计；</li>
+<li>不同下采样比例下的独特分子增长曲线；</li>
+<li>继续测序预计还能获得多少新分子。</li>
+</ul>
+<p>需要注意，<code>ESTIMATED_LIBRARY_SIZE</code>依赖随机抽样、等概率等假设，只适合作为趋势参考，不是真实分子数的精确测量。</p>
+<p>关于RNA-seq中测序深度、文库复杂度和饱和度的关系，可延伸阅读RNA-Seq的测序深度与饱和度。</p>
+<h3 id="第三层测序与原始数据异常">第三层：测序与原始数据异常</h3>
+<ul>
+<li>optical duplicates是否明显增加？</li>
+<li>read name是否仍保留识别光学重复需要的坐标？</li>
+<li>是否存在大量接头、polyG或低复杂度序列？</li>
+<li>是否有某些tile或lane异常？</li>
+<li>不同批次、不同测序仪之间是否出现系统性变化？</li>
+</ul>
+<p>如果fastp重复率升高，而BAM重复率变化不大，应优先检查原始序列质量和未比对reads，而不是直接归因于PCR过扩增。</p>
+<h3 id="第四层流程口径是否发生变化">第四层：流程口径是否发生变化</h3>
+<ul>
+<li>软件版本或参数是否改变？</li>
+<li>分母是否排除了相同类型的reads？</li>
+<li>是按read、read pair还是fragment统计？</li>
+<li>FASTQ和BAM指标是否被放在同一阈值下判断？</li>
+<li>分片比对后是否在完整文库范围内统一标记？</li>
+<li>自定义深度、pileup或相位程序是否过滤了<code>0x400</code>？</li>
+</ul>
+<p>流程变化造成的“重复率异常”，本质上可能只是统计定义改变。</p>
+<h2
+id="不同检测类型不能套用同一套规则">不同检测类型不能套用同一套规则</h2>
+<h3 id="wgs">WGS</h3>
+<p>WGS的测序范围大，随机片段化产生的起止位置组合也更多。在常规深度下，彼此独立的原始分子发生位置碰撞的概率通常低于WES和小型Panel，因此，较高的重复率往往更直接地提示起始DNA不足、PCR扩增偏多、文库复杂度下降或optical
+duplicates增加。</p>
+<p>但WGS同样不能使用脱离条件的固定阈值。测序深度、文库投入量、片段长度分布、PCR-free还是PCR建库，以及判重软件和统计分母，都会影响最终结果。判断是否需要补测时，应同时观察非重复reads、去重后覆盖和文库复杂度；如果文库已经接近饱和，继续增加数据量可能只会获得更多重复分子。</p>
+<h3 id="wes和杂交捕获panel">WES和杂交捕获Panel</h3>
+<p>目标区域有限、覆盖较深，不同原始分子更容易出现位置碰撞；捕获效率和探针偏好也会造成局部过度富集。因此，这类数据需要结合on-target率、覆盖均一性、非重复覆盖和文库复杂度一起判断。</p>
+<h3 id="扩增子测序">扩增子测序</h3>
+<p>扩增子设计本身就会让大量reads拥有相同起止位置。普通的位置判重可能把真实独立分子大规模误判为duplicates。没有UMI时，单凭坐标通常无法恢复原始分子数量。</p>
+<h3 id="rna-seq">RNA-seq</h3>
+<p>高表达转录本天然产生大量相同或相近的片段。它们既可能包含PCR扩增，也可能反映真实的生物学丰度。是否去重取决于建库方案和分析目的，不能直接照搬DNA变异检测的规则。带UMI的3′端计数方案，则通常应在分子层面折叠后进行表达定量。</p>
+<h3 id="ctdna和mrd">ctDNA和MRD</h3>
+<p>这类应用关注极低频信号，少数原始分子的扩增拷贝不能被当成多份独立证据。分析重点应从普通duplicate
+rate转向UMI family、共识分子、独特起始分子数和错误抑制效果。</p>
+<h2 id="看到重复率时先问六个问题">看到重复率时，先问六个问题</h2>
+<p>无论报告中的数字是多少，都可以先用下面六个问题校准口径：</p>
+<ol type="1">
+<li>它是在FASTQ还是BAM阶段统计的？</li>
+<li>判重依据是完整序列、比对位置，还是UMI？</li>
+<li>统计单位是read、read pair、fragment还是molecule？</li>
+<li>分母排除了哪些unmapped、secondary、supplementary或QC-fail记录？</li>
+<li>duplicate只是被标记，还是已经从文件中删除？</li>
+<li>当前阈值是否在相同检测类型、建库方法和软件口径下验证过？</li>
+</ol>
+<p>如果这六个问题没有答案，“重复率是12%”本身几乎不能说明样本好坏。</p>
+<h2 id="结语">结语</h2>
+<p>Duplicates不是一桶等待清空的“垃圾reads”。它更像一张文库的指纹：里面同时留下了起始分子数量、PCR扩增、捕获偏倚、测序成像、数据饱和度和分析算法的痕迹。</p>
+<p>真正需要警惕的，不只是重复率升高，而是把不同工具、不同阶段和不同检测类型的数字当成同一种指标。</p>
+<p>先统一口径，再比较样本；先评估独特分子和有效覆盖，再决定补测还是重建文库。只有这样，重复率才不再是质控表里一个孤立的百分数，而会成为判断数据是否继续产生新信息的有效线索。</p>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li><a
+href="https://github.com/OpenGene/fastp#duplication-rate-and-deduplication">fastp官方文档：duplication
+rate and deduplication</a></li>
+<li><a
+href="https://gatk.broadinstitute.org/hc/en-us/articles/4405443615771-MarkDuplicates-Picard">GATK/Picard
+MarkDuplicates说明</a></li>
+<li><a
+href="https://broadinstitute.github.io/picard/picard-metric-definitions.html">Picard
+Metrics Definitions</a></li>
+<li><a
+href="https://samtools.github.io/hts-specs/SAMv1.pdf">SAM格式规范</a></li>
+<li><a href="https://www.htslib.org/doc/samtools-markdup.html">samtools
+markdup说明</a></li>
+</ol>
+</article></div><section class="article-end"><p class="eyebrow">END OF ARTICLE</p><h2>先统一口径，再比较样本。</h2><a class="read-link" href="/">← 返回所有文章</a></section><footer class="site-footer article-footer"><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到开头 ↑</a></footer></main></body></html>
