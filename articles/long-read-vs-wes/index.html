@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列㉙｜长读长测序会取代WES吗？｜见山 · 生信笔记</title><meta name="description" content="引言 一条老河与一条新河，并行向海。短读长的WES像是修得最早、码头最多的航道——班次密、票价稳、靠岸方便；长读长（PacBio/ONT）像是在旁边开凿的新水道，能跨过礁石…"><link rel="canonical" href="https://yt-er.github.io/articles/long-read-vs-wes/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/long-read-vs-wes/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/long-read-vs-wes/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/long-read-vs-wes/"><meta property="og:title" content="WES系列㉙｜长读长测序会取代WES吗？｜见山 · 生信笔记"><meta property="og:description" content="引言 一条老河与一条新河，并行向海。短读长的WES像是修得最早、码头最多的航道——班次密、票价稳、靠岸方便；长读长（PacBio/ONT）像是在旁边开凿的新水道，能跨过礁石…"><meta property="og:url" content="https://yt-er.github.io/articles/long-read-vs-wes/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/long-read-vs-wes/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/long-read-vs-wes/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 29/30</span><time datetime="2025-09-08">2025.09.08</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#引言"><span>01</span>引言</a></li><li><a href="#一长读长的能见度把断点与回环一次看穿"><span>02</span>一、长读长的“能见度”：把断点与回环一次看穿</a></li><li><a href="#二wes的老练效率成本与生态位"><span>03</span>二、WES的“老练”：效率、成本与生态位</a></li><li><a href="#三成本曲线与互补区谁该走哪条河"><span>04</span>三、成本曲线与“互补区”：谁该走哪条河</a></li><li><a href="#四三个去标识化案例在哪些弯道上长读长改变了结局"><span>05</span>四、三个去标识化案例：在哪些弯道上，长读长改变了结局</a></li><li><a href="#五现实清单如果要把长读长引入临床"><span>06</span>五、现实清单：如果要把长读长引入临床</a></li><li><a href="#六简表三条航道的分工示意"><span>07</span>六、简表：三条“航道”的分工（示意）</a></li><li><a href="#小结"><span>08</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#引言">引言</a></li><li><a href="#一长读长的能见度把断点与回环一次看穿">一、长读长的“能见度”：把断点与回环一次看穿</a></li><li><a href="#二wes的老练效率成本与生态位">二、WES的“老练”：效率、成本与生态位</a></li><li><a href="#三成本曲线与互补区谁该走哪条河">三、成本曲线与“互补区”：谁该走哪条河</a></li><li><a href="#四三个去标识化案例在哪些弯道上长读长改变了结局">四、三个去标识化案例：在哪些弯道上，长读长改变了结局</a></li><li><a href="#五现实清单如果要把长读长引入临床">五、现实清单：如果要把长读长引入临床</a></li><li><a href="#六简表三条航道的分工示意">六、简表：三条“航道”的分工（示意）</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列㉙长读长测序会取代wes吗">WES系列㉙｜长读长测序会取代WES吗？</h1>
+<h2 id="引言">引言</h2>
+<p>一条老河与一条新河，并行向海。短读长的WES像是修得最早、码头最多的航道——班次密、票价稳、靠岸方便；长读长（PacBio/ONT）像是在旁边开凿的新水道，能跨过礁石与深涡，把那些弯曲的支流串成一条直线。问题是：<strong>新河会完全取代老河吗？</strong></p>
+<p>也许答案更像航海图上的批注：<strong>主航道仍在，但一些危险水域将由新水道接手。</strong></p>
+<hr />
+<h2 id="一长读长的能见度把断点与回环一次看穿">一、长读长的“能见度”：把断点与回环一次看穿</h2>
+<ul>
+<li><p><strong>结构变异与重复扩增</strong>：倒位、易位、大片段插入/缺失、三核苷酸与STR扩增，这些在短读长里像雾中的礁石，在长读长里<strong>现****形</strong>。</p></li>
+<li><p><strong>相位与单体型</strong>：把“两个变异在同一条染色体还是两条”这道老难题，凭读段本身的跨度自然解决。</p></li>
+<li><p><strong>复杂/同源区域</strong>：HLA、SMN、CYP家族等“同脸基因”在更长的读段里逐渐分清。</p></li>
+<li><p><strong>转录层面的连贯性</strong>（当使用长读长转录组）：一口气看清外显子连接方式与异常剪接的“全程录像”。</p></li>
+</ul>
+<blockquote>
+<p>如果说短读长是把书裁成便利贴再拼回去，长读长更像把整页翻开：<strong>断点不再靠猜，重复不再靠估。</strong></p>
+</blockquote>
+<hr />
+<h2 id="二wes的老练效率成本与生态位">二、WES的“老练”：效率、成本与生态位</h2>
+<ul>
+<li><p><strong>性价比与通量</strong>：在大规模临床筛查与罕见病编码区搜索上，WES仍是<strong>最稳妥的主力</strong>。</p></li>
+<li><p><strong>成熟度</strong>：市面上的捕获试剂、分析流程、数据库生态与医保/支付路径，形成了<strong>成熟且可复用的基础设施</strong>。</p></li>
+<li><p><strong>周转与可达性</strong>：许多中心已将WES做成“标准化服务”，可快速交付与迭代。</p></li>
+</ul>
+<blockquote>
+<p>像一条被千百次验证的主航道：<strong>不惊艳，但可靠</strong>。</p>
+</blockquote>
+<hr />
+<h2 id="三成本曲线与互补区谁该走哪条河">三、成本曲线与“互补区”：谁该走哪条河</h2>
+<blockquote>
+<p>节奏因地区与机构而异；价格、产能与监管会改变水位。以下时间窗取<strong>保守区间</strong>。</p>
+</blockquote>
+<p><strong>短期（当下—3–4年）</strong></p>
+<ul>
+<li><p><strong>WES优先</strong>：疑似单基因/编码区致病、预算有限、需要快速周转与家系三联体的常规场景。</p></li>
+<li><p><strong>长读长优先</strong>：重复扩增病、复杂SV、相位关键、假基因干扰严重、剪接异常强怀疑、<strong>WES阴性但表型强烈</strong>（在资源允许且有明确指征时）。</p></li>
+</ul>
+<p><strong>中期（4–7年）</strong></p>
+<ul>
+<li><p><strong>WGS</strong>：在部分中心<strong>缓慢</strong>吞并WES份额（均一度与全局视野更优，成本继续下探，但渗透速度受支付/流程改造制约）。</p></li>
+<li><p><strong>长读长</strong>：从<strong>试点</strong>过渡到<strong>少数专科中心的常规化</strong>，主要集中在神经肌病、罕见重排综合征、HLA/药物代谢、结构变异富集亚型。</p></li>
+<li><p><strong>组合拳</strong>：WES/WGS + RNA-Seq + <strong>定点长读长</strong>成为<strong>问题导向</strong>的常态（多见于三级/专科中心）。</p></li>
+</ul>
+<p><strong>远期（7–10年+）</strong></p>
+<ul>
+<li><p>随着读长质量与碱基精度上行，长读长在<strong>一次性解决结构+相位+重复</strong>方面更具吸引力；但<strong>全面取代并不必然</strong>，节奏将取决于<strong>支付体系、监管采纳、质控标准、供应链与人才</strong>的共同迁移。</p></li>
+<li><p>更可预见的格局是<strong>分工</strong>：长读长在结构/重复/相位场景成为主力，其他场景与WES/WGS按成本—证据—时效分层协作。</p></li>
+</ul>
+<hr />
+<h2 id="四三个去标识化案例在哪些弯道上长读长改变了结局">四、三个去标识化案例：在哪些弯道上，长读长改变了结局</h2>
+<ul>
+<li><p><strong>案例A｜重复的回声</strong>：多年不明原因肌病，WES阴性。长读长一口气量清STR扩增的真实长度，诊断落地，家庭实现级联检测与生育咨询。</p></li>
+<li><p><strong>案例B｜断点的证据</strong>：疑似染色体重排综合征，短读长只给出“模糊影子”。长读长跨越断点，拼出倒位+插入的组合拳，临床管理由“猜测”转为“路径明确”。</p></li>
+<li><p><strong>案例C｜相位的钥匙</strong>：两枚错义落在同一基因，不知是否复合杂合。长读长直接给出<strong>trans</strong>答案，治疗与遗传风险评估因此分叉。</p></li>
+</ul>
+<hr />
+<h2 id="五现实清单如果要把长读长引入临床">五、现实清单：如果要把长读长引入临床</h2>
+<ul>
+<li><p><strong>样本与建库</strong>：高分子量DNA的采集与保存SOP；避免剪切。</p></li>
+<li><p><strong>质控</strong>：读长分布、N50、错误谱（特别是同聚物相关错误）与碱基精度评估。</p></li>
+<li><p><strong>分析</strong>：专用SV/STR/相位工具链；与短读长/WGS结果<strong>交叉验证</strong>。</p></li>
+<li><p><strong>报告</strong>：声明优势与盲点（错误型谱、覆盖差异）；给出与现有指南衔接的行动建议。</p></li>
+<li><p><strong>经济学</strong>：列出与WES/WGS的成本—收益对照，指明适应症分层策略。</p></li>
+</ul>
+<hr />
+<h2 id="六简表三条航道的分工示意">六、简表：三条“航道”的分工（示意）</h2>
+<ul>
+<li><p><strong>WES</strong>：编码区致病变异搜索的<strong>主力</strong>；快、稳、成本低；对结构/重复/相位弱。</p></li>
+<li><p><strong>WGS（短读长）</strong>：全基因组、均一度好、CNV/SV更可靠；成本中等；对长重复与相位仍有限。</p></li>
+<li><p><strong>长读长基因组/转录组</strong>：结构/重复/相位/剪接“一网打尽”；成本较高、质控与流程要求高；在<strong>疑难与特定病种</strong>上价值巨大。</p></li>
+</ul>
+<hr />
+<h2 id="小结">小结</h2>
+<p>新河并不一定要取代老河。<strong>更可能的未来是分工</strong>：大多数人走主航道，到了暗礁密布的河段，交给新水道领航。对临床团队来说，关键不在“站队”，而在<strong>路线规划</strong>：根据问题选择工具，把费用、时间与证据串成一条可抵达的航线。</p>
+<blockquote>
+<p><strong>下一篇预告</strong>：当AI加入船队，它会成为领航员吗？——<strong>AI与机器学习如何赋能WES数据解读</strong>。</p>
+</blockquote>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 29</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-data-privacy-security/"><span>上一篇</span><strong>WES系列㉘｜数据隐私与安全</strong></a><a class="series-nav-item next" href="/articles/ai-machine-learning-wes/"><span>下一篇</span><strong>WES系列㉚｜AI与机器学习如何赋能WES数据解读？</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

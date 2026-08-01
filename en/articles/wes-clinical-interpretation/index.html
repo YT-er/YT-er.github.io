@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 11 | Clinical Interpretation: Turning Genomic Variants into Treatment Decisions | Jianshan Bioinformatics Notes</title><meta name="description" content="“Detecting a variant is not the end point. What can truly change a patient's fate is how that variant is interpreted.” 1. Why Is Clinical Interpretation Important? In the previous article, w…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-clinical-interpretation/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-clinical-interpretation/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-clinical-interpretation/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-clinical-interpretation/"><meta property="og:title" content="WES Series 11 | Clinical Interpretation: Turning Genomic Variants into Treatment Decisions | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Detecting a variant is not the end point. What can truly change a patient's fate is how that variant is interpreted.” 1. Why Is Clinical Interpretation Important? In the previous article, w…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-clinical-interpretation/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-clinical-interpretation/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-clinical-interpretation/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 11/30</span><time datetime="2025-08-19">2025.08.19</time><span>Approx. 6 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#1-why-is-clinical-interpretation-important"><span>01</span>1. Why Is Clinical Interpretation Important?</a></li><li><a href="#2-acmg-guidelines-the-gold-standard-in-genetic-disease"><span>02</span>2. ACMG Guidelines: The Gold Standard in Genetic Disease</a></li><li><a href="#3-amp-guidelines-a-core-tool-in-oncology"><span>03</span>3. AMP Guidelines: A Core Tool in Oncology</a></li><li><a href="#4-acmg-vs-amp-comparison-of-use-cases"><span>04</span>4. ACMG vs. AMP: Comparison of Use Cases</a></li><li><a href="#5-practical-example-one-gene-different-interpretations"><span>05</span>5. Practical Example: One Gene, Different Interpretations</a></li><li><a href="#6-points-to-consider"><span>06</span>6. Points to Consider</a></li><li><a href="#summary"><span>07</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#1-why-is-clinical-interpretation-important">1. Why Is Clinical Interpretation Important?</a></li><li><a href="#2-acmg-guidelines-the-gold-standard-in-genetic-disease">2. ACMG Guidelines: The Gold Standard in Genetic Disease</a></li><li><a href="#3-amp-guidelines-a-core-tool-in-oncology">3. AMP Guidelines: A Core Tool in Oncology</a></li><li><a href="#4-acmg-vs-amp-comparison-of-use-cases">4. ACMG vs. AMP: Comparison of Use Cases</a></li><li><a href="#5-practical-example-one-gene-different-interpretations">5. Practical Example: One Gene, Different Interpretations</a></li><li><a href="#6-points-to-consider">6. Points to Consider</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-11--clinical-interpretation-turning-genomic-variants-into-treatment-decisions">WES Series 11 | Clinical Interpretation: Turning Genomic Variants into Treatment Decisions</h1>
+<blockquote>
+<p>“Detecting a variant is not the end point. What can truly change a patient's fate is how that variant is interpreted.”</p>
+</blockquote>
+<hr />
+<h2 id="1-why-is-clinical-interpretation-important">1. Why Is Clinical Interpretation Important?</h2>
+<p>In the previous article, we explained how <strong>variant filtering</strong> can narrow tens of thousands of candidate variants down to a small number of sites worthy of attention. Yet the filtered result is still only a “candidate list.”</p>
+<p>What ultimately determines whether these variants can be included in a clinical report and whether they affect treatment decisions is <strong>clinical interpretation</strong>. In other words, interpretation is the critical step that turns “data” into “diagnosis and care.”</p>
+<hr />
+<h2 id="2-acmg-guidelines-the-gold-standard-in-genetic-disease">2. ACMG Guidelines: The Gold Standard in Genetic Disease</h2>
+<h3 id="background">Background</h3>
+<p>In 2015, the <strong>American College of Medical Genetics and Genomics (ACMG)</strong> and the <strong>Association for Molecular Pathology (AMP)</strong> jointly published the well-known <strong>ACMG-AMP guidelines for variant classification</strong>. These guidelines provide a unified standard for interpreting <strong>germline variants</strong>.</p>
+<h3 id="classification-system">Classification System</h3>
+<p>The ACMG classifies genomic variants into five categories:</p>
+<ol type="1">
+<li><p>Pathogenic</p></li>
+<li><p>Likely pathogenic</p></li>
+<li><p>Variant of Uncertain Significance (VUS)</p></li>
+<li><p>Likely benign</p></li>
+<li><p>Benign</p></li>
+</ol>
+<h3 id="the-28-evidence-criteria">The 28 Evidence Criteria</h3>
+<p>Classification draws on multiple dimensions of evidence, including <strong>population frequency, functional prediction, published literature, cosegregation analysis in families, and functional assays</strong>. The guidelines define 28 evidence criteria and specify how evidence of different strengths should be weighted and combined.</p>
+<p>These 28 criteria fall into two broad groups: evidence supporting pathogenicity (such as PVS1, PS1, PM1, and PP1) and evidence supporting a benign interpretation (such as BA1, BS1, and BP1). Together they cover population-frequency thresholds, in vitro functional-assay results, familial segregation, known mutational hotspots, and many other considerations.</p>
+<p>In clinical practice, physicians and laboratories combine these lines of evidence. For example:</p>
+<ul>
+<li><p>A variant that is extremely rare in population databases (PM2), lies in a functionally critical region of the gene (PM1), and cosegregates with disease in a family (PP1) may be classified as “likely pathogenic.”</p></li>
+<li><p>A variant that is highly frequent in population databases (BA1) and has been shown by multiple studies to be unrelated to disease may be classified as “benign.”</p></li>
+</ul>
+<p><strong>Clinical example</strong>: A patient undergoing CFTR testing is found to carry the c.1521_1523delCTT variant. Under the ACMG criteria:</p>
+<ul>
+<li><p>The variant is a known loss-of-function variant (PVS1);</p></li>
+<li><p>Multiple publications report a strong association with cystic fibrosis (PS1);</p></li>
+<li><p>Functional assays have confirmed a protein defect (PS3). The variant is therefore classified as “pathogenic,” directly supporting the clinical diagnosis.</p></li>
+</ul>
+<h3 id="reference-table-for-the-28-acmg-evidence-criteria">Reference Table for the 28 ACMG Evidence Criteria</h3>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+<th>Direction</th>
+<th>Strength</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PVS1</td>
+<td>Known loss-of-function variant (e.g., nonsense, frameshift, or essential splice-site variant)</td>
+<td>Pathogenic</td>
+<td>Very strong</td>
+</tr>
+<tr>
+<td>PS1</td>
+<td>Same amino acid change as a previously established pathogenic variant</td>
+<td>Pathogenic</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>PS2</td>
+<td>De novo (absent from both parents), with maternity and paternity confirmed</td>
+<td>Pathogenic</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>PS3</td>
+<td>Functional studies show a damaging effect</td>
+<td>Pathogenic</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>PS4</td>
+<td>Case-control studies show significant enrichment</td>
+<td>Pathogenic</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>PM1</td>
+<td>Located in a functionally critical region or mutational hotspot</td>
+<td>Pathogenic</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>PM2</td>
+<td>Extremely rare or absent from population databases</td>
+<td>Pathogenic</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>PM3</td>
+<td>Detected in trans with another variant in a recessive disorder</td>
+<td>Pathogenic</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>PM4</td>
+<td>Clearly alters protein length or structure outside a repeat region</td>
+<td>Pathogenic</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>PM5</td>
+<td>A different amino acid change at the same residue is known to be pathogenic</td>
+<td>Pathogenic</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>PM6</td>
+<td>Assumed de novo, but maternity and paternity are not fully confirmed</td>
+<td>Pathogenic</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>PP1</td>
+<td>Cosegregates with disease in a family</td>
+<td>Pathogenic</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>PP2</td>
+<td>Missense variant in a gene with a low rate of benign missense variation</td>
+<td>Pathogenic</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>PP3</td>
+<td>Multiple computational predictions support a damaging effect</td>
+<td>Pathogenic</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>PP4</td>
+<td>The patient's phenotype or family history is highly specific</td>
+<td>Pathogenic</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>PP5</td>
+<td>A reputable database or expert source classifies the variant as pathogenic</td>
+<td>Pathogenic</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>BA1</td>
+<td>Population frequency exceeds the benign threshold</td>
+<td>Benign</td>
+<td>Stand-alone</td>
+</tr>
+<tr>
+<td>BS1</td>
+<td>Frequency is higher than expected for the disorder</td>
+<td>Benign</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>BS2</td>
+<td>Observed in healthy individuals</td>
+<td>Benign</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>BS3</td>
+<td>Functional studies show no damaging effect</td>
+<td>Benign</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>BS4</td>
+<td>Does not segregate with disease in a family</td>
+<td>Benign</td>
+<td>Strong</td>
+</tr>
+<tr>
+<td>BP1</td>
+<td>Missense variant in a gene for which primarily truncating variants cause disease</td>
+<td>Benign</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>BP2</td>
+<td>Observed in cis with another pathogenic variant</td>
+<td>Benign</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>BP3</td>
+<td>Benign variation in a repetitive region</td>
+<td>Benign</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>BP4</td>
+<td>Multiple computational predictions support no damaging effect</td>
+<td>Benign</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>BP5</td>
+<td>Detected in a case with an alternative molecular basis for disease</td>
+<td>Benign</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>BP6</td>
+<td>A reputable database or expert source classifies the variant as benign</td>
+<td>Benign</td>
+<td>Supporting</td>
+</tr>
+<tr>
+<td>BP7</td>
+<td>Synonymous variant with no predicted effect on splicing</td>
+<td>Benign</td>
+<td>Supporting</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Clinical value</strong>: ACMG classification is widely used by genetic-testing laboratories around the world, promoting consistency in interpretation across institutions. For example:</p>
+<ul>
+<li><p>A pathogenic BRCA1 variant → affects risk assessment for breast and ovarian cancer.</p></li>
+<li><p>A CFTR variant → directly informs the diagnosis of cystic fibrosis.</p></li>
+</ul>
+<hr />
+<h2 id="3-amp-guidelines-a-core-tool-in-oncology">3. AMP Guidelines: A Core Tool in Oncology</h2>
+<h3 id="background-1">Background</h3>
+<p>In 2017, the <strong>Association for Molecular Pathology (AMP)</strong>, together with the <strong>American Society of Clinical Oncology (ASCO)</strong> and the <strong>College of American Pathologists (CAP)</strong>, published guidelines specifically for interpreting <strong>somatic variants</strong>.</p>
+<h3 id="tier-system">Tier System</h3>
+<p>The AMP guidelines divide somatic tumor variants into four tiers:</p>
+<ol type="1">
+<li><p><strong>Tier I (strong clinical significance)</strong>: established targets of FDA-approved drugs.</p></li>
+<li><p><strong>Tier II (potential clinical significance)</strong>: supported by clinical trials but not yet broadly implemented.</p></li>
+<li><p><strong>Tier III (unknown clinical significance)</strong>: currently lacks definitive clinical evidence.</p></li>
+<li><p><strong>Tier IV (benign or likely benign/no clinical significance)</strong>: unrelated to disease.</p></li>
+</ol>
+<h3 id="clinical-value">Clinical Value</h3>
+<p>AMP classification emphasizes a variant's direct relevance to <strong>therapy, prognosis, and clinical-trial enrollment</strong>. For example:</p>
+<ul>
+<li><p>EGFR variants (L858R, Exon 19 Del) → EGFR-TKI targeted therapy.</p></li>
+<li><p>KRAS G12C variant → identifies patients who may be eligible for newer KRAS inhibitors.</p></li>
+</ul>
+<hr />
+<h2 id="4-acmg-vs-amp-comparison-of-use-cases">4. ACMG vs. AMP: Comparison of Use Cases</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>ACMG Guidelines</th>
+<th>AMP Guidelines</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Field of application</td>
+<td>Genetic disease and germline variants</td>
+<td>Cancer and somatic variants</td>
+</tr>
+<tr>
+<td>Year published</td>
+<td>2015</td>
+<td>2017</td>
+</tr>
+<tr>
+<td>Issuing organizations</td>
+<td>ACMG + AMP</td>
+<td>AMP + ASCO + CAP</td>
+</tr>
+<tr>
+<td>Classification approach</td>
+<td>Five categories, from pathogenic to benign</td>
+<td>Four tiers, Tier I-IV</td>
+</tr>
+<tr>
+<td>Evidence sources</td>
+<td>Family analysis, functional studies, population frequency</td>
+<td>Drug approvals, clinical trials, clinical evidence</td>
+</tr>
+<tr>
+<td>Typical applications</td>
+<td>Diagnosis of genetic disease and genetic counseling</td>
+<td>Targeted-therapy selection and clinical-trial enrollment</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-practical-example-one-gene-different-interpretations">5. Practical Example: One Gene, Different Interpretations</h2>
+<p>Consider <strong>BRCA1</strong>:</p>
+<ul>
+<li><p><strong>Under the ACMG framework</strong>: A pathogenic BRCA1 variant indicates inherited familial risk and guides risk assessment and screening for relatives.</p></li>
+<li><p><strong>Under the AMP framework</strong>: The same variant in a patient with cancer may also indicate potential benefit from a PARP inhibitor.</p></li>
+</ul>
+<p>This illustrates that <strong>the interpretation framework determines which dimension of a variant's clinical value is emphasized</strong>. In practice, reports often need to integrate both ACMG and AMP perspectives.</p>
+<hr />
+<h2 id="6-points-to-consider">6. Points to Consider</h2>
+<ol type="1">
+<li><p><strong>Variant interpretation is not a one-time exercise</strong>: As new drugs and new research emerge, the clinical significance of the same variant may change.</p></li>
+<li><p><strong>Consider the clinical context</strong>: A genomic variant must be interpreted alongside the patient's medical history and pathology findings, not from its classification alone.</p></li>
+<li><p><strong>Reports must be transparent</strong>: Evidence sources and classification criteria should be documented to ensure traceability.</p></li>
+</ol>
+<hr />
+<h2 id="summary">Summary</h2>
+<ul>
+<li><p><strong>ACMG guidelines</strong> address the question “Is this variant disease-causing?” in genetic disease.</p></li>
+<li><p><strong>AMP guidelines</strong> address the question “Is this variant actionable?” in oncology.</p></li>
+</ul>
+<p>The two frameworks serve different fields and play critical roles in genetic disease and cancer, respectively.</p>
+<hr />
+<p><strong>Next issue</strong>: “Copy-Number Variant Analysis: Hidden Information in WES Data”</p>
+<p>WES data can reveal not only point mutations (SNVs) and small insertions or deletions (indels), but also large genomic deletions and duplications (CNVs). The next article will introduce the principles and tools used to detect CNVs from WES data.</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 11</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-variant-filtering/"><span>Previous</span><strong>WES Series 10 | Variant Filtering: Finding Meaningful Mutations Among Thousands of Candidates</strong></a><a class="series-nav-item next" href="/en/articles/wes-cnv-analysis/"><span>Next</span><strong>WES Series 12 | Copy-Number Variant Analysis: Hidden Information in WES Data</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

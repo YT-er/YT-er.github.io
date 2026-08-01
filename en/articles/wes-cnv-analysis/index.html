@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 12 | Copy-Number Variant Analysis: Hidden Information in WES Data | Jianshan Bioinformatics Notes</title><meta name="description" content="“Beyond point mutations and small indels, WES also contains information about large genomic deletions and amplifications.” 1. What Is a CNV? A copy-number variant (CNV) is a deletion or dupl…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-cnv-analysis/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-cnv-analysis/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-cnv-analysis/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-cnv-analysis/"><meta property="og:title" content="WES Series 12 | Copy-Number Variant Analysis: Hidden Information in WES Data | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Beyond point mutations and small indels, WES also contains information about large genomic deletions and amplifications.” 1. What Is a CNV? A copy-number variant (CNV) is a deletion or dupl…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-cnv-analysis/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-cnv-analysis/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-cnv-analysis/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 12/30</span><time datetime="2025-08-20">2025.08.20</time><span>Approx. 4 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#1-what-is-a-cnv"><span>01</span>1. What Is a CNV?</a></li><li><a href="#2-how-can-wes-data-be-used-to-detect-cnvs"><span>02</span>2. How Can WES Data Be Used to Detect CNVs?</a></li><li><a href="#3-common-detection-methods"><span>03</span>3. Common Detection Methods</a></li><li><a href="#4-commonly-used-tools"><span>04</span>4. Commonly Used Tools</a></li><li><a href="#5-clinical-example"><span>05</span>5. Clinical Example</a></li><li><a href="#6-points-to-consider"><span>06</span>6. Points to Consider</a></li><li><a href="#summary"><span>07</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#1-what-is-a-cnv">1. What Is a CNV?</a></li><li><a href="#2-how-can-wes-data-be-used-to-detect-cnvs">2. How Can WES Data Be Used to Detect CNVs?</a></li><li><a href="#3-common-detection-methods">3. Common Detection Methods</a></li><li><a href="#4-commonly-used-tools">4. Commonly Used Tools</a></li><li><a href="#5-clinical-example">5. Clinical Example</a></li><li><a href="#6-points-to-consider">6. Points to Consider</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-12--copy-number-variant-analysis-hidden-information-in-wes-data">WES Series 12 | Copy-Number Variant Analysis: Hidden Information in WES Data</h1>
+<blockquote>
+<p>“Beyond point mutations and small indels, WES also contains information about large genomic deletions and amplifications.”</p>
+</blockquote>
+<hr />
+<h2 id="1-what-is-a-cnv">1. What Is a CNV?</h2>
+<p>A <strong>copy-number variant (CNV)</strong> is a deletion or duplication of a large DNA segment in the genome, usually ranging from <strong>kilobases to megabases</strong>. A CNV alters gene copy number and can consequently affect protein expression. For example:</p>
+<ul>
+<li><p><strong>HER2 gene amplification</strong> → patients with breast cancer may be eligible for trastuzumab (Herceptin).</p></li>
+<li><p><strong>SMN1 deletion</strong> → associated with spinal muscular atrophy (SMA).</p></li>
+</ul>
+<p>In clinical testing, CNVs are another major class of genomic alteration, second only to SNVs and indels.</p>
+<hr />
+<h2 id="2-how-can-wes-data-be-used-to-detect-cnvs">2. How Can WES Data Be Used to Detect CNVs?</h2>
+<p>Although WES is designed primarily to detect point mutations and small variants in exonic regions, CNVs can also be inferred by analyzing <strong>read depth</strong>. The basic principle is:</p>
+<ul>
+<li><p><strong>Markedly increased sequencing coverage</strong> across an exonic region → possible gene amplification.</p></li>
+<li><p><strong>Markedly decreased sequencing coverage</strong> across a region → possible gene deletion.</p></li>
+</ul>
+<h3 id="schematic-of-the-principle-behind-cnv-detection">Schematic of the Principle Behind CNV Detection</h3>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p><small>Detecting CNVs through changes in sequencing depth</small></figure>
+<h2 id="3-common-detection-methods">3. Common Detection Methods</h2>
+<p>Methods for detecting CNVs from WES data fall into three main categories:</p>
+<ol type="1">
+<li><strong>Read-depth-based methods</strong></li>
+</ol>
+<ul>
+<li><p>Approach: compare mean coverage across regions to identify significant differences.</p></li>
+<li><p>Tools: ExomeCNV, XHMM, and CNVkit.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Read-pair-based methods</strong></li>
+</ol>
+<ul>
+<li><p>Approach: use abnormal spacing or orientation of read pairs to infer large deletions or insertions.</p></li>
+<li><p>Tool: BreakDancer.</p></li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Integrated assembly- and signal-based methods</strong></li>
+</ol>
+<ul>
+<li><p>Approach: combine multiple signals, such as read depth, read pairs, and split reads, to improve detection accuracy.</p></li>
+<li><p>Tools: GATK gCNV and Canvas.</p></li>
+</ul>
+<hr />
+<h2 id="4-commonly-used-tools">4. Commonly Used Tools</h2>
+<ul>
+<li><p><strong>CNVkit</strong>: Designed for WES; uses read depth with GC correction and is widely used in research and clinical laboratories.</p></li>
+<li><p><strong>XHMM (eXome-Hidden Markov Model)</strong>: Uses a hidden Markov model to analyze abnormal exon coverage.</p></li>
+<li><p><strong>ExomeDepth</strong>: Uses a Bayesian framework to compare a sample with reference controls and detect CNVs.</p></li>
+<li><p><strong>GATK gCNV</strong>: Developed by the Broad Institute and capable of improving sensitivity in large cohorts.</p></li>
+</ul>
+<hr />
+<h2 id="5-clinical-example">5. Clinical Example</h2>
+<p>WES data from a patient with breast cancer revealed <strong>ERBB2 (HER2) amplification</strong>:</p>
+<ul>
+<li><p>CNVkit analysis showed that coverage across the HER2 region was substantially higher than across other exons.</p></li>
+<li><p>In combination with immunohistochemistry (IHC) and FISH confirmation, the patient was ultimately diagnosed with <strong>HER2-positive breast cancer</strong>.</p></li>
+<li><p>This result made the patient eligible for <strong>anti-HER2 targeted therapy</strong>, significantly improving the prognosis.</p></li>
+</ul>
+<hr />
+<h2 id="6-points-to-consider">6. Points to Consider</h2>
+<ol type="1">
+<li><p><strong>Limitations of CNV detection by WES</strong>: Because capture efficiency is uneven, sensitivity is lower than that of whole-genome sequencing (WGS).</p></li>
+<li><p><strong>Appropriate controls are required</strong>: CNV analysis often requires reference samples to prevent read-depth fluctuations from producing false positives.</p></li>
+<li><p><strong>Results require validation</strong>: CNV findings in clinical reports generally require confirmation by FISH, qPCR, or chromosomal microarray analysis (CMA).</p></li>
+<li><p><strong>Effects of GC bias</strong>: High- and low-GC regions are prone to biased read depth and require software correction.</p></li>
+</ol>
+<hr />
+<h2 id="summary">Summary</h2>
+<ul>
+<li><p>WES can detect not only SNVs and indels, but also reveal the “hidden information” represented by <strong>CNVs</strong>.</p></li>
+<li><p>CNV detection depends on <strong>in-depth analysis of sequencing coverage</strong>.</p></li>
+<li><p>Clinically, CNV analysis can directly affect treatment selection and disease diagnosis.</p></li>
+</ul>
+<hr />
+<p><strong>Next issue</strong>: “Mitochondrial DNA and WES: Do Not Forget the Cell's Powerhouse”</p>
+<p>We will discuss the capabilities, challenges, and special considerations involved in analyzing mitochondrial-genome variants using WES.</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 12</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-clinical-interpretation/"><span>Previous</span><strong>WES Series 11 | Clinical Interpretation: Turning Genomic Variants into Treatment Decisions</strong></a><a class="series-nav-item next" href="/en/articles/wes-mitochondrial-dna/"><span>Next</span><strong>WES Series 13 | Mitochondrial DNA and WES: Do Not Forget the Cell's Powerhouse</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

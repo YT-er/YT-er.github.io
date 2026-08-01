@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 4 | The WES Laboratory Workflow, Part 1 | Jianshan Bioinformatics Notes</title><meta name="description" content="“In the world of genomics, a tube of blood is more than a red liquid: it is a ‘data drive’ carrying all of your genetic information.” 🧬 1. The Starting Point: Sample Collection and Quality…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-lab-workflow-part-1/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-lab-workflow-part-1/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-lab-workflow-part-1/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-lab-workflow-part-1/"><meta property="og:title" content="WES Series 4 | The WES Laboratory Workflow, Part 1 | Jianshan Bioinformatics Notes"><meta property="og:description" content="“In the world of genomics, a tube of blood is more than a red liquid: it is a ‘data drive’ carrying all of your genetic information.” 🧬 1. The Starting Point: Sample Collection and Quality…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-lab-workflow-part-1/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-lab-workflow-part-1/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-lab-workflow-part-1/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 04/30</span><time datetime="2025-08-10">2025.08.10</time><span>Approx. 4 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#dna-1-the-starting-point-sample-collection-and-quality-control"><span>01</span>🧬 1. The Starting Point: Sample Collection and Quality Control</a></li><li><a href="#test_tube-2-dna-extraction-from-cells-to-pure-genetic-information"><span>02</span>🧪 2. DNA Extraction: From Cells to Pure Genetic Information</a></li><li><a href="#scissors-3-dna-fragmentation-preparing-for-sequencing"><span>03</span>✂️ 3. DNA Fragmentation: Preparing for Sequencing</a></li><li><a href="#safety_pin-4-library-preparation-giving-dna-an-identity-card"><span>04</span>🧷 4. Library Preparation: Giving DNA an “Identity Card”</a></li><li><a href="#dart-5-exome-capture-locking-on-to-the-key-targets"><span>05</span>🎯 5. Exome Capture: Locking On to the Key Targets</a></li><li><a href="#receipt-6-quality-control-and-product-assessment"><span>06</span>🧾 6. Quality Control and Product Assessment</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#dna-1-the-starting-point-sample-collection-and-quality-control">🧬 1. The Starting Point: Sample Collection and Quality Control</a></li><li><a href="#test_tube-2-dna-extraction-from-cells-to-pure-genetic-information">🧪 2. DNA Extraction: From Cells to Pure Genetic Information</a></li><li><a href="#scissors-3-dna-fragmentation-preparing-for-sequencing">✂️ 3. DNA Fragmentation: Preparing for Sequencing</a></li><li><a href="#safety_pin-4-library-preparation-giving-dna-an-identity-card">🧷 4. Library Preparation: Giving DNA an “Identity Card”</a></li><li><a href="#dart-5-exome-capture-locking-on-to-the-key-targets">🎯 5. Exome Capture: Locking On to the Key Targets</a></li><li><a href="#receipt-6-quality-control-and-product-assessment">🧾 6. Quality Control and Product Assessment</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-4--the-wes-laboratory-workflow-part-1">WES Series 4 | The WES Laboratory Workflow, Part 1</h1>
+<blockquote>
+<p>“In the world of genomics, a tube of blood is more than a red liquid: it is a ‘data drive’ carrying all of your genetic information.”</p>
+</blockquote>
+<hr />
+<h2 id="dna-1-the-starting-point-sample-collection-and-quality-control">🧬 1. The Starting Point: Sample Collection and Quality Control</h2>
+<p><strong>1.1 Sample types</strong><br />
+Common sample types for WES in clinical practice and research include:</p>
+<ul>
+<li><p><strong>Peripheral blood</strong> (the most common, with good DNA quality)</p></li>
+<li><p><strong>Saliva</strong> (convenient, but potentially contaminated with bacterial DNA)</p></li>
+<li><p><strong>Fresh or frozen tissue</strong> (commonly used for tumor testing)</p></li>
+<li><p><strong>Formalin-fixed, paraffin-embedded tissue (FFPE)</strong> (suitable for retrospective studies, although its DNA may be degraded)</p></li>
+</ul>
+<p><strong>1.2 Key considerations for collection and storage</strong></p>
+<ul>
+<li><p>Blood samples are usually collected in volumes of 2–5 mL in purple-top tubes containing the anticoagulant EDTA;</p></li>
+<li><p>Samples should be frozen or DNA should be extracted as soon as possible after collection to prevent degradation;</p></li>
+<li><p>Tumor samples should have a matched normal control, such as blood, to distinguish somatic from germline variants in subsequent analyses.</p></li>
+</ul>
+<p><strong>1.3 Quality-control standards</strong><br />
+Before sequencing begins, the DNA <strong>concentration</strong> and <strong>purity</strong> must be assessed:</p>
+<ul>
+<li><p><strong>Concentration</strong>: measured fluorometrically with Qubit; should be ≥ 50 ng/μL;</p></li>
+<li><p><strong>Purity</strong>: the OD260/280 ratio measured with NanoDrop should be between 1.8 and 2.0;</p></li>
+<li><p><strong>Integrity</strong>: evaluated by inspecting the band pattern on an agarose gel or with a Bioanalyzer.</p></li>
+</ul>
+<hr />
+<h2 id="test_tube-2-dna-extraction-from-cells-to-pure-genetic-information">🧪 2. DNA Extraction: From Cells to Pure Genetic Information</h2>
+<p>Many DNA-extraction methods are available. Common approaches include:</p>
+<ul>
+<li><p><strong>Silica membrane methods</strong> (e.g., Qiagen kits): fast and easy to perform, and suitable for most samples;</p></li>
+<li><p><strong>Magnetic-bead methods</strong>: suitable for automated extraction and commonly used in high-throughput laboratories;</p></li>
+<li><p><strong>Phenol-chloroform extraction</strong>: a classic method suitable for difficult-to-extract samples, but it involves toxic chemicals.</p></li>
+</ul>
+<p>The goal at this stage is to obtain <strong>high-quality genomic DNA without degradation or contamination</strong>, providing a solid foundation for subsequent library preparation.</p>
+<hr />
+<h2 id="scissors-3-dna-fragmentation-preparing-for-sequencing">✂️ 3. DNA Fragmentation: Preparing for Sequencing</h2>
+<p>NGS platforms such as Illumina require DNA fragments of a particular size, typically 150–300 bp. Long DNA molecules must therefore be broken into suitable fragments. Common methods include:</p>
+<ul>
+<li><p><strong>Ultrasonic shearing</strong> (e.g., Covaris): highly controllable and produces uniformly sized fragments;</p></li>
+<li><p><strong>Enzymatic fragmentation</strong>: uses specific enzymes to cleave DNA; simple, but potentially biased.</p></li>
+</ul>
+<hr />
+<h2 id="safety_pin-4-library-preparation-giving-dna-an-identity-card">🧷 4. Library Preparation: Giving DNA an “Identity Card”</h2>
+<p>The core steps of library preparation include:</p>
+<ol type="1">
+<li><p><strong>End repair</strong>: processes the ends of DNA fragments to make them compatible with adapter ligation;</p></li>
+<li><p><strong>A-tailing</strong>: adds one adenine (A) to each 3′ end;</p></li>
+<li><p><strong>Adapter ligation</strong>: ligates double-stranded adapters containing sequencing-primer binding sites and barcodes (indexes);</p></li>
+<li><p><strong>PCR amplification</strong>: amplifies the library to increase the amount of DNA.</p></li>
+</ol>
+<p>At this point, the DNA library resembles a collection of DNA fragments, each equipped with a “mailing label” so that its sample of origin can be identified during subsequent sequencing.</p>
+<hr />
+<h2 id="dart-5-exome-capture-locking-on-to-the-key-targets">🎯 5. Exome Capture: Locking On to the Key Targets</h2>
+<p>This is where WES differs most from WGS and panels. WGS sequences all regions without discrimination, whereas a panel targets only a small set of known genes. Panels commonly enrich these targets by hybridization capture with short oligonucleotide probes designed for specific regions of those genes, or sometimes by directly amplifying the target fragments with PCR. WES, by contrast, requires an “exome-capture” step: <strong>biotin-labeled oligonucleotide probes</strong> hybridize to the target DNA fragments, after which <strong>streptavidin-coated magnetic beads</strong> enrich those fragments so that sequencing is concentrated on exonic regions.</p>
+<p>Common capture solutions include:</p>
+<ul>
+<li><p><strong>Agilent SureSelect</strong></p></li>
+<li><p><strong>Illumina Nextera Rapid Capture</strong></p></li>
+<li><p><strong>Roche SeqCap EZ</strong></p></li>
+</ul>
+<p><strong>Key quality-control considerations</strong>:</p>
+<ul>
+<li><p>Hybridization time and temperature must be controlled precisely to ensure capture efficiency;</p></li>
+<li><p>After capture, the library is amplified again by PCR and its fragment size is assessed.</p></li>
+</ul>
+<hr />
+<h2 id="receipt-6-quality-control-and-product-assessment">🧾 6. Quality Control and Product Assessment</h2>
+<p>After capture is complete, another round of quality control is required:</p>
+<ul>
+<li><p><strong>DNA concentration</strong> (Qubit)</p></li>
+<li><p><strong>Fragment-size distribution</strong> (Bioanalyzer or TapeStation)</p></li>
+<li><p><strong>Library size</strong> (typically 300–500 bp)</p></li>
+</ul>
+<p>Once all metrics pass, the library is ready to be loaded onto the sequencing platform.</p>
+<hr />
+<p>📌 <strong>Summary</strong><br />
+Today, we covered the entire process from sample collection through DNA-library preparation. This is the first half of the WES workflow and a critical determinant of sequencing-data quality. Think of it as preparing to cook: the ingredients (DNA) must be fresh, the preparation meticulous, and the seasonings (capture probes) precise, or the final dish will suffer.</p>
+<p>In the next article, we will move on to sequencing and raw-data generation. We will enter the “kitchen” of a high-throughput sequencer to see how prepared DNA is transformed, step by step, into lines of ACTG sequence, and discuss the strengths and weaknesses of different sequencing platforms in data generation.</p>
+<hr />
+<h3 id="references">References</h3>
+<ol type="1">
+<li><p>Sims D, Sudbery I, Ilott NE, Heger A, Ponting CP. Sequencing depth and coverage: key considerations in genomic analyses. <em>Nat Rev Genet</em>. 2014;15(2):121–132. doi:<a href="https://doi.org/10.1038/nrg3642" target="_blank" rel="noopener">10.1038/nrg3642</a></p></li>
+<li><p>Quail MA, Smith M, Coupland P, et al. A tale of three next generation sequencing platforms: comparison of Ion Torrent, Pacific Biosciences and Illumina MiSeq sequencers. <em>BMC Genomics</em>. 2012;13:341. doi:<a href="https://doi.org/10.1186/1471-2164-13-341" target="_blank" rel="noopener">10.1186/1471-2164-13-341</a></p></li>
+<li><p>Clark MJ, Chen R, Lam HY, et al. Performance comparison of exome DNA sequencing technologies. <em>Nat Biotechnol</em>. 2011;29(10):908–914. doi:<a href="https://doi.org/10.1038/nbt.1975" target="_blank" rel="noopener">10.1038/nbt.1975</a></p></li>
+</ol>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 04</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-history/"><span>Previous</span><strong>WES Series 3 | A Brief History of WES: From Sanger to NGS</strong></a><a class="series-nav-item next" href="/en/articles/wes-lab-workflow-part-2/"><span>Next</span><strong>WES Series 5 | The WES Laboratory Workflow, Part 2</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

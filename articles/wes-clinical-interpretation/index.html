@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑪｜临床解读：如何把基因变异转化为诊疗决策？｜见山 · 生信笔记</title><meta name="description" content="“检测出变异并不是终点，真正能改变患者命运的，是如何解读这些变异。” 1. 为什么临床解读很重要？ 在前一篇中，我们讲到通过 变异过滤 ，可以从成千上万的候选突变中筛出少数…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-clinical-interpretation/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-clinical-interpretation/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-clinical-interpretation/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-clinical-interpretation/"><meta property="og:title" content="WES系列⑪｜临床解读：如何把基因变异转化为诊疗决策？｜见山 · 生信笔记"><meta property="og:description" content="“检测出变异并不是终点，真正能改变患者命运的，是如何解读这些变异。” 1. 为什么临床解读很重要？ 在前一篇中，我们讲到通过 变异过滤 ，可以从成千上万的候选突变中筛出少数…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-clinical-interpretation/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-clinical-interpretation/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-clinical-interpretation/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 11/30</span><time datetime="2025-08-19">2025.08.19</time><span>约 5 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-为什么临床解读很重要"><span>01</span>1. 为什么临床解读很重要？</a></li><li><a href="#2-acmg-指南遗传病领域的金标准"><span>02</span>2. ACMG 指南：遗传病领域的金标准</a></li><li><a href="#3-amp-指南肿瘤领域的核心工具"><span>03</span>3. AMP 指南：肿瘤领域的核心工具</a></li><li><a href="#4-acmg-vs-amp适用场景对比"><span>04</span>4. ACMG vs AMP：适用场景对比</a></li><li><a href="#5-实际案例同一个基因不同解读"><span>05</span>5. 实际案例：同一个基因，不同解读</a></li><li><a href="#6-注意事项"><span>06</span>6. 注意事项</a></li><li><a href="#小结"><span>07</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-为什么临床解读很重要">1. 为什么临床解读很重要？</a></li><li><a href="#2-acmg-指南遗传病领域的金标准">2. ACMG 指南：遗传病领域的金标准</a></li><li><a href="#3-amp-指南肿瘤领域的核心工具">3. AMP 指南：肿瘤领域的核心工具</a></li><li><a href="#4-acmg-vs-amp适用场景对比">4. ACMG vs AMP：适用场景对比</a></li><li><a href="#5-实际案例同一个基因不同解读">5. 实际案例：同一个基因，不同解读</a></li><li><a href="#6-注意事项">6. 注意事项</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑪临床解读如何把基因变异转化为诊疗决策">WES系列⑪｜临床解读：如何把基因变异转化为诊疗决策？</h1>
+<blockquote>
+<p>“检测出变异并不是终点，真正能改变患者命运的，是如何解读这些变异。”</p>
+</blockquote>
+<hr />
+<h2 id="1-为什么临床解读很重要">1. 为什么临床解读很重要？</h2>
+<p>在前一篇中，我们讲到通过<strong>变异过滤</strong>，可以从成千上万的候选突变中筛出少数值得关注的位点。但过滤后的结果依然只是一个“候选清单”。</p>
+<p>真正决定它们能否写进临床报告、是否影响用药决策的，是<strong>临床解读</strong>。换句话说，解读是把“数据”转化为“诊疗”的关键环节。</p>
+<hr />
+<h2 id="2-acmg-指南遗传病领域的金标准">2. ACMG 指南：遗传病领域的金标准</h2>
+<h3 id="背景">背景</h3>
+<p>2015 年，<strong>美国医学遗传学与基因组学学会（ACMG）<strong>与</strong>美国分子病理学会（AMP）<strong>联合发布了著名的</strong>ACMG-AMP 变异分类指南</strong>。这份指南为<strong>生殖系（germline）变异</strong>的解读提供了统一的标准。</p>
+<h3 id="分类体系">分类体系</h3>
+<p>ACMG 将基因变异分为五类：</p>
+<ol type="1">
+<li><p>致病（Pathogenic）</p></li>
+<li><p>可能致病（Likely pathogenic）</p></li>
+<li><p>意义未明（VUS, Variant of Uncertain Significance）</p></li>
+<li><p>可能良性（Likely benign）</p></li>
+<li><p>良性（Benign）</p></li>
+</ol>
+<h3 id="28-条证据标准">28 条证据标准</h3>
+<p>分类依据来自<strong>人群频率、功能预测、文献报道、家系共分离分析、功能实验</strong>等多个维度。指南共提出了 28 条证据标准，并规定了不同证据如何加权组合。</p>
+<p>这 28 条标准分为支持致病（如 PVS1、PS1、PM1、PP1 等）和支持良性（如 BA1、BS1、BP1 等）两大类，涵盖从人群频率阈值、体外功能实验结果，到家系分离情况、已知热点突变等多方面。</p>
+<p>在临床实践中，医生和实验室会将这些证据结合起来。例如：</p>
+<ul>
+<li><p>一个突变如果在人群数据库中频率极低（PM2）、又位于基因功能关键区域（PM1）、并且在家系分析中与疾病共分离（PP1），就可能被判定为“可能致病”。</p></li>
+<li><p>如果某突变在人群数据库中频率极高（BA1），且多项研究显示与疾病无关，则可判定为“良性”。</p></li>
+</ul>
+<p><strong>应用案例</strong>：一位患者在 CFTR 基因检测中发现 c.1521_1523delCTT 突变。根据 ACMG 标准：</p>
+<ul>
+<li><p>该突变是已知的功能缺失性突变（PVS1）；</p></li>
+<li><p>多篇文献报道与囊性纤维化高度相关（PS1）；</p></li>
+<li><p>功能实验验证了蛋白缺陷（PS3）。 因此该变异被判定为“致病”，直接支持临床诊断。</p></li>
+</ul>
+<h3 id="acmg-28-条证据标准对照表">ACMG 28 条证据标准对照表</h3>
+<table>
+<thead>
+<tr>
+<th>代码</th>
+<th>含义</th>
+<th>方向</th>
+<th>强度等级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PVS1</td>
+<td>已知功能缺失突变（如无义突变、移码、关键剪接位点）</td>
+<td>致病</td>
+<td>极强</td>
+</tr>
+<tr>
+<td>PS1</td>
+<td>已报道致病的同义氨基酸变化</td>
+<td>致病</td>
+<td>强</td>
+</tr>
+<tr>
+<td>PS2</td>
+<td>去 novo（父母未携带）且亲子关系确认</td>
+<td>致病</td>
+<td>强</td>
+</tr>
+<tr>
+<td>PS3</td>
+<td>功能实验显示有害效应</td>
+<td>致病</td>
+<td>强</td>
+</tr>
+<tr>
+<td>PS4</td>
+<td>病例对照研究显示显著富集</td>
+<td>致病</td>
+<td>强</td>
+</tr>
+<tr>
+<td>PM1</td>
+<td>位于功能关键区域/热点突变区域</td>
+<td>致病</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>PM2</td>
+<td>人群数据库中频率极低或缺失</td>
+<td>致病</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>PM3</td>
+<td>在隐性疾病中检测到复合杂合</td>
+<td>致病</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>PM4</td>
+<td>蛋白结构明显改变（非重复）</td>
+<td>致病</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>PM5</td>
+<td>同位点其他氨基酸变化已致病</td>
+<td>致病</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>PM6</td>
+<td>去 novo，但亲子关系未完全确认</td>
+<td>致病</td>
+<td>中等</td>
+</tr>
+<tr>
+<td>PP1</td>
+<td>家系共分离</td>
+<td>致病</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>PP2</td>
+<td>低变异率基因中检测到错义突变</td>
+<td>致病</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>PP3</td>
+<td>多数计算预测为有害</td>
+<td>致病</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>PP4</td>
+<td>患者表型/家系高度特异</td>
+<td>致病</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>PP5</td>
+<td>权威数据库或专家判定为致病</td>
+<td>致病</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>BA1</td>
+<td>人群数据库中频率高于阈值</td>
+<td>良性</td>
+<td>独立</td>
+</tr>
+<tr>
+<td>BS1</td>
+<td>频率高于预期</td>
+<td>良性</td>
+<td>强</td>
+</tr>
+<tr>
+<td>BS2</td>
+<td>健康个体中存在</td>
+<td>良性</td>
+<td>强</td>
+</tr>
+<tr>
+<td>BS3</td>
+<td>功能实验显示无害</td>
+<td>良性</td>
+<td>强</td>
+</tr>
+<tr>
+<td>BS4</td>
+<td>家系分析与疾病不共分离</td>
+<td>良性</td>
+<td>强</td>
+</tr>
+<tr>
+<td>BP1</td>
+<td>高变异率基因中检测到错义突变</td>
+<td>良性</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>BP2</td>
+<td>与另一个致病突变在顺式</td>
+<td>良性</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>BP3</td>
+<td>在重复区域的无害变异</td>
+<td>良性</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>BP4</td>
+<td>多数计算预测为无害</td>
+<td>良性</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>BP5</td>
+<td>在另一个明确致病突变存在时检测到</td>
+<td>良性</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>BP6</td>
+<td>权威数据库或专家判定为良性</td>
+<td>良性</td>
+<td>支持</td>
+</tr>
+<tr>
+<td>BP7</td>
+<td>同义变异且无剪接影响</td>
+<td>良性</td>
+<td>支持</td>
+</tr>
+</tbody>
+</table>
+<p><strong>临床价值</strong>：ACMG 分类是全球遗传病检测实验室普遍采用的标准，确保了不同机构之间解读结果的一致性。例如：</p>
+<ul>
+<li><p>BRCA1 致病性突变 → 影响乳腺癌、卵巢癌的风险评估。</p></li>
+<li><p>CFTR 基因突变 → 与囊性纤维化的确诊直接相关。</p></li>
+</ul>
+<hr />
+<h2 id="3-amp-指南肿瘤领域的核心工具">3. AMP 指南：肿瘤领域的核心工具</h2>
+<h3 id="背景-1">背景</h3>
+<p>2017 年，<strong>美国分子病理学会（AMP）<strong>联合</strong>美国临床肿瘤学会（ASCO）<strong>和</strong>美国病理学家学会（CAP）<strong>发布了专门针对</strong>体细胞（somatic）变异</strong>的解读指南。</p>
+<h3 id="分级体系">分级体系</h3>
+<p>AMP 将肿瘤体细胞变异分为 4 个等级：</p>
+<ol type="1">
+<li><p><strong>Tier I（强临床意义）</strong>：已知的、FDA 批准的药物靶点。</p></li>
+<li><p><strong>Tier II（潜在临床意义）</strong>：有临床试验支持，但尚未广泛应用。</p></li>
+<li><p><strong>Tier III（意义未明）</strong>：目前缺乏明确临床证据。</p></li>
+<li><p><strong>Tier IV（良性/无临床意义）</strong>：与疾病无关。</p></li>
+</ol>
+<h3 id="临床价值">临床价值</h3>
+<p>AMP 分类强调了突变与<strong>用药、预后、临床试验入组</strong>的直接关联。例如：</p>
+<ul>
+<li><p>EGFR 突变（L858R, Exon 19 Del） → EGFR-TKI 靶向药物。</p></li>
+<li><p>KRAS G12C 突变 → 新型 KRAS 抑制剂的适用人群。</p></li>
+</ul>
+<hr />
+<h2 id="4-acmg-vs-amp适用场景对比">4. ACMG vs AMP：适用场景对比</h2>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>ACMG 指南</th>
+<th>AMP 指南</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>应用领域</td>
+<td>遗传病、生殖系变异</td>
+<td>肿瘤、体细胞变异</td>
+</tr>
+<tr>
+<td>发布年份</td>
+<td>2015</td>
+<td>2017</td>
+</tr>
+<tr>
+<td>发布机构</td>
+<td>ACMG + AMP</td>
+<td>AMP + ASCO + CAP</td>
+</tr>
+<tr>
+<td>分类方式</td>
+<td>5 类（致病到良性）</td>
+<td>4 级（Tier I-IV）</td>
+</tr>
+<tr>
+<td>证据来源</td>
+<td>家系分析、功能研究、人群频率</td>
+<td>药物批准、临床试验、临床证据</td>
+</tr>
+<tr>
+<td>典型应用</td>
+<td>遗传病诊断、遗传咨询</td>
+<td>靶向药物选择、临床试验入组</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-实际案例同一个基因不同解读">5. 实际案例：同一个基因，不同解读</h2>
+<p>以<strong>BRCA1</strong>为例：</p>
+<ul>
+<li><p><strong>ACMG 框架下</strong>：BRCA1 致病性突变意味着家族遗传风险，指导家系成员的风险评估和筛查。</p></li>
+<li><p><strong>AMP 框架下</strong>：同样的突变在肿瘤患者中，也可能提示 PARP 抑制剂的用药获益。</p></li>
+</ul>
+<p>这说明<strong>解读框架的不同，决定了变异的临床价值取向</strong>。在实际报告中，往往需要同时结合 ACMG 和 AMP 的视角。</p>
+<hr />
+<h2 id="6-注意事项">6. 注意事项</h2>
+<ol type="1">
+<li><p><strong>变异解读不是一次性的</strong>：随着新药和新研究出现，同一突变的临床意义可能会发生变化。</p></li>
+<li><p><strong>结合临床背景</strong>：基因变异的解读必须结合患者的病史、病理信息，而不是单纯依赖分级。</p></li>
+<li><p><strong>报告需透明</strong>：要写明证据来源和分级标准，保证可追溯性。</p></li>
+</ol>
+<hr />
+<h2 id="小结">小结</h2>
+<ul>
+<li><p><strong>ACMG 指南</strong>：解决遗传病中的“是否致病”。</p></li>
+<li><p><strong>AMP 指南</strong>：解决肿瘤中的“是否可用药”。</p></li>
+</ul>
+<p>两者应用的领域不同，分别在遗传病和肿瘤中承担关键作用。</p>
+<hr />
+<p><strong>下期预告</strong>：《拷贝数变异（CNV）分析：WES数据的“隐藏信息”》</p>
+<p>利用 WES 数据，不仅能发现点突变（SNV）和小片段插入缺失（InDel），还能发掘大片段的基因缺失或重复（CNV）。下一篇，我们将介绍基于WES数据进行CNV检测的原理和工具。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 11</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-variant-filtering/"><span>上一篇</span><strong>WES系列⑩｜变异过滤：从海量候选中筛出真正有价值的突变</strong></a><a class="series-nav-item next" href="/articles/wes-cnv-analysis/"><span>下一篇</span><strong>WES系列⑫｜拷贝数变异（CNV）分析：WES数据的“隐藏信息”</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

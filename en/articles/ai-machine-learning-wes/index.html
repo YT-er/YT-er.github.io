@@ -1,0 +1,96 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 30 | How AI and Machine Learning Support WES Interpretation | Jianshan Bioinformatics Notes</title><meta name="description" content="Introduction At night, the lighthouse in the harbor does not move; the ships do. WES erected the lighthouse, illuminating a sea of variants and genes. AI is like a quiet navigator—it does no…"><link rel="canonical" href="https://yt-er.github.io/en/articles/ai-machine-learning-wes/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/ai-machine-learning-wes/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/ai-machine-learning-wes/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/ai-machine-learning-wes/"><meta property="og:title" content="WES Series 30 | How AI and Machine Learning Support WES Interpretation | Jianshan Bioinformatics Notes"><meta property="og:description" content="Introduction At night, the lighthouse in the harbor does not move; the ships do. WES erected the lighthouse, illuminating a sea of variants and genes. AI is like a quiet navigator—it does no…"><meta property="og:url" content="https://yt-er.github.io/en/articles/ai-machine-learning-wes/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/ai-machine-learning-wes/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/ai-machine-learning-wes/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 30/30</span><time datetime="2025-09-09">2025.09.09</time><span>Approx. 4 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#introduction"><span>01</span>Introduction</a></li><li><a href="#1-five-types-of-clues-ai-can-see"><span>02</span>1. Five Types of Clues AI Can &quot;See&quot;</a></li><li><a href="#2-three-cases-ai-at-our-side-quietly"><span>03</span>2. Three Cases: AI at Our Side, Quietly</a></li><li><a href="#3-a-human-ai-collaboration-sop-turning-inspiration-into-a-process"><span>04</span>3. A Human-AI Collaboration SOP: Turning &quot;Inspiration&quot; into a &quot;Process&quot;</a></li><li><a href="#4-boundaries-and-guardrails-do-not-let-the-magnifying-glass-become-a-funhouse-mirror"><span>05</span>4. Boundaries and Guardrails: Do Not Let the Magnifying Glass Become a Funhouse Mirror</a></li><li><a href="#5-how-we-measure-usefulness"><span>06</span>5. How We Measure &quot;Usefulness&quot;</a></li><li><a href="#summary"><span>07</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#introduction">Introduction</a></li><li><a href="#1-five-types-of-clues-ai-can-see">1. Five Types of Clues AI Can &quot;See&quot;</a></li><li><a href="#2-three-cases-ai-at-our-side-quietly">2. Three Cases: AI at Our Side, Quietly</a></li><li><a href="#3-a-human-ai-collaboration-sop-turning-inspiration-into-a-process">3. A Human-AI Collaboration SOP: Turning &quot;Inspiration&quot; into a &quot;Process&quot;</a></li><li><a href="#4-boundaries-and-guardrails-do-not-let-the-magnifying-glass-become-a-funhouse-mirror">4. Boundaries and Guardrails: Do Not Let the Magnifying Glass Become a Funhouse Mirror</a></li><li><a href="#5-how-we-measure-usefulness">5. How We Measure &quot;Usefulness&quot;</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-30--how-ai-and-machine-learning-support-wes-interpretation">WES Series 30 | How AI and Machine Learning Support WES Interpretation</h1>
+<h3 id="introduction">Introduction</h3>
+<p>At night, the lighthouse in the harbor does not move; the ships do. WES erected the lighthouse, illuminating a sea of variants and genes. AI is like a quiet navigator—it does not issue commands, but it can trace the tides and undercurrents on the chart, telling us which areas deserve a closer look and which should be bypassed for now.</p>
+<blockquote>
+<p>Remember: <strong>AI is a magnifying glass, not a judge's gavel</strong>; it amplifies clues but does not deliver the final verdict.</p>
+</blockquote>
+<hr />
+<h3 id="1-five-types-of-clues-ai-can-see">1. Five Types of Clues AI Can "See"</h3>
+<ol type="1">
+<li><strong>Variant level</strong>:</li>
+</ol>
+<ul>
+<li><p>Predicting the pathogenicity of missense/truncating variants (integrated features such as domains, conservation, solvent exposure, and protein stability).</p></li>
+<li><p>Predicting splicing effects: noncanonical boundaries, enhancer/silencer sites, and the possibility of cryptic-exon activation.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Transcript level</strong>:</li>
+</ol>
+<ul>
+<li>In combination with RNA-seq or long-read transcriptomics, flagging abnormal exon-junction patterns and allelic expression imbalance.</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Gene level</strong>:</li>
+</ol>
+<ul>
+<li>Using pathways and networks to place an "isolated VUS" back into its biological context: Does known pathogenic evidence from the same pathway offer support?</li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Phenotype level</strong>:</li>
+</ol>
+<ul>
+<li>NLP converts medical records into HPO terms; a model calculates "phenotype-gene" similarity and produces a <strong>ranked list of candidate genes</strong>.</li>
+</ul>
+<ol start="5" type="1">
+<li><strong>Cohort level</strong>:</li>
+</ol>
+<ul>
+<li>Searching across multicenter data for "weak but consistent" patterns that indicate priorities for reclassification and follow-up.</li>
+</ul>
+<hr />
+<h3 id="2-three-cases-ai-at-our-side-quietly">2. Three Cases: AI at Our Side, Quietly</h3>
+<ul>
+<li><p><strong>Case 1 | From Gray to Color</strong>: An infant has hypotonia, and WES identifies a VUS near a splice boundary. AI flags a "high probability of splice disruption," prompting the team to prioritize minigene and RNA-seq assays. These confirm abnormal exon skipping, and the variant is reclassified as "likely pathogenic."</p></li>
+<li><p><strong>Case 2 | From a Pile of Literature to an Evidence Chain</strong>: Databases contain conflicting interpretations of the same site. AI first generates an <strong>evidence summary</strong>: population frequency, functional domain, functional data, and family reports point in different directions. The counselor uses this to explain to the family "what can and cannot be done now" and creates a reanalysis trigger in the system.</p></li>
+<li><p><strong>Case 3 | Rewriting the Medical Record as Clues</strong>: An adult patient with myopathy reports "difficulty climbing stairs and intermittently elevated muscle enzymes." AI extracts a set of HPO terms from the outpatient record, and a known myopathy gene appears near the top of the candidate-gene ranking; subsequent functional experiments establish the diagnosis.</p></li>
+</ul>
+<hr />
+<h3 id="3-a-human-ai-collaboration-sop-turning-inspiration-into-a-process">3. A Human-AI Collaboration SOP: Turning "Inspiration" into a "Process"</h3>
+<p><strong>1) Input</strong>:</p>
+<ul>
+<li><p>Electronic health record -&gt; NLP -&gt; HPO term set;</p></li>
+<li><p>WES/WGS variants -&gt; annotation (population frequency, functional domain, conservation, splicing prediction).</p></li>
+</ul>
+<p><strong>2) The Machine Provides a "Preliminary Ranking"</strong>:</p>
+<ul>
+<li><p>A Top-N list of candidate genes/variants;</p></li>
+<li><p>An evidence sketch (literature summary, evidence from the same pathway, proximity to known pathogenic sites).</p></li>
+</ul>
+<p><strong>3) Humans "Select and Validate"</strong>:</p>
+<ul>
+<li><p>Variant review, family strategy, and priorities for functional/transcriptomic validation;</p></li>
+<li><p><strong>Action boundaries</strong> and wording for clinical communication.</p></li>
+</ul>
+<p><strong>4) Output and Feedback Loop</strong>:</p>
+<ul>
+<li><p>Automated checks before reporting: the evidence chain is complete, database/algorithm versions are stated, and the analysis is reproducible;</p></li>
+<li><p><strong>Reanalysis cadence</strong> (for example, 6–12 months) + triggers (new evidence for the same site, internal functional results, phenotype updates).</p></li>
+</ul>
+<blockquote>
+<p>It should be like building a bridge: <strong>the machine lays the foundation, and people pave the surface</strong>; every step is written into an SOP, leaving traceable footprints.</p>
+</blockquote>
+<hr />
+<h3 id="4-boundaries-and-guardrails-do-not-let-the-magnifying-glass-become-a-funhouse-mirror">4. Boundaries and Guardrails: Do Not Let the Magnifying Glass Become a Funhouse Mirror</h3>
+<ul>
+<li><p><strong>Explainability and verifiability</strong>: Critical conclusions must be independently reproducible; provide a concise view of "why this score is high" (functional domain, splice-site context, and so on).</p></li>
+<li><p><strong>Bias and ancestry</strong>: Imbalanced ancestry in training data can make a variant appear "incorrectly rare" or "incorrectly common" in certain populations.</p></li>
+<li><p><strong>Data leakage and reidentification</strong>: Models and logs must not carry identifiable information; <strong>conduct a privacy audit before release</strong>.</p></li>
+<li><p><strong>Extrapolation and drift</strong>: Scenario changes (pediatrics -&gt; adults, exome -&gt; whole genome) require recalibration; verify performance regularly.</p></li>
+<li><p><strong>"AI means advice"</strong>: Reports should explicitly state that AI outputs are <strong>reference clues</strong>, not an independent basis for classification.</p></li>
+</ul>
+<hr />
+<h3 id="5-how-we-measure-usefulness">5. How We Measure "Usefulness"</h3>
+<ul>
+<li><p><strong>Top-K recall</strong>: Does the ultimately diagnosed gene appear in the Top 20/50?</p></li>
+<li><p><strong>Time savings</strong>: How much does the time from case intake to conclusion decrease?</p></li>
+<li><p><strong>Reclassification yield</strong>: Annual conversion rate from VUS to (likely) pathogenic;</p></li>
+<li><p><strong>Validation hit rate</strong>: Proportion of splicing predictions confirmed by minigene/RNA-seq;</p></li>
+<li><p><strong>Communication quality</strong>: Changes in patient understanding and anxiety scores after results are returned (quantitative follow-up).</p></li>
+</ul>
+<hr />
+<h3 id="summary">Summary</h3>
+<p>AI will not make decisions for you, but it will make more of the evidence behind those decisions visible. Medical interpretation has never been a solitary act of intuition; it is about <strong>lining up the evidence</strong>. When the lighthouse remains still but the sea is moving, a reliable navigator means fewer detours and a steadier arrival.</p>
+<blockquote>
+<p><strong>Series finale, to our readers</strong>: From "what we cannot see" to "how we can make more visible," we have completed this journey. Technology will always be the bridge; human understanding and choice are the true destination.</p>
+</blockquote>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 30</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/long-read-vs-wes/"><span>Previous</span><strong>WES Series 29 | Will Long-Read Sequencing Replace WES?</strong></a><span></span></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

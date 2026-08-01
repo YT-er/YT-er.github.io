@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列③｜WES简史：从Sanger到NGS，一场基因测序的技术革命｜见山 · 生信笔记</title><meta name="description" content="“从用手一条一条读DNA，到今天一次读上亿条序列，科学界只用了短短几十年。” 在全外显子组测序（WES）成为临床和科研常用工具之前，基因测序技术已经经历了几次重要的变革。了…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-history/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-history/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-history/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-history/"><meta property="og:title" content="WES系列③｜WES简史：从Sanger到NGS，一场基因测序的技术革命｜见山 · 生信笔记"><meta property="og:description" content="“从用手一条一条读DNA，到今天一次读上亿条序列，科学界只用了短短几十年。” 在全外显子组测序（WES）成为临床和科研常用工具之前，基因测序技术已经经历了几次重要的变革。了…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-history/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-history/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-history/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 03/30</span><time datetime="2025-08-09">2025.08.09</time><span>约 5 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#dna-1-sanger测序时代19772000"><span>01</span>🧬 1. Sanger测序时代（1977–2000）</a></li><li><a href="#rocket-2-高通量测序ngs的兴起20052010"><span>02</span>🚀 2. 高通量测序（NGS）的兴起（2005–2010）</a></li><li><a href="#dart-3-wes-的诞生2009"><span>03</span>🎯 3. WES 的诞生（2009）</a></li><li><a href="#hospital-4-wes-的临床应用2010至今"><span>04</span>🏥 4. WES 的临床应用（2010–至今）</a></li><li><a href="#telescope-5-wes-的未来与挑战"><span>05</span>🔭 5. WES 的未来与挑战</a></li><li><a href="#pushpin-总结"><span>06</span>📌 总结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#dna-1-sanger测序时代19772000">🧬 1. Sanger测序时代（1977–2000）</a></li><li><a href="#rocket-2-高通量测序ngs的兴起20052010">🚀 2. 高通量测序（NGS）的兴起（2005–2010）</a></li><li><a href="#dart-3-wes-的诞生2009">🎯 3. WES 的诞生（2009）</a></li><li><a href="#hospital-4-wes-的临床应用2010至今">🏥 4. WES 的临床应用（2010–至今）</a></li><li><a href="#telescope-5-wes-的未来与挑战">🔭 5. WES 的未来与挑战</a></li><li><a href="#pushpin-总结">📌 总结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列③wes简史从sanger到ngs一场基因测序的技术革命">WES系列③｜WES简史：从Sanger到NGS，一场基因测序的技术革命</h1>
+<blockquote>
+<p>“从用手一条一条读DNA，到今天一次读上亿条序列，科学界只用了短短几十年。”</p>
+</blockquote>
+<hr />
+<p>在全外显子组测序（WES）成为临床和科研常用工具之前，基因测序技术已经经历了几次重要的变革。了解这段历史，不仅能让我们更清楚 WES 的优势与局限，也能帮助我们在实际工作中更合理地选择合适的方法。</p>
+<p>这篇文章，将带你回到 1970 年代，从 Sanger 测序开始，一路走到 21 世纪的高通量测序（NGS），看看 WES 是如何登上舞台的。</p>
+<hr />
+<h2 id="dna-1-sanger测序时代19772000"><strong>🧬 1. Sanger测序时代（1977–2000）</strong></h2>
+<p>1977 年，Frederick Sanger 和同事提出了<strong>链终止法</strong>（Sanger sequencing），这是第一个被广泛使用的 DNA 测序技术<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>。</p>
+<p>它的原理是利用带荧光标记的“终止碱基”阻止 DNA 链继续延伸，通过毛细管电泳分离不同长度的片段，再读取荧光信号以确定序列。该方法精度高，但一次只能测几百到上千个碱基，通量有限。</p>
+<p>在接下来的二十多年里，Sanger 测序是分子生物学的重要工具。人类基因组计划（HGP）的大部分数据，正是用这种方法获得的<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>。不过代价高昂——HGP 花了 13 年、近 30 亿美元，才绘制出第一份人类基因组草图。</p>
+<p><strong>这个时期的特点：</strong></p>
+<ul>
+<li><p>优点：精度高、读长可达 800–1000 bp；</p></li>
+<li><p>缺点：速度慢、成本高、不适合大规模测序。</p></li>
+</ul>
+<hr />
+<h2 id="rocket-2-高通量测序ngs的兴起20052010"><strong>🚀 2. 高通量测序（NGS）的兴起（2005–2010）</strong></h2>
+<p>进入 21 世纪，测序技术迎来飞跃——<strong>高通量测序</strong>（Next Generation Sequencing，NGS）<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>。这种技术能在一个芯片上同时测上百万甚至上亿条 DNA 分子，大大降低了成本、提高了速度。</p>
+<p><strong>主要平台：</strong></p>
+<ul>
+<li><p><strong>Illumina</strong>：边合成边测序（Sequencing by Synthesis, SBS），目前占据主流市场；</p></li>
+<li><p><strong>SOLiD</strong>（现已淡出）：基于连接测序；</p></li>
+<li><p><strong>454</strong>（已停产）：基于焦磷酸测序。</p></li>
+</ul>
+<p>NGS 的到来，使得全基因组测序（WGS）和全外显子测序（WES）成为可能。2008 年，一个人的全外显子组测序成本首次降到 5 万美元以内<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>，而如今只需几百美元。</p>
+<hr />
+<h2 id="dart-3-wes-的诞生2009"><strong>🎯 3. WES 的诞生（2009）</strong></h2>
+<p>2009 年，WES 首次亮相。它的思路很明确：</p>
+<ol type="1">
+<li><p>先用探针捕获基因组中所有外显子区域（约占 1%）；</p></li>
+<li><p>对这些区域进行高深度测序；</p></li>
+<li><p>专注分析与疾病相关的变异。</p></li>
+</ol>
+<p>外显子之所以被重点关注，是因为尽管它们只占基因组的一小部分，却包含了超过 85% 的已知致病突变。这种策略既减少了测序量和成本，又保留了核心信息。</p>
+<p>最早的 WES 应用，就成功找到了罕见孟德尔遗传病的致病基因，这让它迅速受到科研界的关注。</p>
+<hr />
+<h2 id="hospital-4-wes-的临床应用2010至今"><strong>🏥 4. WES 的临床应用（2010–至今）</strong></h2>
+<p>随着捕获技术和测序平台的优化，WES 很快从研究工具走进了临床实验室<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>。</p>
+<p><strong>重要发展节点：</strong></p>
+<ul>
+<li><p><strong>2010–2012</strong>：父母+患儿的 Trio-WES 模式普及，罕见病诊断率显著提高；</p></li>
+<li><p><strong>2014</strong>：美国医学遗传学与基因组学学会（ACMG）发布变异解读指南，临床 WES 报告逐步标准化；</p></li>
+<li><p><strong>2018 以后</strong>：WES 被纳入多个国家的遗传病诊断指南。</p></li>
+</ul>
+<p>如今，WES 已成为临床遗传学、肿瘤基因组学和药物基因组学的重要检测手段。</p>
+<hr />
+<h2 id="telescope-5-wes-的未来与挑战"><strong>🔭 5. WES 的未来与挑战</strong></h2>
+<p>虽然 WES 在很多领域都表现优异，但它并非完美无缺。长读长测序技术（PacBio、Nanopore）和单细胞测序的出现，正在补齐 WES 无法有效覆盖的领域，如结构变异、重复序列和非编码区<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>。</p>
+<p>未来，WES 可能会更多地与 WGS、RNA-seq 及其他多组学技术结合，形成更全面的分析方案。</p>
+<hr />
+<h2 id="pushpin-总结"><strong>📌 总结</strong></h2>
+<p>WES 是测序技术发展中的一个重要里程碑。它在信息量与成本之间找到了平衡点，既保留了临床所需的关键信息，又大幅提升了检测效率。无论是在科研中寻找新基因，还是在临床为患者确诊，WES 都已成为不可或缺的工具。</p>
+<p>了解它的历史，就像了解一位老朋友的成长历程——知道它擅长什么、局限在哪，也能更好地判断它在未来的发展方向。</p>
+<hr />
+<p><strong>下期预告</strong>：我们将走进 WES 的实验室一线，看看一管血是如何变成可分析的测序数据的。</p>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Sanger F, Nicklen S, Coulson AR. DNA sequencing with chain-terminating inhibitors. <em>Proc Natl Acad Sci USA</em>. 1977;74(12):5463–5467. doi:<a href="https://doi.org/10.1073/pnas.74.12.5463" target="_blank" rel="noopener">10.1073/pnas.74.12.5463</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>National Human Genome Research Institute. The Human Genome Project. <a href="https://www.genome.gov/human-genome-project" target="_blank" rel="noopener"><span>https://www.genome.gov/human-genome-project</span></a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Mardis ER. Next-generation DNA sequencing methods. <em>Annu Rev Genomics Hum Genet</em>. 2008;9:387–402. doi:<a href="https://doi.org/10.1146/annurev.genom.9.081307.164359" target="_blank" rel="noopener">10.1146/annurev.genom.9.081307.164359</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Ng SB, Turner EH, Robertson PD, Flygare SD, Bigham AW, Lee C, et al. Targeted capture and massively parallel sequencing of 12 human exomes. <em>Nature</em>. 2009;461(7261):272–276. doi:<a href="https://doi.org/10.1038/nature08250" target="_blank" rel="noopener">10.1038/nature08250</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>ACMG Board of Directors. ACMG policy statement: clinical application of genomic sequencing. <em>Genet Med</em>. 2012;14(6):531–533. doi:<a href="https://doi.org/10.1038/gim.2012.73" target="_blank" rel="noopener">10.1038/gim.2012.73</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>De Coster W, Weissensteiner MH, Sedlazeck FJ. Towards population-scale long-read sequencing. <em>Nat Rev Genet</em>. 2021;22(9):597–614. doi:<a href="https://doi.org/10.1038/s41576-021-00367-3" target="_blank" rel="noopener">10.1038/s41576-021-00367-3</a><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 03</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-vs-wgs-vs-panel/"><span>上一篇</span><strong>WES系列②｜WES vs WGS vs Panel：如何选择最适合的基因测序策略？</strong></a><a class="series-nav-item next" href="/articles/wes-lab-workflow-part-1/"><span>下一篇</span><strong>WES系列④｜WES实验流程全解析（上）</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

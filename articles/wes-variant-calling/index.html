@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑧｜变异检测：如何在你的基因组中找到“不同”？｜见山 · 生信笔记</title><meta name="description" content="“测序就像拍了一张基因组的超清照片，而变异检测就是用放大镜去找照片上的每一处细节差异。” 1. 变异检测的意义 在 WES 数据分析中，完成比对（Alignment）后，我…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-variant-calling/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-variant-calling/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-variant-calling/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-variant-calling/"><meta property="og:title" content="WES系列⑧｜变异检测：如何在你的基因组中找到“不同”？｜见山 · 生信笔记"><meta property="og:description" content="“测序就像拍了一张基因组的超清照片，而变异检测就是用放大镜去找照片上的每一处细节差异。” 1. 变异检测的意义 在 WES 数据分析中，完成比对（Alignment）后，我…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-variant-calling/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-variant-calling/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-variant-calling/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 08/30</span><time datetime="2026-07-30">2026.07.30</time><span>约 5 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-变异检测的意义"><span>01</span>1. 变异检测的意义</a></li><li><a href="#2-germline-与-somatic-变异"><span>02</span>2. Germline 与 Somatic 变异</a></li><li><a href="#3-基本流程概览"><span>03</span>3. 基本流程概览</a></li><li><a href="#4-主流算法与工具"><span>04</span>4. 主流算法与工具</a></li><li><a href="#5-变异检测中的关键参数"><span>05</span>5. 变异检测中的关键参数</a></li><li><a href="#6-输出文件vcf-格式"><span>06</span>6. 输出文件：VCF 格式</a></li><li><a href="#7-注意事项"><span>07</span>7. 注意事项</a></li><li><a href="#小结"><span>08</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-变异检测的意义">1. 变异检测的意义</a></li><li><a href="#2-germline-与-somatic-变异">2. Germline 与 Somatic 变异</a></li><li><a href="#3-基本流程概览">3. 基本流程概览</a></li><li><a href="#4-主流算法与工具">4. 主流算法与工具</a></li><li><a href="#5-变异检测中的关键参数">5. 变异检测中的关键参数</a></li><li><a href="#6-输出文件vcf-格式">6. 输出文件：VCF 格式</a></li><li><a href="#7-注意事项">7. 注意事项</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑧变异检测如何在你的基因组中找到不同">WES系列⑧｜变异检测：如何在你的基因组中找到“不同”？</h1>
+<blockquote>
+<p>“测序就像拍了一张基因组的超清照片，而变异检测就是用放大镜去找照片上的每一处细节差异。”</p>
+</blockquote>
+<hr />
+<h2 id="1-变异检测的意义">1. 变异检测的意义</h2>
+<p>在 WES 数据分析中，完成比对（Alignment）后，我们得到了一个包含全部测序读段位置的<strong>BAM 文件</strong>。但这些比对结果还只是“原始影像”，我们需要从中找出与参考基因组不同的地方——这就是<strong>变异检测</strong>（Variant Calling）。</p>
+<p>变异可能是：</p>
+<ul>
+<li><p><strong>单核苷酸变异（SNV）</strong>：单个碱基的替换</p></li>
+<li><p><strong>小片段插入/缺失（InDel）</strong>：几个碱基的增加或缺失</p></li>
+<li><p><strong>结构变异（Structural Variants, SV）</strong>：涉及较大 DNA 片段的变化，如大片段缺失（Deletion）、重复（Duplication）、倒位（Inversion）和易位（Translocation）。SV 通常会影响基因结构，甚至改变调控区域，对疾病发生发展有重要影响。</p></li>
+</ul>
+<p>这些“不同”可能是致病突变、良性多态性，也可能是测序误差。变异检测的目标就是区分它们。</p>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p><small>突变类型图</small></figure>
+<hr />
+<h2 id="2-germline-与-somatic-变异">2. Germline 与 Somatic 变异</h2>
+<p>在不同的研究和临床场景中，我们通常会区分两大类变异：</p>
+<ul>
+<li><p><strong>Germline（胚系变异）</strong>：存在于生殖细胞（精子或卵子）中，并能遗传给下一代。这类变异在一个人全身的细胞中都存在，通常与遗传性疾病、家族性肿瘤等相关。检测 germline 变异通常需要正常组织或外周血样本。</p></li>
+<li><p><strong>Somatic（体细胞变异）</strong>：发生在个体生命过程中，由环境因素（如紫外线、化学物质）或 DNA 复制错误导致，通常只存在于部分细胞中。肿瘤样本中的驱动基因突变大多属于 somatic 变异。检测 somatic 变异通常需要肿瘤样本，并最好配对正常对照以区分背景变异。</p></li>
+</ul>
+<p>区分这两类变异，不仅对临床诊断和治疗有重要意义，也会影响变异检测的策略与工具选择。</p>
+<hr />
+<h2 id="3-基本流程概览">3. 基本流程概览</h2>
+<p>变异检测的通用步骤通常包括：</p>
+<ol type="1">
+<li><p><strong>预处理</strong>：对 BAM 文件进行排序（sort）、标记重复（mark duplicates）、重校准（BQSR）</p></li>
+<li><p><strong>候选变异检测</strong>：使用专门算法在比对数据中寻找可能的变异位点</p></li>
+<li><p><strong>过滤与质控</strong>：去除低质量、可能的假阳性结果</p></li>
+<li><p><strong>生成 VCF 文件</strong>：用标准格式记录所有变异信息</p></li>
+</ol>
+<p>其中“标记重复”与“删除重复”不是同一个动作，不同统计口径也不能直接比较，详见<a href="/articles/ngs-duplicates/">NGS Duplicates的统计口径</a>。</p>
+<hr />
+<h2 id="4-主流算法与工具">4. 主流算法与工具</h2>
+<h3 id="41-gatk-haplotypecaller">4.1 GATK HaplotypeCaller</h3>
+<ul>
+<li><p>原理：通过局部重组装（local re-assembly）来提高检测精度</p></li>
+<li><p>优势：在复杂区域（如 InDel 周围）有更好表现</p></li>
+<li><p>输出：gVCF 或 VCF 文件，常用于 germline 变异检测</p></li>
+</ul>
+<h3 id="42-mutect2gatk">4.2 Mutect2（GATK）</h3>
+<ul>
+<li><p>原理：基于贝叶斯模型，优化了肿瘤-正常对照分析</p></li>
+<li><p>优势：对低频率 somatic 变异敏感，适合肿瘤研究</p></li>
+</ul>
+<h3 id="43-samtools-mpileup--bcftools">4.3 SAMtools mpileup + BCFtools</h3>
+<ul>
+<li><p>原理：基于测序深度和碱基质量的统计模型</p></li>
+<li><p>优势：简单、高效，适合快速分析</p></li>
+</ul>
+<h3 id="44-freebayes">4.4 FreeBayes</h3>
+<ul>
+<li><p>原理：基于贝叶斯模型的多样本变异检测</p></li>
+<li><p>优势：支持多样本联合分析，适用于群体研究</p></li>
+</ul>
+<hr />
+<h2 id="5-变异检测中的关键参数">5. 变异检测中的关键参数</h2>
+<ul>
+<li><p><strong>测序深度（DP）</strong>：某个位点被测序的次数，过低可能漏检，过高可能是假阳性</p></li>
+<li><p><strong>比对质量（MAPQ）</strong>：read 比对到正确位置的可信度</p></li>
+<li><p><strong>碱基质量（BQ）</strong>：每个碱基测序的置信度</p></li>
+<li><p><strong>等位基因频率（AF）</strong>：变异碱基在所有 reads 中的比例</p></li>
+</ul>
+<p>这些参数直接影响变异检测的灵敏度与特异性。</p>
+<hr />
+<h2 id="6-输出文件vcf-格式">6. 输出文件：VCF 格式</h2>
+<p>VCF（Variant Call Format）是变异检测结果的标准格式。每一行描述一个变异，包括但不限于：</p>
+<ul>
+<li><p>染色体与位置</p></li>
+<li><p>参考碱基与变异碱基</p></li>
+<li><p>质量分数（QUAL）</p></li>
+<li><p>过滤状态（FILTER）</p></li>
+<li><p>附加信息（INFO）</p></li>
+</ul>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p><small>vcf示意图</small></figure>
+<hr />
+<h2 id="7-注意事项">7. 注意事项</h2>
+<ul>
+<li><p>不同工具检测结果可能不同，建议交叉验证</p></li>
+<li><p>测序错误、低复杂度区域、重复序列等容易造成假阳性</p></li>
+<li><p>对肿瘤样本，应使用肿瘤-正常对照策略以减少背景变异干扰</p></li>
+<li><p>对家系样本，可利用遗传模式进行额外过滤</p></li>
+<li><p>Germline 和 Somatic 变异的检测工具、阈值、过滤策略往往不同，不能混用</p></li>
+</ul>
+<hr />
+<h2 id="小结">小结</h2>
+<p>变异检测是 WES 数据分析的核心环节之一，从原始的比对结果中提炼出真正的基因变异信息。高质量的 BAM 文件、合适的算法和合理的过滤标准，缺一不可。</p>
+<hr />
+<p><strong>下期预告</strong>：《变异注释（Variant Annotation）：给基因变异一个“身份”》，我们将聊聊如何用各种数据库为这些变异加上“身份证”，理解它们可能的功能和临床意义。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 08</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-alignment-to-bam/"><span>上一篇</span><strong>WES系列⑦｜从 FASTQ 比对到 SAM/BAM</strong></a><a class="series-nav-item next" href="/articles/wes-variant-annotation/"><span>下一篇</span><strong>WES系列⑨｜变异注释：给基因变异一个“身份”</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

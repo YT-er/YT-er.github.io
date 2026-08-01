@@ -1,0 +1,91 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 8 | Variant Calling: Finding What Differs in a Genome | Jianshan Bioinformatics Notes</title><meta name="description" content="“Sequencing is like taking an ultra-high-resolution photograph of the genome; variant calling uses a magnifying glass to find every difference in its details.” 1. The Purpose of Variant Call…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-variant-calling/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-variant-calling/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-variant-calling/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-variant-calling/"><meta property="og:title" content="WES Series 8 | Variant Calling: Finding What Differs in a Genome | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Sequencing is like taking an ultra-high-resolution photograph of the genome; variant calling uses a magnifying glass to find every difference in its details.” 1. The Purpose of Variant Call…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-variant-calling/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-variant-calling/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-variant-calling/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 08/30</span><time datetime="2026-07-30">2026.07.30</time><span>Approx. 4 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#1-the-purpose-of-variant-calling"><span>01</span>1. The Purpose of Variant Calling</a></li><li><a href="#2-germline-and-somatic-variants"><span>02</span>2. Germline and Somatic Variants</a></li><li><a href="#3-overview-of-the-basic-workflow"><span>03</span>3. Overview of the Basic Workflow</a></li><li><a href="#4-mainstream-algorithms-and-tools"><span>04</span>4. Mainstream Algorithms and Tools</a></li><li><a href="#5-key-parameters-in-variant-calling"><span>05</span>5. Key Parameters in Variant Calling</a></li><li><a href="#6-the-output-file-vcf-format"><span>06</span>6. The Output File: VCF Format</a></li><li><a href="#7-important-considerations"><span>07</span>7. Important Considerations</a></li><li><a href="#summary"><span>08</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#1-the-purpose-of-variant-calling">1. The Purpose of Variant Calling</a></li><li><a href="#2-germline-and-somatic-variants">2. Germline and Somatic Variants</a></li><li><a href="#3-overview-of-the-basic-workflow">3. Overview of the Basic Workflow</a></li><li><a href="#4-mainstream-algorithms-and-tools">4. Mainstream Algorithms and Tools</a></li><li><a href="#5-key-parameters-in-variant-calling">5. Key Parameters in Variant Calling</a></li><li><a href="#6-the-output-file-vcf-format">6. The Output File: VCF Format</a></li><li><a href="#7-important-considerations">7. Important Considerations</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-8--variant-calling-finding-what-differs-in-a-genome">WES Series 8 | Variant Calling: Finding What Differs in a Genome</h1>
+<blockquote>
+<p>“Sequencing is like taking an ultra-high-resolution photograph of the genome; variant calling uses a magnifying glass to find every difference in its details.”</p>
+</blockquote>
+<hr />
+<h2 id="1-the-purpose-of-variant-calling">1. The Purpose of Variant Calling</h2>
+<p>After alignment in a WES data-analysis workflow, we obtain a <strong>BAM file</strong> containing the positions of all sequencing reads. These alignments, however, are still only “raw images.” We must identify positions that differ from the reference genome—a process known as <strong>variant calling</strong>.</p>
+<p>Variants may include:</p>
+<ul>
+<li><p><strong>Single-nucleotide variants (SNVs)</strong>: substitution of a single base</p></li>
+<li><p><strong>Small insertions/deletions (InDels)</strong>: addition or loss of a few bases</p></li>
+<li><p><strong>Structural variants (SVs)</strong>: changes involving larger DNA segments, such as deletions, duplications, inversions, and translocations. SVs often affect gene structure and can even alter regulatory regions, making them important contributors to disease initiation and progression.</p></li>
+</ul>
+<p>These “differences” may be disease-causing mutations, benign polymorphisms, or sequencing errors. The goal of variant calling is to distinguish among them.</p>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p><small>Types of mutations</small></figure>
+<hr />
+<h2 id="2-germline-and-somatic-variants">2. Germline and Somatic Variants</h2>
+<p>Research and clinical practice generally distinguish two major classes of variants:</p>
+<ul>
+<li><p><strong>Germline variants</strong>: variants present in reproductive cells (sperm or ova) that can be inherited by the next generation. They occur in cells throughout an individual's body and are commonly associated with inherited disorders and familial cancers. Germline-variant detection generally uses normal tissue or peripheral blood.</p></li>
+<li><p><strong>Somatic variants</strong>: variants acquired during an individual's lifetime because of environmental factors, such as ultraviolet radiation or chemicals, or DNA-replication errors. They are generally present in only a subset of cells. Most driver-gene mutations in tumor samples are somatic variants. Detecting them generally requires a tumor sample and ideally a matched normal control to distinguish them from background variation.</p></li>
+</ul>
+<p>Distinguishing these two classes is important not only for clinical diagnosis and treatment, but also for selecting a variant-calling strategy and tool.</p>
+<hr />
+<h2 id="3-overview-of-the-basic-workflow">3. Overview of the Basic Workflow</h2>
+<p>A general variant-calling workflow typically includes:</p>
+<ol type="1">
+<li><p><strong>Preprocessing</strong>: sorting the BAM file, marking duplicates, and performing base-quality score recalibration (BQSR)</p></li>
+<li><p><strong>Candidate-variant detection</strong>: using specialized algorithms to find potential variant sites in the aligned data</p></li>
+<li><p><strong>Filtering and quality control</strong>: removing low-quality results and likely false positives</p></li>
+<li><p><strong>Generating a VCF file</strong>: recording all variant information in a standard format</p></li>
+</ol>
+<p>“Marking duplicates” and “removing duplicates” are not the same action, and statistics calculated using different definitions cannot be compared directly. For details, see NGS Duplicates: What Exactly Is Being Duplicated?</p>
+<hr />
+<h2 id="4-mainstream-algorithms-and-tools">4. Mainstream Algorithms and Tools</h2>
+<h3 id="41-gatk-haplotypecaller">4.1 GATK HaplotypeCaller</h3>
+<ul>
+<li><p>Principle: improves detection accuracy through local reassembly</p></li>
+<li><p>Advantage: performs better in complex regions, such as those surrounding InDels</p></li>
+<li><p>Output: gVCF or VCF files; commonly used for germline variant calling</p></li>
+</ul>
+<h3 id="42-mutect2-gatk">4.2 Mutect2 (GATK)</h3>
+<ul>
+<li><p>Principle: uses a Bayesian model optimized for tumor–normal analysis</p></li>
+<li><p>Advantage: sensitive to low-frequency somatic variants and suitable for cancer research</p></li>
+</ul>
+<h3 id="43-samtools-mpileup--bcftools">4.3 SAMtools mpileup + BCFtools</h3>
+<ul>
+<li><p>Principle: uses a statistical model based on sequencing depth and base quality</p></li>
+<li><p>Advantage: simple and efficient, making it suitable for rapid analysis</p></li>
+</ul>
+<h3 id="44-freebayes">4.4 FreeBayes</h3>
+<ul>
+<li><p>Principle: Bayesian multi-sample variant calling</p></li>
+<li><p>Advantage: supports joint analysis of multiple samples and is suitable for population studies</p></li>
+</ul>
+<hr />
+<h2 id="5-key-parameters-in-variant-calling">5. Key Parameters in Variant Calling</h2>
+<ul>
+<li><p><strong>Sequencing depth (DP)</strong>: the number of times a site is sequenced; insufficient depth may cause a variant to be missed, whereas excessive depth may indicate a false positive</p></li>
+<li><p><strong>Mapping quality (MAPQ)</strong>: confidence that a read has been aligned to the correct location</p></li>
+<li><p><strong>Base quality (BQ)</strong>: confidence in the sequencing call for each base</p></li>
+<li><p><strong>Allele frequency (AF)</strong>: proportion of all reads carrying the alternate allele</p></li>
+</ul>
+<p>These parameters directly affect the sensitivity and specificity of variant calling.</p>
+<hr />
+<h2 id="6-the-output-file-vcf-format">6. The Output File: VCF Format</h2>
+<p>VCF (Variant Call Format) is the standard format for variant-calling results. Each row describes one variant, including but not limited to:</p>
+<ul>
+<li><p>Chromosome and position</p></li>
+<li><p>Reference and alternate bases</p></li>
+<li><p>Quality score (QUAL)</p></li>
+<li><p>Filter status (FILTER)</p></li>
+<li><p>Additional information (INFO)</p></li>
+</ul>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p><small>VCF schematic</small></figure>
+<hr />
+<h2 id="7-important-considerations">7. Important Considerations</h2>
+<ul>
+<li><p>Different tools may produce different calls; cross-validation is recommended</p></li>
+<li><p>Sequencing errors, low-complexity regions, and repetitive sequences can readily cause false positives</p></li>
+<li><p>For tumor samples, use a tumor–normal strategy to reduce interference from background variants</p></li>
+<li><p>For family samples, inheritance patterns can provide additional filtering criteria</p></li>
+<li><p>Germline and somatic variant calling generally require different tools, thresholds, and filtering strategies; these should not be mixed</p></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Variant calling is a core component of WES data analysis. It distills genuine genetic-variant information from raw alignments. High-quality BAM files, an appropriate algorithm, and sensible filtering criteria are all indispensable.</p>
+<hr />
+<p><strong>Next in the series</strong>: “Variant Annotation: Giving Genomic Variants an Identity.” We will discuss how databases can provide these variants with “identity cards” that help us understand their potential functions and clinical significance.</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 08</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-alignment-to-bam/"><span>Previous</span><strong>WES Series 7 | From FASTQ Alignment to SAM/BAM</strong></a><a class="series-nav-item next" href="/en/articles/wes-variant-annotation/"><span>Next</span><strong>WES Series 9 | Variant Annotation: Giving Genomic Variants an Identity</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

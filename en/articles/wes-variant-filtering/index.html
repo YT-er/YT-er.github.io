@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 10 | Variant Filtering: Finding Meaningful Mutations Among Thousands of Candidates | Jianshan Bioinformatics Notes</title><meta name="description" content="“Gene sequencing is like searching for a needle in a haystack. Variant filtering helps us find the few needles that truly matter among tens of thousands of candidates.” 1. Why Is Variant Fil…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-variant-filtering/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-variant-filtering/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-variant-filtering/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-variant-filtering/"><meta property="og:title" content="WES Series 10 | Variant Filtering: Finding Meaningful Mutations Among Thousands of Candidates | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Gene sequencing is like searching for a needle in a haystack. Variant filtering helps us find the few needles that truly matter among tens of thousands of candidates.” 1. Why Is Variant Fil…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-variant-filtering/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-variant-filtering/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-variant-filtering/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 10/30</span><time datetime="2025-08-18">2025.08.18</time><span>Approx. 4 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#1-why-is-variant-filtering-necessary"><span>01</span>1. Why Is Variant Filtering Necessary?</a></li><li><a href="#2-common-filtering-dimensions"><span>02</span>2. Common Filtering Dimensions</a></li><li><a href="#3-case-study-a-patient-with-cancer"><span>03</span>3. Case Study: A Patient with Cancer</a></li><li><a href="#4-differences-between-germline-and-somatic-variants"><span>04</span>4. Differences Between Germline and Somatic Variants</a></li><li><a href="#5-common-tools"><span>05</span>5. Common Tools</a></li><li><a href="#6-important-considerations"><span>06</span>6. Important Considerations</a></li><li><a href="#summary"><span>07</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#1-why-is-variant-filtering-necessary">1. Why Is Variant Filtering Necessary?</a></li><li><a href="#2-common-filtering-dimensions">2. Common Filtering Dimensions</a></li><li><a href="#3-case-study-a-patient-with-cancer">3. Case Study: A Patient with Cancer</a></li><li><a href="#4-differences-between-germline-and-somatic-variants">4. Differences Between Germline and Somatic Variants</a></li><li><a href="#5-common-tools">5. Common Tools</a></li><li><a href="#6-important-considerations">6. Important Considerations</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-10--variant-filtering-finding-meaningful-mutations-among-thousands-of-candidates">WES Series 10 | Variant Filtering: Finding Meaningful Mutations Among Thousands of Candidates</h1>
+<blockquote>
+<p>“Gene sequencing is like searching for a needle in a haystack. Variant filtering helps us find the few needles that truly matter among tens of thousands of candidates.”</p>
+</blockquote>
+<hr />
+<h2 id="1-why-is-variant-filtering-necessary">1. Why Is Variant Filtering Necessary?</h2>
+<p>After variant calling, we usually obtain an enormous set of candidate variants. A typical WES analysis, for example, may initially identify tens of thousands of variants. Without further selection, it is difficult to distinguish biologically meaningful events from noise.</p>
+<p>The purpose of <strong>variant filtering</strong> is to remove sequencing errors and low-quality or irrelevant variants from this candidate set, retaining those most likely to be associated with the disease or research objective.</p>
+<hr />
+<h2 id="2-common-filtering-dimensions">2. Common Filtering Dimensions</h2>
+<ol type="1">
+<li><strong>Sequencing quality</strong></li>
+</ol>
+<ul>
+<li><p><strong>Depth (DP)</strong>: a site covered by too few reads may be unreliable.</p></li>
+<li><p><strong>Quality score (QUAL)</strong>: a variant with low statistical confidence should be filtered.</p></li>
+<li><p><strong>Mapping quality (MAPQ)</strong>: indicates whether the reads aligned at that site are reliable.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Population frequency</strong></li>
+</ol>
+<ul>
+<li><p>Does the candidate variant occur frequently in databases such as <strong>gnomAD</strong> and <strong>1000 Genomes</strong>?</p></li>
+<li><p>A variant with a high frequency in the general population, such as &gt;1%, is often a common polymorphism rather than a disease-causing mutation.</p></li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Functional annotation</strong></li>
+</ol>
+<ul>
+<li><p>Is the variant located in an exon or splice region?</p></li>
+<li><p>Does it cause an amino-acid change, such as a missense, nonsense, or frameshift consequence?</p></li>
+<li><p>Is it located in a known disease-causing gene?</p></li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Technical and experimental factors</strong></li>
+</ol>
+<ul>
+<li><p>Remove false positives associated with PCR duplicates or low-complexity regions.</p></li>
+<li><p>Consider sequencing biases in specific panel or WES regions to avoid misclassification.</p></li>
+</ul>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p></figure>
+<hr />
+<h2 id="3-case-study-a-patient-with-cancer">3. Case Study: A Patient with Cancer</h2>
+<p>To make the filtering process more concrete, consider a real-world scenario:</p>
+<p>A 52-year-old woman with breast cancer underwent WES. Initial variant calling identified approximately <strong>35,000 candidate variants</strong>. The investigators then applied the following filters in sequence:</p>
+<ol type="1">
+<li><p><strong>Sequencing-quality filtering</strong>: removing sites with DP &lt; 10 or QUAL &lt; 30 left approximately <strong>20,000 variants</strong>.</p></li>
+<li><p><strong>Population-frequency filtering</strong>: using gnomAD and 1000 Genomes to exclude common polymorphisms with a population frequency &gt;1% left approximately <strong>3,000 variants</strong>.</p></li>
+<li><p><strong>Functional-annotation filtering</strong>: retaining only variants in exons and splice regions that affect protein function left approximately <strong>200 variants</strong>.</p></li>
+<li><p><strong>Comparison with clinical databases</strong>: further screening against ClinVar, COSMIC, and other databases retained reported potentially pathogenic or cancer-associated variants, ultimately yielding <strong>5 high-confidence candidate variants</strong>.</p></li>
+</ol>
+<p>The research team ultimately identified a <strong>nonsense variant in the patient's BRCA2 gene</strong>. In the context of her clinical history, this variant was considered an important driver of her breast cancer and informed her subsequent targeted-treatment strategy.</p>
+<hr />
+<h2 id="4-differences-between-germline-and-somatic-variants">4. Differences Between Germline and Somatic Variants</h2>
+<ul>
+<li><p><strong>Germline</strong>: generally identified by testing the patient's normal tissue, such as peripheral blood, and present in every cell. These variants are often associated with inherited susceptibility.</p></li>
+<li><p><strong>Somatic</strong>: present only in tumor tissue and absent from normal tissue. Filtering requires more stringent quality control and consideration of variant allele frequency (VAF).</p></li>
+</ul>
+<p>Cancer analyses often evaluate both germline and somatic variants. The former help identify inherited-susceptibility genes, whereas the latter reveal somatic events that drive tumor initiation and progression.</p>
+<hr />
+<h2 id="5-common-tools">5. Common Tools</h2>
+<ul>
+<li><p><strong>GATK VariantFiltration</strong>: a classic tool that filters on quality, depth, and other parameters.</p></li>
+<li><p><strong>bcftools filter</strong>: a lightweight tool supporting custom logical expressions for filtering.</p></li>
+<li><p><strong>VEP/SnpEff</strong>: can filter on functional information as well as annotate variants.</p></li>
+</ul>
+<hr />
+<h2 id="6-important-considerations">6. Important Considerations</h2>
+<ul>
+<li><p>Avoid over-filtering: <strong>some genuine variants may have low quality scores yet remain clinically meaningful.</strong></p></li>
+<li><p>Consider tumor purity: variants in low-purity samples may have low VAFs and should not be discarded lightly.</p></li>
+<li><p>Maintain records: the parameters and thresholds used at every filtering step should be recorded to ensure analytical traceability.</p></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Variant filtering is the critical step that transforms a “vast candidate set” into “a small number of key variants.” The case study of a patient with cancer demonstrated how tens of thousands of variants can be narrowed progressively to identify an important variant that guides treatment. In clinical applications of WES or panels, this step often determines the clinical value of the report.</p>
+<hr />
+<p><strong>Next in the series</strong>: “Clinical Interpretation: How Can Genetic Variants Be Translated into Diagnostic and Treatment Decisions?”</p>
+<p>The next article will focus on the <strong>ACMG guidelines for variant classification</strong>, currently the most widely used international standard for clinical interpretation. The guidelines classify genetic variants into five categories: pathogenic, likely pathogenic, uncertain significance, likely benign, and benign. We will explain the ACMG's 28 evidence criteria in detail and present examples of their application in clinical practice. It is particularly important to emphasize that this classification framework is essential for <strong>interpreting inherited diseases</strong>. For <strong>clinical cancer genetic testing</strong>, the <strong>Association for Molecular Pathology (AMP) guidelines</strong> are generally used alongside ACMG classification. The AMP guidelines focus more closely on tiering somatic cancer variants, with direct implications for clinical reports and treatment decisions.</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 10</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-variant-annotation/"><span>Previous</span><strong>WES Series 9 | Variant Annotation: Giving Genomic Variants an Identity</strong></a><a class="series-nav-item next" href="/en/articles/wes-clinical-interpretation/"><span>Next</span><strong>WES Series 11 | Clinical Interpretation: Turning Genomic Variants into Treatment Decisions</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 1 | What Is Whole-Exome Sequencing? | Jianshan Bioinformatics Notes</title><meta name="description" content="“If we compare the human genome to an encyclopedia, the exome consists of the few pages containing its ‘most important entries.’” In an era when “precision medicine” is discussed as casually…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-introduction/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-introduction/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-introduction/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-introduction/"><meta property="og:title" content="WES Series 1 | What Is Whole-Exome Sequencing? | Jianshan Bioinformatics Notes"><meta property="og:description" content="“If we compare the human genome to an encyclopedia, the exome consists of the few pages containing its ‘most important entries.’” In an era when “precision medicine” is discussed as casually…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-introduction/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-introduction/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-introduction/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 01/30</span><time datetime="2025-08-07">2025.08.07</time><span>Approx. 5 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#dna-from-dna-to-the-exome"><span>01</span>🧬 From DNA to the Exome</a></li><li><a href="#mag-so-what-is-wes"><span>02</span>🔍 So, What Is WES?</a></li><li><a href="#dart-what-are-the-advantages-of-wes"><span>03</span>🎯 What Are the Advantages of WES?</a></li><li><a href="#stethoscope-what-can-wes-do"><span>04</span>🩺 What Can WES Do?</a></li><li><a href="#thinking-how-does-wes-differ-from-other-sequencing-methods"><span>05</span>🤔 How Does WES Differ from Other Sequencing Methods?</a></li><li><a href="#warning-wes-is-not-a-universal-solution"><span>06</span>⚠️ WES Is Not a Universal Solution</a></li><li><a href="#writing_hand-summary-wes-is-a-key-to-understanding-genetic-secrets"><span>07</span>✍️ Summary: WES Is a Key to Understanding Genetic Secrets</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#dna-from-dna-to-the-exome">🧬 From DNA to the Exome</a></li><li><a href="#mag-so-what-is-wes">🔍 So, What Is WES?</a></li><li><a href="#dart-what-are-the-advantages-of-wes">🎯 What Are the Advantages of WES?</a></li><li><a href="#stethoscope-what-can-wes-do">🩺 What Can WES Do?</a></li><li><a href="#thinking-how-does-wes-differ-from-other-sequencing-methods">🤔 How Does WES Differ from Other Sequencing Methods?</a></li><li><a href="#warning-wes-is-not-a-universal-solution">⚠️ WES Is Not a Universal Solution</a></li><li><a href="#writing_hand-summary-wes-is-a-key-to-understanding-genetic-secrets">✍️ Summary: WES Is a Key to Understanding Genetic Secrets</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-1--what-is-whole-exome-sequencing">WES Series 1 | What Is Whole-Exome Sequencing?</h1>
+<blockquote>
+<p>“If we compare the human genome to an encyclopedia, the exome consists of the few pages containing its ‘most important entries.’”</p>
+</blockquote>
+<hr />
+<p>In an era when “precision medicine” is discussed as casually as the weather, you may already have heard all kinds of claims about genetic testing: some people have used it to identify the “culprit” behind a rare disease, some to predict their cancer risk, and others to adjust their medication regimens. Behind all these seemingly “magical” outcomes lies an important technology: <strong>whole-exome sequencing (WES)</strong>.</p>
+<p>In this article, we will discuss what WES actually is, why it is so important, and what it is best suited for.</p>
+<p>Let us start with the fundamentals—DNA.</p>
+<hr />
+<h2 id="dna-from-dna-to-the-exome">🧬 From DNA to the Exome</h2>
+<p>The human body's “blueprint” is encoded in the DNA inside each cell nucleus. DNA is a long-chain molecule composed of four bases (A, T, C, and G) and contains all of our hereditary information.</p>
+<p>DNA, in turn, makes up <strong>genes</strong>. A person's <strong>genome</strong> is the complete set of all genes plus noncoding regions.</p>
+<p>It is important to note, however, that not all DNA directly performs a function. Some parts of a gene are called <strong>exons</strong>. Like the main feature of a film, they are “transcribed and translated” into proteins. The remaining parts are called <strong>introns</strong>; although they are not translated directly, they can still have regulatory and other functions.</p>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p></figure>
+<blockquote>
+<p>Figure: Genes consist of exons and introns; exons are ultimately translated into proteins.</p>
+</blockquote>
+<p>Although exons account for only <strong>1%</strong> of the entire genome, more than <strong>85% of known disease-causing variants</strong> occur within them.</p>
+<p>WES therefore focuses attention on the 1% of the genome most likely to contain clinically relevant changes, achieving an excellent balance between efficiency and effectiveness.</p>
+<hr />
+<h2 id="mag-so-what-is-wes">🔍 So, What Is WES?</h2>
+<p>Whole-exome sequencing (WES) is a genetic testing method that uses high-throughput sequencing to examine all exonic regions of the human genome.</p>
+<p>Its goal is not to sequence all of your DNA, but to focus on “scanning” all protein-coding regions, because these regions are most closely associated with disease.</p>
+<p>A typical WES workflow includes:</p>
+<ol type="1">
+<li><p><strong>DNA extraction</strong>: usually from a blood or saliva sample;</p></li>
+<li><p><strong>Library preparation</strong>: DNA is fragmented and “tags” are added;</p></li>
+<li><p><strong>Exome capture</strong>: probes are used to “fish out” exonic regions;</p></li>
+<li><p><strong>Sequencing</strong>: a high-throughput sequencer reads the nucleotide sequence;</p></li>
+<li><p><strong>Data analysis</strong>: variants are identified in the massive dataset and annotated to determine their significance.</p></li>
+</ol>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p></figure>
+<blockquote>
+<p>Figure: Schematic overview of a typical WES workflow.</p>
+</blockquote>
+<hr />
+<h2 id="dart-what-are-the-advantages-of-wes">🎯 What Are the Advantages of WES?</h2>
+<p>Compared with other sequencing methods, WES is both “smart” and economical:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>WES performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Coverage</strong></td>
+<td>All exonic regions (approximately 20,000 genes)</td>
+</tr>
+<tr>
+<td><strong>Association with disease</strong></td>
+<td>High (85% of disease-causing variants occur in exons)</td>
+</tr>
+<tr>
+<td><strong>Data volume</strong></td>
+<td>Moderate and manageable for storage and analysis</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>Significantly lower than whole-genome sequencing (WGS)</td>
+</tr>
+<tr>
+<td><strong>Broad applicability</strong></td>
+<td>Suitable for inherited diseases, cancer, pharmacogenomics, and many other fields</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="stethoscope-what-can-wes-do">🩺 What Can WES Do?</h2>
+<p>After all that explanation, what problems can WES actually help solve? Here are several realistic and representative examples:</p>
+<h3 id="white_check_mark-case-1-solving-a-childs-long-standing-medical-mystery">✅ Case 1: Solving a Child's Long-Standing Medical Mystery</h3>
+<p>Since birth, a child had experienced recurrent fevers and immune abnormalities, yet numerous tests failed to identify the cause. WES later revealed a rare inherited defect, finally enabling targeted treatment and bringing great relief to the parents.</p>
+<h3 id="white_check_mark-case-2-customized-navigation-for-cancer-treatment">✅ Case 2: “Customized Navigation” for Cancer Treatment</h3>
+<p>After standard treatment failed for a patient with lung cancer, WES identified a rare variant suggesting that a particular targeted therapy might be effective. The tumor shrank significantly after treatment, extending the patient's survival.</p>
+<h3 id="white_check_mark-case-3-prevention-is-better-than-cure">✅ Case 3: Prevention Is Better Than Cure</h3>
+<p>Some healthy individuals undergoing WES unexpectedly discover that they carry cancer-predisposition genes such as BRCA1/2. Early intervention can substantially reduce their disease risk.</p>
+<hr />
+<h2 id="thinking-how-does-wes-differ-from-other-sequencing-methods">🤔 How Does WES Differ from Other Sequencing Methods?</h2>
+<p>Three sequencing strategies are currently in mainstream use:</p>
+<ul>
+<li><p><strong>WGS (whole-genome sequencing)</strong>: sequences the entire genome, including coding and noncoding regions.</p></li>
+<li><p><strong>WES (whole-exome sequencing)</strong>: sequences only exonic regions.</p></li>
+<li><p><strong>Panel (targeted-region sequencing)</strong>: sequences only a small set of relevant genes.</p></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>WGS</th>
+<th>WES</th>
+<th>Panel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sequencing scope</strong></td>
+<td>Entire genome</td>
+<td>All exons</td>
+<td>Selected genes</td>
+</tr>
+<tr>
+<td><strong>Data volume</strong></td>
+<td>Very large</td>
+<td>Moderate</td>
+<td>Small</td>
+</tr>
+<tr>
+<td><strong>Cost</strong></td>
+<td>High</td>
+<td>Moderate</td>
+<td>Low</td>
+</tr>
+<tr>
+<td><strong>Applications</strong></td>
+<td>Comprehensive variant and structural-variant research, among others</td>
+<td>Identifying disease-causing variants; a versatile option for clinical testing</td>
+<td>Specific diseases or drug responses</td>
+</tr>
+</tbody>
+</table>
+<p>👉 If you are conducting research, have sufficient funding, and want the most comprehensive view—<strong>choose WGS</strong>.</p>
+<p>👉 If you are pursuing a clinical diagnosis and prioritize efficiency and value—<strong>choose WES</strong>.</p>
+<p>👉 If your target is clearly defined—for example, if you only want to examine BRCA1/2—<strong>choose a panel</strong>.</p>
+<p>The next article will explain exactly how to choose among these three approaches.</p>
+<hr />
+<h2 id="warning-wes-is-not-a-universal-solution">⚠️ WES Is Not a Universal Solution</h2>
+<p>Of course, WES is not a magic cure-all. It has several inherent limitations:</p>
+<ul>
+<li><p>It cannot detect variants in noncoding regions, such as regulatory regions;</p></li>
+<li><p>Some exonic regions cannot be captured effectively because of technical limitations;</p></li>
+<li><p>It has difficulty detecting large structural variants, such as large duplications and deletions;</p></li>
+<li><p>Data analysis and interpretation require support from a specialist team.</p></li>
+</ul>
+<p>Nevertheless, in most scenarios, WES still offers the best balance between efficiency and effectiveness.</p>
+<hr />
+<h2 id="writing_hand-summary-wes-is-a-key-to-understanding-genetic-secrets">✍️ Summary: WES Is a Key to Understanding Genetic Secrets</h2>
+<p>Whole-exome sequencing (WES) is like opening precisely the “most important entries” in the vast genomic encyclopedia—the 1% of the genome that contains information about more than 85% of known disease-causing variants. Its moderate cost, efficient coverage, and broad applicability make it crucial in inherited-disease diagnosis, precision oncology, pharmacogenomics, and health-risk assessment. Although WES cannot capture all genetic information, such as noncoding regions or large structural variants, its ability to focus on the core information while balancing efficiency and effectiveness makes it a practical tool for exploring genetic mysteries and protecting health in most clinical and research settings. If the genome is a panoramic map of human life, WES is the precision navigation chart that helps you locate the critical clues quickly.</p>
+<hr />
+<p>📌 <strong>Next in the series</strong>:</p>
+<p>“WES, WGS, and Gene Panels: How Do You Choose the Most Appropriate Genetic Sequencing Strategy?”</p>
+<p>The next article will compare the advantages, disadvantages, costs, and suitable use cases of these three mainstream sequencing methods in detail. What exactly distinguishes them, and how should you choose?</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 01</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><span></span><a class="series-nav-item next" href="/en/articles/wes-vs-wgs-vs-panel/"><span>Next</span><strong>WES Series 2 | WES vs. WGS vs. Panels: Choosing the Right Sequencing Strategy</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑦｜从 FASTQ 比对到 SAM/BAM｜见山 · 生信笔记</title><meta name="description" content="“拿到一堆‘ATCG’就像获得一袋拼图碎片，接下来就是把它们拼回到完整的人类基因组蓝图上。” 1. 为什么需要比对（Alignment）？ 测序平台产出的FASTQ文件，记…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-alignment-to-bam/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-alignment-to-bam/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-alignment-to-bam/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-alignment-to-bam/"><meta property="og:title" content="WES系列⑦｜从 FASTQ 比对到 SAM/BAM｜见山 · 生信笔记"><meta property="og:description" content="“拿到一堆‘ATCG’就像获得一袋拼图碎片，接下来就是把它们拼回到完整的人类基因组蓝图上。” 1. 为什么需要比对（Alignment）？ 测序平台产出的FASTQ文件，记…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-alignment-to-bam/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-alignment-to-bam/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-alignment-to-bam/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 07/30</span><time datetime="2026-07-30">2026.07.30</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-为什么需要比对alignment"><span>01</span>1. 为什么需要比对（Alignment）？</a></li><li><a href="#2-参考基因组reference-genome"><span>02</span>2. 参考基因组（Reference Genome）</a></li><li><a href="#3-比对的核心原理"><span>03</span>3. 比对的核心原理</a></li><li><a href="#4-比对结果文件sam-与-bam"><span>04</span>4. 比对结果文件：SAM 与 BAM</a></li><li><a href="#5-bam文件的具体格式"><span>05</span>5. BAM文件的具体格式</a></li><li><a href="#6-常见的比对质量指标"><span>06</span>6. 常见的比对质量指标</a></li><li><a href="#7-bam文件在后续分析中的作用"><span>07</span>7. BAM文件在后续分析中的作用</a></li><li><a href="#8-注意事项"><span>08</span>8. 注意事项</a></li><li><a href="#小结"><span>09</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-为什么需要比对alignment">1. 为什么需要比对（Alignment）？</a></li><li><a href="#2-参考基因组reference-genome">2. 参考基因组（Reference Genome）</a></li><li><a href="#3-比对的核心原理">3. 比对的核心原理</a></li><li><a href="#4-比对结果文件sam-与-bam">4. 比对结果文件：SAM 与 BAM</a></li><li><a href="#5-bam文件的具体格式">5. BAM文件的具体格式</a></li><li><a href="#6-常见的比对质量指标">6. 常见的比对质量指标</a></li><li><a href="#7-bam文件在后续分析中的作用">7. BAM文件在后续分析中的作用</a></li><li><a href="#8-注意事项">8. 注意事项</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑦从-fastq-比对到-sambam">WES系列⑦｜从 FASTQ 比对到 SAM/BAM</h1>
+<blockquote>
+<p>“拿到一堆‘ATCG’就像获得一袋拼图碎片，接下来就是把它们拼回到完整的人类基因组蓝图上。”</p>
+</blockquote>
+<hr />
+<h2 id="1-为什么需要比对alignment">1. 为什么需要比对（Alignment）？</h2>
+<p>测序平台产出的FASTQ文件，记录了上百万到上亿条短序列（reads）。这些reads并不知道自己来自基因组的哪个位置。比对的任务，就是把这些“迷路的短句子”放回到它们在参考基因组中的正确位置。</p>
+<hr />
+<h2 id="2-参考基因组reference-genome">2. 参考基因组（Reference Genome）</h2>
+<p>参考基因组就像一本“标准地图”。目前人类研究常用的参考基因组版本包括：</p>
+<ul>
+<li><p><strong>GRCh37/hg19</strong>：较早版本，很多临床数据库基于它建立</p></li>
+<li><p><strong>GRCh38/hg38</strong>：最新版本，纠正了前版本的错误并补充了缺失区域</p></li>
+</ul>
+<p>选择参考基因组要注意版本一致性，否则会导致坐标错位。</p>
+<hr />
+<h2 id="3-比对的核心原理">3. 比对的核心原理</h2>
+<p>比对算法的核心是如何在海量参考基因组中快速、准确地找到read最可能的来源位置。常见方法包括基于种子-扩展（seed-and-extend）的策略，以及利用Burrows–Wheeler Transform（BWT）或FM-index进行高效压缩索引，从而在有限内存中实现快速搜索。</p>
+<p>由于人类基因组长度约30亿bp，而测序read长度通常为100-150bp，直接穷举匹配几乎不可能。主流算法（如<strong>BWA-MEM</strong>、<strong>Bowtie2</strong>）通过 <strong>索引（Indexing）</strong> 技术，大幅减少搜索空间：</p>
+<ul>
+<li><p><strong>建索引</strong>：把参考基因组分成易检索的片段，建立索引表</p></li>
+<li><p><strong>种子匹配</strong>：先匹配一小段（seed）碱基，再向两端延伸</p></li>
+<li><p><strong>评分体系</strong>：根据匹配/错配/缺失情况打分，选择得分最高的位置作为比对结果</p></li>
+</ul>
+<p><img src="/images/wes-alignment-bam.png" alt="SAM/BAM 比对与文件结构示意图" /></p>
+<hr />
+<h2 id="4-比对结果文件sam-与-bam">4. 比对结果文件：SAM 与 BAM</h2>
+<p>比对完成后，输出的是 <strong>SAM 文件</strong>（Sequence Alignment/Map）：</p>
+<ul>
+<li><p>文本格式，可直接查看</p></li>
+<li><p>包含每条read的位置、比对质量（MAPQ）、CIGAR串（描述匹配/缺失/插入）等信息</p></li>
+</ul>
+<p>为了节省存储和加快读取，SAM文件通常会被压缩成 <strong>BAM 格式</strong>（Binary Alignment/Map）：</p>
+<ul>
+<li><p><strong>优点</strong>：体积小、读取快</p></li>
+<li><p><strong>缺点</strong>：需用专用工具（如samtools）查看</p></li>
+</ul>
+<p>此外，还有 <strong>BAI 索引文件</strong>，用于快速定位BAM中的特定区域数据。</p>
+<hr />
+<h2 id="5-bam文件的具体格式">5. BAM文件的具体格式</h2>
+<p>BAM文件是二进制格式的比对结果文件，由SAM格式压缩而来。它包含两个主要部分：</p>
+<ul>
+<li><p><strong>Header（头部）</strong>：描述参考基因组版本、比对软件、比对时间等信息</p></li>
+<li><p><strong>Alignment Section（比对主体部分）</strong>：每一行代表一个read的比对信息，包括read名称、比对到的参考序列名、起始位置、MAPQ分数、CIGAR串、比对配对信息、测序序列、质量分数等。</p></li>
+</ul>
+<p>BAM文件的字段顺序与SAM格式一致，只是以二进制形式存储。常见字段有：</p>
+<ul>
+<li><p><strong>QNAME</strong>：read名称</p></li>
+<li><p><strong>FLAG</strong>：比对状态的二进制标记，用一个整数表示，实际上是由多个二进制位（bit）组成，每一位代表一种状态。例如：1 表示该read有配对信息，2 表示配对正确比对，4 表示该read未比对，8 表示配对的read未比对，16 表示read在反向链上，32 表示配对的read在反向链上，256 表示该read不是主要比对（secondary alignment），1024 表示该read是PCR或光学重复</p></li>
+<li><p><strong>RNAME</strong>：参考序列名</p></li>
+<li><p><strong>POS</strong>：比对起始位置</p></li>
+<li><p><strong>MAPQ</strong>：比对质量分数</p></li>
+<li><p><strong>CIGAR</strong>：描述匹配、缺失、插入等的字符串</p></li>
+<li><p><strong>RNEXT/PNEXT</strong>：配对read的信息</p></li>
+<li><p><strong>TLEN</strong>：模板长度</p></li>
+<li><p><strong>SEQ</strong>：read的碱基序列</p></li>
+<li><p><strong>QUAL</strong>：对应的碱基质量分数</p></li>
+</ul>
+<p>⚠ <strong>注意</strong>：FLAG 是多位叠加的，例如值 99 就表示同时有 1 + 2 + 32 + 64 这些状态。</p>
+<p>FLAG 1024只说明read已经被标记为duplicate，不等于它已从BAM中删除。标记、删除及重复率口径的区别见<a href="/articles/ngs-duplicates/">NGS Duplicates的统计口径</a>。</p>
+<hr />
+<h2 id="6-常见的比对质量指标">6. 常见的比对质量指标</h2>
+<table>
+<thead>
+<tr>
+<th>指标</th>
+<th>含义</th>
+<th>参考标准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>比对率（Mapping Rate）</td>
+<td>成功比对到参考基因组的reads比例</td>
+<td>WES数据常见 &gt; 98%</td>
+</tr>
+<tr>
+<td>唯一比对率</td>
+<td>只比对到唯一位置的reads比例</td>
+<td>越高越好</td>
+</tr>
+<tr>
+<td>平均测序深度</td>
+<td>每个位点平均被测序的次数</td>
+<td>WES常见 &gt; 100×</td>
+</tr>
+<tr>
+<td>覆盖度（Coverage）</td>
+<td>外显子目标区域被至少一次覆盖的比例</td>
+<td>WES常见 &gt; 95%</td>
+</tr>
+<tr>
+<td>均一性（Uniformity）</td>
+<td>各位点测序深度的一致性</td>
+<td>&gt; 80%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-bam文件在后续分析中的作用">7. BAM文件在后续分析中的作用</h2>
+<p>BAM文件是WES数据分析的“基石”，后续所有变异检测、CNV分析、可视化检查等步骤，都依赖于高质量的BAM文件。如果比对有偏差，会直接影响到下游分析的准确性。</p>
+<p><strong>常见用途</strong>：</p>
+<ul>
+<li><p>变异检测（SNV/InDel calling）</p></li>
+<li><p>结构变异分析（SV calling）</p></li>
+<li><p>CNV分析</p></li>
+<li><p>IGV可视化检查（查看变异位点的测序情况）</p></li>
+</ul>
+<hr />
+<h2 id="8-注意事项">8. 注意事项</h2>
+<ul>
+<li><p><strong>注意PCR重复</strong>：重复reads过多会降低有效信息量，可用<code>markdup</code>标记</p></li>
+<li><p><strong>注意低比对率</strong>：可能是样本污染、物种混入或文库构建失败</p></li>
+<li><p><strong>注意参考基因组版本一致性</strong>：分析所用的参考基因组应与下游数据库版本一致</p></li>
+<li><p><strong>注意比对软件参数</strong>：不同参数设置可能显著影响比对结果</p></li>
+</ul>
+<hr />
+<h2 id="小结">小结</h2>
+<p>比对是WES分析流程的“拼图环节”，BAM文件则是分析的“核心原材料”。只有确保这一步的准确性，后续的变异检测才有坚实的基础。</p>
+<hr />
+<p><strong>下期预告</strong>：《变异检测（Variant Calling）：如何在你的基因组中找到“不同”？》，我们将深入解析如何从BAM文件中挖掘出那些可能与疾病相关的基因变异。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 07</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-fastq-quality-control/"><span>上一篇</span><strong>WES系列⑥｜WES原始数据（FASTQ）的质量控制</strong></a><a class="series-nav-item next" href="/articles/wes-variant-calling/"><span>下一篇</span><strong>WES系列⑧｜变异检测：如何在你的基因组中找到“不同”？</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

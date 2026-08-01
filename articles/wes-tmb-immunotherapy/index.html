@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑯｜肿瘤突变负荷（TMB）与免疫治疗｜见山 · 生信笔记</title><meta name="description" content="夜诊结束得有些晚，肿瘤科的走廊还亮着。输注室里，最后一袋免疫治疗药正沿着透明的管路滴下，监护仪的指示灯像星子一闪一闪。医生在屏幕上翻看图像：三个月前与此刻的肺部CT被并排放…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-tmb-immunotherapy/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-tmb-immunotherapy/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-tmb-immunotherapy/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-tmb-immunotherapy/"><meta property="og:title" content="WES系列⑯｜肿瘤突变负荷（TMB）与免疫治疗｜见山 · 生信笔记"><meta property="og:description" content="夜诊结束得有些晚，肿瘤科的走廊还亮着。输注室里，最后一袋免疫治疗药正沿着透明的管路滴下，监护仪的指示灯像星子一闪一闪。医生在屏幕上翻看图像：三个月前与此刻的肺部CT被并排放…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-tmb-immunotherapy/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-tmb-immunotherapy/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-tmb-immunotherapy/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 16/30</span><time datetime="2025-08-25">2025.08.25</time><span>约 5 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#错别字密度的隐喻"><span>01</span>“错别字密度”的隐喻</a></li><li><a href="#wes-如何数清错别字"><span>02</span>WES 如何数清“错别字”</a></li><li><a href="#生物学的根系为何有的书更错"><span>03</span>生物学的根系：为何有的书更“错”？</a></li><li><a href="#两个病人的两段路径"><span>04</span>两个病人的两段路径</a></li><li><a href="#计算的边界与误差"><span>05</span>计算的边界与误差</a></li><li><a href="#一次严谨的点数"><span>06</span>一次严谨的“点数”</a></li><li><a href="#新抗原不是独白"><span>07</span>新抗原不是独白</a></li><li><a href="#液体里的密度"><span>08</span>液体里的密度</a></li><li><a href="#目的不是数字而是对话"><span>09</span>目的不是数字，而是对话</a></li><li><a href="#一段尾声影像学的沉默与反击"><span>10</span>一段尾声：影像学的沉默与反击</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#错别字密度的隐喻">“错别字密度”的隐喻</a></li><li><a href="#wes-如何数清错别字">WES 如何数清“错别字”</a></li><li><a href="#生物学的根系为何有的书更错">生物学的根系：为何有的书更“错”？</a></li><li><a href="#两个病人的两段路径">两个病人的两段路径</a></li><li><a href="#计算的边界与误差">计算的边界与误差</a></li><li><a href="#一次严谨的点数">一次严谨的“点数”</a></li><li><a href="#新抗原不是独白">新抗原不是独白</a></li><li><a href="#液体里的密度">液体里的密度</a></li><li><a href="#目的不是数字而是对话">目的不是数字，而是对话</a></li><li><a href="#一段尾声影像学的沉默与反击">一段尾声：影像学的沉默与反击</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑯肿瘤突变负荷tmb与免疫治疗">WES系列⑯｜肿瘤突变负荷（TMB）与免疫治疗</h1>
+<p>夜诊结束得有些晚，肿瘤科的走廊还亮着。输注室里，最后一袋免疫治疗药正沿着透明的管路滴下，监护仪的指示灯像星子一闪一闪。医生在屏幕上翻看图像：三个月前与此刻的肺部CT被并排放大，病灶边缘的阴影似乎松了一口气。谁在暗处推动了这种转变？在病例摘要里有一行字被红笔圈出：<strong>TMB：高</strong>。</p>
+<h2 id="错别字密度的隐喻">“错别字密度”的隐喻</h2>
+<p>如果把肿瘤的基因组想象成一本书，TMB（Tumor Mutational Burden）就像这本书的“错别字密度”。错越多、越容易出现新奇的“词句”（新抗原），免疫系统就越有机会把这些“读不顺”的地方识别出来。可免疫系统并不总是一个尽责的校对员，尤其当它被肿瘤的诸多伎俩麻痹时。因而，<strong>高 TMB 并不是承诺，只是一封邀请</strong>。</p>
+<h2 id="wes-如何数清错别字">WES 如何数清“错别字”</h2>
+<p>清晨的实验室里，文库构建像一场有条不紊的乐队排练。肿瘤与正常对照两支“乐队”演奏同一段外显子曲谱，待到测序完成，工程师把音轨叠在一起：凡是两边都出现的变音属于天生的旋律（胚系变异），剔除；只在肿瘤轨道冒头的音符，才有资格进入候选清单（体细胞变异）。</p>
+<p>接下来是繁琐而讲究的缝线：</p>
+<ul>
+<li><p><strong>去伪存真</strong>：去重、重校正，滤掉石蜡导致的 C&gt;T 伪影；</p></li>
+<li><p><strong>深度与频率</strong>：最小测序深度、变异等位基因频率（VAF）下限，避免误把噪声当真声；</p></li>
+<li><p><strong>数据库排查</strong>：拆解人群频率高的“旧词”，防止胚系残留；</p></li>
+<li><p><strong>变异类型选择</strong>：常以非同义 SNV 和小 indel 为主——能改变蛋白的“语义”，更可能产生新抗原；</p></li>
+<li><p><strong>有效范围（可统计区域）</strong>：只在捕获效果好、覆盖和质量达标的“清晰页码”里统计；最后按这些有效页的总长度换算成“每兆碱基突变数”，保证不同样本可比。</p></li>
+</ul>
+<p>数字诞生前，首先要约定词典。不同捕获试剂与版本，定义的“页码数”并不完全相同；不同实验室对“哪些算错别字”也略有差异。<strong>TMB 的意义，建立在清晰可重复的算法与边界之上</strong>。</p>
+<h2 id="生物学的根系为何有的书更错">生物学的根系：为何有的书更“错”？</h2>
+<p>在临床病历的边栏里，时常能见到“MSI-H”“POLE 突变”“吸烟史”“紫外线暴露”等字样——它们是错别字密度升高的根系：</p>
+<ul>
+<li><p><strong>DNA错配修复缺陷（MMR deficiency）/ MSI-H</strong>：像把校对功能调低了一级，错字层出不穷；</p></li>
+<li><p><strong>POLE/POLD1 聚合酶突变</strong>：复制机器的“校准器”松动，错误随之堆积；</p></li>
+<li><p><strong>外源暴露（烟草、紫外线、化学剂）</strong>：在特定字母上留下可识别的“口音”（突变特征），错在某些字母周围蜂拥出现。</p></li>
+</ul>
+<p>这些错误把肿瘤的蛋白翻译成了一些前所未有的片段，<strong>新抗原</strong>由此诞生。呈递得当、免疫系统警觉时，T 细胞便可能被召唤出来，像城管一样开始“拆违建”。这就是高 TMB 与免疫治疗疗效相关的直觉基础。</p>
+<h2 id="两个病人的两段路径">两个病人的两段路径</h2>
+<p>第一位病人是位憨厚的厨师，直肠癌术后复发。报告上写着“MSI-H，TMB 高”。用药后第二次复查，结节像被温水泡过的面团，边界塌下去。他的病历本上多了一个罕见的词：<strong>持久缓解</strong>。我们在病理室里回看切片，免疫细胞像在肿瘤边缘扎起的帐篷，一顶一顶。</p>
+<p>第二位是位年轻的女士，肺腺癌。她的 WES 报告写着“TMB 中等偏高”，但同时也标注了一个让医生皱眉的词：<strong>EGFR 驱动突变</strong>。尽管密密麻麻的错别字在页边晃动，但这本书的主线剧情由 EGFR 紧紧攥在手里。免疫治疗之后，她的影像没有明显改善——肿瘤微环境像一片冷掉的火炉，燃料再多，也缺少一根点火柴。</p>
+<p>这两段路径提醒我们：<strong>TMB 是一盏灯，但不是唯一的灯</strong>。它与肿瘤本身的驱动结构、与呈递机制（如 HLA 状态、B2M 变异）、与肿瘤微环境（浸润、抑制通路）彼此拉扯。</p>
+<h2 id="计算的边界与误差">计算的边界与误差</h2>
+<p>WES 的 TMB 看似只是一个除法，却对边界极其敏感：</p>
+<ul>
+<li><p><strong>掩码与版图</strong>：不同捕获区的“可读页码数”有差异，若不统一，分母不同，数字便不具可比性；</p></li>
+<li><p><strong>体细胞/胚系区分</strong>：没有完美“正常对照”时，只靠数据库去除胚系，难免误伤或漏网；</p></li>
+<li><p><strong>纯度与深度</strong>：低纯度让真实突变被稀释，过浅的测序深度让小声部消失；</p></li>
+<li><p><strong>FFPE 伪影</strong>：老石蜡中的化学痕迹能“画蛇添足”，如果不过滤，会把噪声当乐谱；</p></li>
+<li><p><strong>panel与全外</strong>：小 panel 有自己定义的“页码”，报告的 TMB 往往需要与 WES 标尺“调表”；</p></li>
+<li><p><strong>肿瘤异质性</strong>：不同部位读到的“错”并不相同，TMB 是一本合订本的平均值。</p></li>
+</ul>
+<h2 id="一次严谨的点数">一次严谨的“点数”</h2>
+<p>在数据分析室里，屏幕像一张安静的台面。工程师把流程敲定在自动化脚本里：比对→去重/校正→肿瘤-正常联合变异检测→胚系剔除→注释→质量过滤→功能过滤→<strong>统计可测区域内的非同义体细胞突变数目</strong>→按兆碱基换算。这行粗体字并不花哨，却决定了报表里那个醒目的数字是否可靠。随后，医生把 TMB 与病史、不良反应、合并标志物放在一起观看：<strong>PD-L1 表达、MSI 状态、POLE/POLD1、HLA LOH、B2M 状态、TIL 密度</strong>，像一圈围坐的评委，讨论是否给出“免疫治疗”的投票。</p>
+<h2 id="新抗原不是独白">新抗原不是独白</h2>
+<p>免疫反应像一次合唱。新抗原只是第一声部，后面还有呈递（MHC/HLA），还有共刺激与共抑制的舞台灯光（PD-1/PD-L1、CTLA-4、LAG3、TIM3……），还有化学环境里暗潮汹涌的调度（TGF-β、VEGF、IDO）。<strong>高 TMB 提供了素材，但舞台能否开演，要看这套剧院是否还在工作</strong>。</p>
+<p>于是，临床上总能遇见矛盾的组合：</p>
+<ul>
+<li><p><strong>高 TMB/低反应</strong>：驱动突变强势、MHC 受损、T 细胞难以进入、免疫抑制通路主导；</p></li>
+<li><p><strong>低 TMB/高反应</strong>：新抗原虽少，但恰好命中了容易被识别的“要害”，或伴随病毒抗原、强效免疫原性事件。</p></li>
+</ul>
+<h2 id="液体里的密度">液体里的密度</h2>
+<p>当组织样本难以获得，或我们需要更快的纵向监测，<strong>ctDNA（循环肿瘤 DNA）</strong> 成为另一条途径。血浆里的碎片拼图让 TMB 的计算更像一个“影子版”的估算：信号更稀、噪声更多，却能在疾病进展的时间轴上提供一种轻巧的望远镜。它不总是清晰，但有时足以先看到风向。</p>
+<h2 id="目的不是数字而是对话">目的不是数字，而是对话</h2>
+<p>真正的终点并不是某个阈值，而是一次关于治疗策略的对话：</p>
+<ul>
+<li><p>若 <strong>MSI-H/POLE</strong> 等高 TMB 的根因清晰，免疫治疗往往更早地被推上舞台；</p></li>
+<li><p>若 <strong>EGFR/ALK</strong> 等强驱动在位，靶向治疗仍可能是第一幕；</p></li>
+<li><p>若肿瘤处于“冷”状态，可以考虑把舞台先“预热”——放疗、抗血管、化疗、局部消融等手段与免疫并置或交替，让 T 细胞有路可走。</p></li>
+</ul>
+<p>在这种对话里，TMB 像一个关键的形容词，<strong>不替你作决定，但帮你接近决定</strong>。</p>
+<h2 id="一段尾声影像学的沉默与反击">一段尾声：影像学的沉默与反击</h2>
+<p>第三个月的影像回看，病灶并没有立刻缩小，反而略显隆起。经验老到的放射科医师提醒：也许是“伪进展”——免疫细胞涌入，先挤大了轮廓。再等一个月，阴影果然内陷，我们在科室里松了一口气。患者问：是不是 TMB 高，所以有了这次运气？医生想了想，答：<strong>它给了我们尝试的理由，而真正改变结果的，是你身体里那群被重新唤醒的战士。</strong></p>
+<hr />
+<p><strong>下期预告</strong>：除了体细胞变异，WES 还能揭开“天生的种子”。在下一篇《肿瘤精准医疗的利器（三）：遗传性肿瘤综合征的筛查》中，我们将从家族史与胚系突变谈起，看一枚出生时就被写进基因的标点，如何影响一生的章节安排。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 16</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-cancer-driver-genes/"><span>上一篇</span><strong>WES系列⑮｜肿瘤精准医疗（一）：发现肿瘤驱动基因</strong></a><a class="series-nav-item next" href="/articles/wes-hereditary-cancer-syndromes/"><span>下一篇</span><strong>WES系列⑰｜遗传性肿瘤综合征的筛查</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>
