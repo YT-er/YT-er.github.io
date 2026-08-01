@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 7 | From FASTQ Alignment to SAM/BAM | Jianshan Bioinformatics Notes</title><meta name="description" content="“Receiving a collection of ‘ATCG’ strings is like being handed a bag of puzzle pieces. The next step is to fit them back onto the complete blueprint of the human genome.” 1. Why Is Alignment…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-alignment-to-bam/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-alignment-to-bam/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-alignment-to-bam/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-alignment-to-bam/"><meta property="og:title" content="WES Series 7 | From FASTQ Alignment to SAM/BAM | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Receiving a collection of ‘ATCG’ strings is like being handed a bag of puzzle pieces. The next step is to fit them back onto the complete blueprint of the human genome.” 1. Why Is Alignment…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-alignment-to-bam/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-alignment-to-bam/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-alignment-to-bam/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 07/30</span><time datetime="2026-07-30">2026.07.30</time><span>Approx. 5 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#1-why-is-alignment-necessary"><span>01</span>1. Why Is Alignment Necessary?</a></li><li><a href="#2-the-reference-genome"><span>02</span>2. The Reference Genome</a></li><li><a href="#3-core-principles-of-alignment"><span>03</span>3. Core Principles of Alignment</a></li><li><a href="#4-alignment-output-files-sam-and-bam"><span>04</span>4. Alignment Output Files: SAM and BAM</a></li><li><a href="#5-the-bam-file-format-in-detail"><span>05</span>5. The BAM File Format in Detail</a></li><li><a href="#6-common-alignment-quality-metrics"><span>06</span>6. Common Alignment-Quality Metrics</a></li><li><a href="#7-the-role-of-bam-files-in-downstream-analysis"><span>07</span>7. The Role of BAM Files in Downstream Analysis</a></li><li><a href="#8-important-considerations"><span>08</span>8. Important Considerations</a></li><li><a href="#summary"><span>09</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#1-why-is-alignment-necessary">1. Why Is Alignment Necessary?</a></li><li><a href="#2-the-reference-genome">2. The Reference Genome</a></li><li><a href="#3-core-principles-of-alignment">3. Core Principles of Alignment</a></li><li><a href="#4-alignment-output-files-sam-and-bam">4. Alignment Output Files: SAM and BAM</a></li><li><a href="#5-the-bam-file-format-in-detail">5. The BAM File Format in Detail</a></li><li><a href="#6-common-alignment-quality-metrics">6. Common Alignment-Quality Metrics</a></li><li><a href="#7-the-role-of-bam-files-in-downstream-analysis">7. The Role of BAM Files in Downstream Analysis</a></li><li><a href="#8-important-considerations">8. Important Considerations</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-7--from-fastq-alignment-to-sambam">WES Series 7 | From FASTQ Alignment to SAM/BAM</h1>
+<blockquote>
+<p>“Receiving a collection of ‘ATCG’ strings is like being handed a bag of puzzle pieces. The next step is to fit them back onto the complete blueprint of the human genome.”</p>
+</blockquote>
+<hr />
+<h2 id="1-why-is-alignment-necessary">1. Why Is Alignment Necessary?</h2>
+<p>FASTQ files produced by a sequencing platform contain millions to hundreds of millions of short sequences, or reads. These reads do not know where in the genome they originated. The purpose of alignment is to return these “lost little sentences” to their correct positions in the reference genome.</p>
+<hr />
+<h2 id="2-the-reference-genome">2. The Reference Genome</h2>
+<p>A reference genome is like a “standard map.” Human studies commonly use the following reference-genome versions:</p>
+<ul>
+<li><p><strong>GRCh37/hg19</strong>: an older version on which many clinical databases are based</p></li>
+<li><p><strong>GRCh38/hg38</strong>: the latest version, which corrects errors in the preceding version and adds previously missing regions</p></li>
+</ul>
+<p>Reference-genome versions must be used consistently, or genomic coordinates will become misaligned.</p>
+<hr />
+<h2 id="3-core-principles-of-alignment">3. Core Principles of Alignment</h2>
+<p>The central challenge for an alignment algorithm is to locate the most likely genomic origin of a read quickly and accurately within an enormous reference genome. Common methods include seed-and-extend strategies and efficient compressed indexes based on the Burrows–Wheeler transform (BWT) or FM-index, which enable rapid searches with limited memory.</p>
+<p>Because the human genome is approximately 3 billion bp long while sequencing reads are typically only 100–150 bp, exhaustive direct matching is virtually impossible. Mainstream algorithms such as <strong>BWA-MEM</strong> and <strong>Bowtie2</strong> use <strong>indexing</strong> to reduce the search space dramatically:</p>
+<ul>
+<li><p><strong>Index construction</strong>: divides the reference genome into searchable segments and constructs an index</p></li>
+<li><p><strong>Seed matching</strong>: first matches a short sequence (the seed), then extends the match in both directions</p></li>
+<li><p><strong>Scoring system</strong>: assigns scores based on matches, mismatches, deletions, and other features, then selects the highest-scoring location as the alignment result</p></li>
+</ul>
+<p><img src="/images/wes-alignment-bam.png" alt="SAM/BAM alignment and file structure diagram" /></p>
+<hr />
+<h2 id="4-alignment-output-files-sam-and-bam">4. Alignment Output Files: SAM and BAM</h2>
+<p>Alignment produces a <strong>SAM file</strong> (Sequence Alignment/Map):</p>
+<ul>
+<li><p>A human-readable text format</p></li>
+<li><p>Contains each read's location, mapping quality (MAPQ), CIGAR string (describing matches, deletions, and insertions), and other information</p></li>
+</ul>
+<p>To save storage space and accelerate access, SAM files are generally compressed into <strong>BAM format</strong> (Binary Alignment/Map):</p>
+<ul>
+<li><p><strong>Advantages</strong>: smaller and faster to read</p></li>
+<li><p><strong>Disadvantage</strong>: requires a specialized tool such as samtools to inspect</p></li>
+</ul>
+<p>A <strong>BAI index file</strong> is also used to access data from a specific region in a BAM file quickly.</p>
+<hr />
+<h2 id="5-the-bam-file-format-in-detail">5. The BAM File Format in Detail</h2>
+<p>A BAM file is a binary alignment-results file compressed from SAM format. It has two main components:</p>
+<ul>
+<li><p><strong>Header</strong>: describes the reference-genome version, alignment software, alignment time, and other metadata</p></li>
+<li><p><strong>Alignment section</strong>: each record contains the alignment information for one read, including the read name, reference-sequence name, alignment start position, MAPQ score, CIGAR string, paired-alignment information, nucleotide sequence, and quality scores.</p></li>
+</ul>
+<p>BAM fields occur in the same order as SAM fields, but are stored in binary form. Common fields include:</p>
+<ul>
+<li><p><strong>QNAME</strong>: read name</p></li>
+<li><p><strong>FLAG</strong>: an integer encoding alignment status as multiple binary bits, each representing a distinct state. For example, 1 indicates that the read is paired; 2 that the read is mapped in a proper pair; 4 that the read is unmapped; 8 that its mate is unmapped; 16 that the read maps to the reverse strand; 32 that its mate maps to the reverse strand; 256 that the record is a secondary alignment; and 1024 that the read is a PCR or optical duplicate</p></li>
+<li><p><strong>RNAME</strong>: reference-sequence name</p></li>
+<li><p><strong>POS</strong>: alignment start position</p></li>
+<li><p><strong>MAPQ</strong>: mapping-quality score</p></li>
+<li><p><strong>CIGAR</strong>: string describing matches, deletions, insertions, and other alignment operations</p></li>
+<li><p><strong>RNEXT/PNEXT</strong>: information about the paired read</p></li>
+<li><p><strong>TLEN</strong>: template length</p></li>
+<li><p><strong>SEQ</strong>: nucleotide sequence of the read</p></li>
+<li><p><strong>QUAL</strong>: corresponding base-quality scores</p></li>
+</ul>
+<p>⚠ <strong>Note</strong>: FLAG values combine multiple bits. A value of 99, for example, simultaneously represents the states 1 + 2 + 32 + 64.</p>
+<p>FLAG 1024 indicates only that a read has been marked as a duplicate; it does not mean that the read has been removed from the BAM file. For the distinctions among marking, removal, and duplication-rate definitions, see NGS Duplicates: What Exactly Is Being Duplicated?</p>
+<hr />
+<h2 id="6-common-alignment-quality-metrics">6. Common Alignment-Quality Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Meaning</th>
+<th>Reference standard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mapping rate</td>
+<td>Percentage of reads successfully aligned to the reference genome</td>
+<td>Commonly &gt; 98% for WES data</td>
+</tr>
+<tr>
+<td>Unique mapping rate</td>
+<td>Percentage of reads aligned to only one location</td>
+<td>Higher is better</td>
+</tr>
+<tr>
+<td>Mean sequencing depth</td>
+<td>Average number of times each position is sequenced</td>
+<td>Commonly &gt; 100× for WES</td>
+</tr>
+<tr>
+<td>Coverage</td>
+<td>Percentage of the exonic target region covered at least once</td>
+<td>Commonly &gt; 95% for WES</td>
+</tr>
+<tr>
+<td>Uniformity</td>
+<td>Consistency of sequencing depth across positions</td>
+<td>&gt; 80%</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-the-role-of-bam-files-in-downstream-analysis">7. The Role of BAM Files in Downstream Analysis</h2>
+<p>BAM files are the “foundation” of WES data analysis. All subsequent variant calling, CNV analysis, visual inspection, and other steps depend on high-quality BAM files. Alignment bias directly compromises the accuracy of downstream analyses.</p>
+<p><strong>Common uses</strong>:</p>
+<ul>
+<li><p>Variant calling (SNV/InDel calling)</p></li>
+<li><p>Structural-variant analysis (SV calling)</p></li>
+<li><p>CNV analysis</p></li>
+<li><p>Visual inspection in IGV (reviewing sequencing evidence at a variant site)</p></li>
+</ul>
+<hr />
+<h2 id="8-important-considerations">8. Important Considerations</h2>
+<ul>
+<li><p><strong>Watch for PCR duplicates</strong>: too many duplicate reads reduce usable information; they can be marked with <code>markdup</code></p></li>
+<li><p><strong>Watch for a low mapping rate</strong>: it may indicate sample contamination, mixed species, or failed library preparation</p></li>
+<li><p><strong>Keep reference-genome versions consistent</strong>: the reference genome used for analysis should match the versions used by downstream databases</p></li>
+<li><p><strong>Review aligner parameters</strong>: different parameter settings can substantially affect alignment results</p></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Alignment is the “puzzle-assembly stage” of the WES workflow, and the BAM file is the analysis's “core raw material.” Only an accurate alignment provides a solid foundation for subsequent variant calling.</p>
+<hr />
+<p><strong>Next in the series</strong>: “Variant Calling: Finding What Differs in a Genome.” We will examine how to identify potentially disease-associated genetic variants in a BAM file.</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 07</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-fastq-quality-control/"><span>Previous</span><strong>WES Series 6 | Quality Control for Raw WES FASTQ Data</strong></a><a class="series-nav-item next" href="/en/articles/wes-variant-calling/"><span>Next</span><strong>WES Series 8 | Variant Calling: Finding What Differs in a Genome</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑳｜WES如何描绘人类迁徙与演化｜见山 · 生信笔记</title><meta name="description" content="一句话主题 ：像 gnomAD 这样的超大规模人群外显子组项目，把“变异频率、基因耐受度、跨祖源差异”三件事说清楚了——这既是 临床解读的地基 ，也是理解 人群历史与自然选…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-human-migration-evolution/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-human-migration-evolution/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-human-migration-evolution/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-human-migration-evolution/"><meta property="og:title" content="WES系列⑳｜WES如何描绘人类迁徙与演化｜见山 · 生信笔记"><meta property="og:description" content="一句话主题 ：像 gnomAD 这样的超大规模人群外显子组项目，把“变异频率、基因耐受度、跨祖源差异”三件事说清楚了——这既是 临床解读的地基 ，也是理解 人群历史与自然选…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-human-migration-evolution/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-human-migration-evolution/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-human-migration-evolution/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 20/30</span><time datetime="2025-08-30">2025.08.30</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-这些项目在做什么以-gnomad-为代表"><span>01</span>1. 这些项目在做什么？（以 gnomAD 为代表）</a></li><li><a href="#2-遗传多样性把常与稀说准"><span>02</span>2. 遗传多样性：把“常与稀”说准</a></li><li><a href="#3-疾病频率差异谁更容易携带为何差异明显"><span>03</span>3. 疾病频率差异：谁更容易携带、为何差异明显？</a></li><li><a href="#4-进化与选择耐受度告诉了我们什么"><span>04</span>4. 进化与选择：耐受度告诉了我们什么</a></li><li><a href="#5-从关联到因果稀有变异与基因负担"><span>05</span>5. 从关联到因果：稀有变异与“基因负担”</a></li><li><a href="#6-方法与使用指南给临床与研究者"><span>06</span>6. 方法与使用指南（给临床与研究者）</a></li><li><a href="#7-局限与伦理望远镜的盲区与使用边界"><span>07</span>7. 局限与伦理：望远镜的盲区与使用边界</a></li><li><a href="#8-一段如何把它用到明天的清单"><span>08</span>8. 一段“如何把它用到明天”的清单</a></li><li><a href="#小结"><span>09</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-这些项目在做什么以-gnomad-为代表">1. 这些项目在做什么？（以 gnomAD 为代表）</a></li><li><a href="#2-遗传多样性把常与稀说准">2. 遗传多样性：把“常与稀”说准</a></li><li><a href="#3-疾病频率差异谁更容易携带为何差异明显">3. 疾病频率差异：谁更容易携带、为何差异明显？</a></li><li><a href="#4-进化与选择耐受度告诉了我们什么">4. 进化与选择：耐受度告诉了我们什么</a></li><li><a href="#5-从关联到因果稀有变异与基因负担">5. 从关联到因果：稀有变异与“基因负担”</a></li><li><a href="#6-方法与使用指南给临床与研究者">6. 方法与使用指南（给临床与研究者）</a></li><li><a href="#7-局限与伦理望远镜的盲区与使用边界">7. 局限与伦理：望远镜的盲区与使用边界</a></li><li><a href="#8-一段如何把它用到明天的清单">8. 一段“如何把它用到明天”的清单</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑳wes如何描绘人类迁徙与演化">WES系列⑳｜WES如何描绘人类迁徙与演化</h1>
+<p><strong>一句话主题</strong>：像 gnomAD 这样的超大规模人群外显子组项目，把“变异频率、基因耐受度、跨祖源差异”三件事说清楚了——这既是<strong>临床解读的地基</strong>，也是理解<strong>人群历史与自然选择</strong>的显微镜。</p>
+<hr />
+<h2 id="1-这些项目在做什么以-gnomad-为代表">1. 这些项目在做什么？（以 gnomAD 为代表）</h2>
+<ul>
+<li><p><strong>WES（外显子）优先</strong>：聚焦蛋白编码区，信息密度高、成本友好，便于在数十万乃至上百万人尺度上积累数据。</p></li>
+<li><p><strong>跨祖源纳入</strong>：按祖源/地理多样化收集样本，给出<strong>分人群的等位基因频率</strong>与“最高人群频率（popmax）”。</p></li>
+<li><p><strong>严格质控</strong>：统一比对与变异检测流程、覆盖度阈值与掩码、甲基化/低复杂度位点过滤，确保不同批次可比。</p></li>
+<li><p><strong>开放可查</strong>：研究者与临床可直接按<strong>坐标/基因/转录本</strong>检索频率、功能预测与覆盖度信息，成为“日用而不觉”的背景库。</p></li>
+</ul>
+<blockquote>
+<p>你可以把它理解为：一个巨大的、分祖源标注过的“正常人群变量表”，帮助我们判断某个变异究竟是<strong>常见的“个性差异”</strong>，还是可能与疾病有关的<strong>稀有异常</strong>。</p>
+</blockquote>
+<hr />
+<h2 id="2-遗传多样性把常与稀说准">2. 遗传多样性：把“常与稀”说准</h2>
+<ul>
+<li><p><strong>等位基因频率地图</strong>：同一变异在不同人群中的“常/稀”完全可能对调。只有在<strong>匹配祖源</strong>的频率参照下，“罕见”才有可比意义。</p></li>
+<li><p><strong>单人-家族-人群的连续体</strong>：个体层面的罕见变异，放到人群里，才能知道它是否“独特到可疑”。这直接决定临床<strong>过滤阈值</strong>与<strong>致病性证据</strong>。</p></li>
+<li><p><strong>祖源不均衡的偏差</strong>：样本如果以某些祖源为主，会让阈值系统性偏向。大规模人群 WES 的一个重要收益，就是<strong>缓解这种偏差</strong>。</p></li>
+</ul>
+<p><strong>临床落地举例</strong>：</p>
+<ul>
+<li><p>把疑似致病变异拿去查：若在匹配祖源人群里频率远高于该病发病率或遗传模型允许的上限，通常<strong>可排除致病</strong>。</p></li>
+<li><p>对“意义未明”位点，随着人群数据增大，<strong>很多会被降级</strong>，减少不必要的焦虑与过度医疗。</p></li>
+</ul>
+<hr />
+<h2 id="3-疾病频率差异谁更容易携带为何差异明显">3. 疾病频率差异：谁更容易携带、为何差异明显？</h2>
+<ul>
+<li><p><strong>创始效应与瓶颈</strong>：某些人群由于历史瓶颈，特定“家族变异”在群体中<strong>异常偏高</strong>（芬兰、冰岛、阿什肯纳兹等）。WES 能快速标出这些“人群私有变异”，提示<strong>携带者筛查与公共卫生策略</strong>。</p></li>
+<li><p><strong>人群特异携带率</strong>：把致病/可能致病（P/LP）位点放回人群，能估算不同祖源的<strong>预期患病率</strong>与<strong>携带率</strong>，从而制定<strong>人群定制的筛查面板</strong>。</p></li>
+<li><p><strong>保护性变异</strong>：有些丧失功能（LoF）变异与<strong>更低的疾病风险/更好的代谢指标</strong>相关（如血脂、血糖），提示潜在的<strong>药物靶点</strong>与<strong>预防策略</strong>。</p></li>
+</ul>
+<hr />
+<h2 id="4-进化与选择耐受度告诉了我们什么">4. 进化与选择：耐受度告诉了我们什么</h2>
+<ul>
+<li><p><strong>基因耐受度（Constraint）</strong>：统计现实人群中**应当出现却几乎“缺位”**的有害突变，构建如 <strong>LOEUF/pLI</strong>等指标。数值越“严格”，代表该基因对生存/繁殖越关键，<strong>随意改动代价越高</strong>。</p></li>
+<li><p><strong>结构域/位点层面的选择</strong>：有害错义突变在关键结构域显著稀缺，提示<strong>功能热点</strong>。这类定位常与结构生物学/功能实验相互印证。</p></li>
+<li><p><strong>适应性轨迹（编码层面）</strong>：某些编码变异随地理/环境出现<strong>频率梯度</strong>（如皮肤色素、毛发/汗腺相关位点），WES 能看到“<strong>等位基因如何爬坡</strong>”。</p></li>
+</ul>
+<blockquote>
+<p>把这层信息用于转化：**药物靶点的“天然安全性”**可以由群体数据“逆向验证”——若人群中存在天然的 LoF 携带者且表现安全，靶向抑制该基因往往更可行。</p>
+</blockquote>
+<hr />
+<h2 id="5-从关联到因果稀有变异与基因负担">5. 从关联到因果：稀有变异与“基因负担”</h2>
+<ul>
+<li><p><strong>单个位点信号有限</strong>，但把同一基因内一簇“可能有害”的稀有变异<strong>合并测试</strong>（负担检验/SKAT），在大样本 WES 中能发现与疾病/性状的稳健关联。</p></li>
+<li><p><strong>跨祖源复制</strong>是金标准：当同一基因负担在不同祖源都成立，更可能是真实的生物学规律而非样本偏差。</p></li>
+</ul>
+<hr />
+<h2 id="6-方法与使用指南给临床与研究者">6. 方法与使用指南（给临床与研究者）</h2>
+<ul>
+<li><p><strong>永远匹配祖源</strong>：用 popmax 或分祖源频率，而非“全体总频率”。</p></li>
+<li><p><strong>看覆盖与掩码</strong>：确认变异位点在该项目中<strong>可可靠检测</strong>，避免把“看不见”误判为“没有”。</p></li>
+<li><p><strong>结合耐受度与基因层证据</strong>：单位点证据不足时，看看<strong>基因是否被自然选择强力约束</strong>，或该基因在负担分析中是否与表型相关。</p></li>
+<li><p><strong>谨慎跨项目合并</strong>：不同项目的捕获设计/流程不同，合并前需<strong>批次校正与统一过滤规则</strong>。</p></li>
+<li><p><strong>建立本地频率库</strong>：在你的机构/地区，用同一流程积累外显子背景库，能显著提升<strong>可比性</strong>与<strong>解读准确度</strong>。</p></li>
+</ul>
+<hr />
+<h2 id="7-局限与伦理望远镜的盲区与使用边界">7. 局限与伦理：望远镜的盲区与使用边界</h2>
+<ul>
+<li><p><strong>非编码看不到</strong>：大量调控/迁徙信号位于非编码区，必要时用 WGS 补齐全景。</p></li>
+<li><p><strong>结构变异/拷贝数</strong>：WES 对复杂结构变异不敏感，需专门算法与验证。</p></li>
+<li><p><strong>祖源代表性仍不均衡</strong>：持续补齐<strong>被低估/欠代表</strong>的人群，是科学与公平的双重需求。</p></li>
+<li><p><strong>数据治理</strong>：知情同意、再识别风险、商业化透明与<strong>成果回馈社区</strong>，是大规模项目的基本约束。</p></li>
+</ul>
+<hr />
+<h2 id="8-一段如何把它用到明天的清单">8. 一段“如何把它用到明天”的清单</h2>
+<ul>
+<li><p>变异解读：<strong>频率阈值 + 祖源匹配 + 耐受度</strong>三件套先走一遍；</p></li>
+<li><p>罕见病诊断：先看人群频率排除“伪阳性”，再用家系/功能证据收敛；</p></li>
+<li><p>复杂病研究：在外显子上做<strong>基因负担检验</strong>，跨祖源验证；</p></li>
+<li><p>药物研发：优先关注“<strong>人类自然实验</strong>”提示安全/有效的靶点（保护性 LoF）。</p></li>
+</ul>
+<hr />
+<h2 id="小结">小结</h2>
+<p>大规模人群 WES 项目给我们带来的，不仅是“更大的样本”，更是<strong>更可靠的标尺</strong>：常与稀、容忍与禁忌、人群与历史。用好这把标尺，临床少走弯路，科研更快接近“因果”，我们也能在编码区的光束里，看清人类多样性与演化的更多细节。</p>
+<hr />
+<p><strong>下期预告</strong>：下一篇《WES 在复杂疾病（如自闭症、糖尿病）研究中的角色》，我们将讨论WES在揭示非孟德尔遗传的复杂疾病（多基因、多因素疾病）遗传基础方面的贡献和挑战。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 20</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-pgt/"><span>上一篇</span><strong>WES系列⑲｜PGT中的 WES</strong></a><a class="series-nav-item next" href="/articles/wes-complex-disease-research/"><span>下一篇</span><strong>WES系列㉑｜WES在复杂疾病研究中的角色</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑫｜拷贝数变异（CNV）分析：WES数据的“隐藏信息”｜见山 · 生信笔记</title><meta name="description" content="“除了点突变和小片段 InDel，WES 还藏着大片段基因缺失与扩增的信息。” 1. 什么是 CNV？ 拷贝数变异（Copy Number Variation, CNV）…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-cnv-analysis/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-cnv-analysis/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-cnv-analysis/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-cnv-analysis/"><meta property="og:title" content="WES系列⑫｜拷贝数变异（CNV）分析：WES数据的“隐藏信息”｜见山 · 生信笔记"><meta property="og:description" content="“除了点突变和小片段 InDel，WES 还藏着大片段基因缺失与扩增的信息。” 1. 什么是 CNV？ 拷贝数变异（Copy Number Variation, CNV）…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-cnv-analysis/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-cnv-analysis/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-cnv-analysis/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 12/30</span><time datetime="2025-08-20">2025.08.20</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-什么是-cnv"><span>01</span>1. 什么是 CNV？</a></li><li><a href="#2-wes-数据如何检测-cnv"><span>02</span>2. WES 数据如何检测 CNV？</a></li><li><a href="#3-常见的检测方法"><span>03</span>3. 常见的检测方法</a></li><li><a href="#4-常见工具介绍"><span>04</span>4. 常见工具介绍</a></li><li><a href="#5-临床案例"><span>05</span>5. 临床案例</a></li><li><a href="#6-注意事项"><span>06</span>6. 注意事项</a></li><li><a href="#小结"><span>07</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-什么是-cnv">1. 什么是 CNV？</a></li><li><a href="#2-wes-数据如何检测-cnv">2. WES 数据如何检测 CNV？</a></li><li><a href="#3-常见的检测方法">3. 常见的检测方法</a></li><li><a href="#4-常见工具介绍">4. 常见工具介绍</a></li><li><a href="#5-临床案例">5. 临床案例</a></li><li><a href="#6-注意事项">6. 注意事项</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑫拷贝数变异cnv分析wes数据的隐藏信息">WES系列⑫｜拷贝数变异（CNV）分析：WES数据的“隐藏信息”</h1>
+<blockquote>
+<p>“除了点突变和小片段 InDel，WES 还藏着大片段基因缺失与扩增的信息。”</p>
+</blockquote>
+<hr />
+<h2 id="1-什么是-cnv">1. 什么是 CNV？</h2>
+<p><strong>拷贝数变异（Copy Number Variation, CNV）<strong>指的是基因组中大片段 DNA 的缺失或重复，大小通常在</strong>kb 到 Mb 级别</strong>。CNV 会导致基因拷贝数异常，进而影响蛋白表达水平。例如：</p>
+<ul>
+<li><p><strong>HER2 基因扩增</strong> → 乳腺癌患者可使用曲妥珠单抗（Herceptin）。</p></li>
+<li><p><strong>SMN1 缺失</strong> → 与脊髓性肌萎缩症（SMA）相关。</p></li>
+</ul>
+<p>在临床检测中，CNV 是仅次于 SNV 和 InDel 的另一类重要突变形式。</p>
+<hr />
+<h2 id="2-wes-数据如何检测-cnv">2. WES 数据如何检测 CNV？</h2>
+<p>虽然 WES 主要是针对外显子区域的点突变和小片段变异设计的，但通过对**测序深度（read depth）**的分析，同样可以推断出 CNV。其基本原理是：</p>
+<ul>
+<li><p>某个外显子区域的 <strong>测序覆盖度显著升高</strong> → 可能存在基因扩增。</p></li>
+<li><p>某个区域的 <strong>测序覆盖度显著降低</strong> → 可能存在基因缺失。</p></li>
+</ul>
+<h3 id="cnv-检测原理示意图">CNV 检测原理示意图</h3>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p><small>通过测序深度变化检测 CNV</small></figure>
+<h2 id="3-常见的检测方法">3. 常见的检测方法</h2>
+<p>WES 数据的 CNV 检测主要有三类方法：</p>
+<ol type="1">
+<li><strong>基于读段深度（Read Depth）</strong></li>
+</ol>
+<ul>
+<li><p>思路：通过比对不同区域的平均覆盖度，判断是否存在显著差异。</p></li>
+<li><p>工具：ExomeCNV、XHMM、CNVkit。</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>基于读段配对（Read Pair）</strong></li>
+</ol>
+<ul>
+<li><p>思路：利用异常的 read pair 间距或方向，推断大片段缺失或插入。</p></li>
+<li><p>工具：BreakDancer。</p></li>
+</ul>
+<ol start="3" type="1">
+<li><strong>基于拼接与信号综合（Integrated Methods）</strong></li>
+</ol>
+<ul>
+<li><p>思路：综合 read depth、read pair、split read 等多种信号，提高检测准确性。</p></li>
+<li><p>工具：GATK gCNV、Canvas。</p></li>
+</ul>
+<hr />
+<h2 id="4-常见工具介绍">4. 常见工具介绍</h2>
+<ul>
+<li><p><strong>CNVkit</strong>：针对 WES 设计，利用 read depth 与 GC 校正，广泛应用于科研和临床实验室。</p></li>
+<li><p><strong>XHMM (eXome-Hidden Markov Model)</strong>：通过 HMM 模型分析外显子覆盖度异常。</p></li>
+<li><p><strong>ExomeDepth</strong>：基于贝叶斯框架，将样本与参考对照比较，检测 CNV。</p></li>
+<li><p><strong>GATK gCNV</strong>：Broad Institute 提供，能在大规模队列中提高灵敏度。</p></li>
+</ul>
+<hr />
+<h2 id="5-临床案例">5. 临床案例</h2>
+<p>在一位乳腺癌患者的 WES 数据中，检测到<strong>ERBB2（HER2）基因扩增</strong>：</p>
+<ul>
+<li><p>通过 CNVkit 分析发现，HER2 区域的覆盖度明显高于其他外显子。</p></li>
+<li><p>结合 IHC 免疫组化和 FISH 验证，最终确诊为 <strong>HER2 阳性乳腺癌</strong>。</p></li>
+<li><p>临床上，患者因此可以接受 <strong>抗 HER2 靶向治疗</strong>，显著改善预后。</p></li>
+</ul>
+<hr />
+<h2 id="6-注意事项">6. 注意事项</h2>
+<ol type="1">
+<li><p><strong>WES 检测 CNV 的局限性</strong>：因捕获设计不均一，检测灵敏度低于全基因组测序（WGS）。</p></li>
+<li><p><strong>需要合适的对照</strong>：CNV 分析往往需要参考样本，避免因测序深度波动产生假阳性。</p></li>
+<li><p><strong>结果需验证</strong>：临床报告中，CNV 结果通常需要 FISH、qPCR 或 CMA 验证。</p></li>
+<li><p><strong>GC 偏好性影响</strong>：高 GC 或低 GC 区域容易出现测序深度偏差，需要软件校正。</p></li>
+</ol>
+<hr />
+<h2 id="小结">小结</h2>
+<ul>
+<li><p>WES 不仅能检测 SNV 和 InDel，还能揭示 <strong>CNV 这一“隐藏信息”</strong>。</p></li>
+<li><p>CNV 的检测依赖于对 <strong>测序覆盖度的深入挖掘</strong>。</p></li>
+<li><p>临床上，CNV 分析常常能直接影响用药选择和疾病诊断。</p></li>
+</ul>
+<hr />
+<p><strong>下期预告</strong>：《线粒体DNA与WES：别忘了细胞的“能量工厂”》</p>
+<p>我们将讨论 WES 在分析线粒体基因组变异方面的能力、挑战和特殊注意事项。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 12</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-clinical-interpretation/"><span>上一篇</span><strong>WES系列⑪｜临床解读：如何把基因变异转化为诊疗决策？</strong></a><a class="series-nav-item next" href="/articles/wes-mitochondrial-dna/"><span>下一篇</span><strong>WES系列⑬｜线粒体DNA与WES：别忘了细胞的“能量工厂”</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 2 | WES vs. WGS vs. Panels: Choosing the Right Sequencing Strategy | Jianshan Bioinformatics Notes</title><meta name="description" content="“Do you want a panoramic view of the world, or would you rather focus on what matters most? Different sequencing technologies are like different ‘telescopes’: each has its own strengths and…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-vs-wgs-vs-panel/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-vs-wgs-vs-panel/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-vs-wgs-vs-panel/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-vs-wgs-vs-panel/"><meta property="og:title" content="WES Series 2 | WES vs. WGS vs. Panels: Choosing the Right Sequencing Strategy | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Do you want a panoramic view of the world, or would you rather focus on what matters most? Different sequencing technologies are like different ‘telescopes’: each has its own strengths and…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-vs-wgs-vs-panel/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-vs-wgs-vs-panel/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-vs-wgs-vs-panel/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 02/30</span><time datetime="2025-08-09">2025.08.09</time><span>Approx. 5 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#compass-in-one-sentence-they-have-different-fields-of-view"><span>01</span>🧭 In One Sentence: They Have Different “Fields of View”</a></li><li><a href="#dna-01-whole-genome-sequencing-wgs-comprehensive-coverage-and-a-clear-view"><span>02</span>🧬 01. Whole-Genome Sequencing (WGS): Comprehensive Coverage and a Clear View</a></li><li><a href="#mag-02-whole-exome-sequencing-wes-focusing-on-the-key-plot-points"><span>03</span>🔍 02. Whole-Exome Sequencing (WES): Focusing on the “Key Plot Points”</a></li><li><a href="#dart-03-targeted-gene-panels-precision-strikers"><span>04</span>🎯 03. Targeted Gene Panels: Precision Strikers</a></li><li><a href="#bulb-common-questions-about-choosing-a-method"><span>05</span>💡 Common Questions About Choosing a Method</a></li><li><a href="#brain-summary-your-question-determines-your-choice"><span>06</span>🧠 Summary: Your Question Determines Your Choice</a></li><li><a href="#mega-conclusion-choose-the-right-tool-to-see-the-problem-clearly"><span>07</span>📣 Conclusion: Choose the Right Tool to See the Problem Clearly</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#compass-in-one-sentence-they-have-different-fields-of-view">🧭 In One Sentence: They Have Different “Fields of View”</a></li><li><a href="#dna-01-whole-genome-sequencing-wgs-comprehensive-coverage-and-a-clear-view">🧬 01. Whole-Genome Sequencing (WGS): Comprehensive Coverage and a Clear View</a></li><li><a href="#mag-02-whole-exome-sequencing-wes-focusing-on-the-key-plot-points">🔍 02. Whole-Exome Sequencing (WES): Focusing on the “Key Plot Points”</a></li><li><a href="#dart-03-targeted-gene-panels-precision-strikers">🎯 03. Targeted Gene Panels: Precision Strikers</a></li><li><a href="#bulb-common-questions-about-choosing-a-method">💡 Common Questions About Choosing a Method</a></li><li><a href="#brain-summary-your-question-determines-your-choice">🧠 Summary: Your Question Determines Your Choice</a></li><li><a href="#mega-conclusion-choose-the-right-tool-to-see-the-problem-clearly">📣 Conclusion: Choose the Right Tool to See the Problem Clearly</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-2--wes-vs-wgs-vs-panels-choosing-the-right-sequencing-strategy">WES Series 2 | WES vs. WGS vs. Panels: Choosing the Right Sequencing Strategy</h1>
+<blockquote>
+<p>“Do you want a panoramic view of the world, or would you rather focus on what matters most? Different sequencing technologies are like different ‘telescopes’: each has its own strengths and weaknesses.”</p>
+</blockquote>
+<hr />
+<p>As genetic testing becomes widely used in medicine and research, we increasingly face a common question: <strong>Which sequencing method should we choose?</strong></p>
+<p>Today, we will discuss the three most mainstream strategies:</p>
+<ul>
+<li><p><strong>WGS: whole-genome sequencing</strong></p></li>
+<li><p><strong>WES: whole-exome sequencing</strong></p></li>
+<li><p><strong>Panel: targeted gene panel sequencing</strong></p></li>
+</ul>
+<p>Different needs, budgets, and objectives call for different methods. Choosing the right sequencing approach can deliver twice the result with half the effort.</p>
+<hr />
+<h2 id="compass-in-one-sentence-they-have-different-fields-of-view">🧭 In One Sentence: They Have Different “Fields of View”</h2>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p></figure>
+<blockquote>
+<p>Schematic comparison of WGS, WES, and panels.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>WGS</th>
+<th>WES</th>
+<th>Panel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Sequencing scope</strong></td>
+<td>Entire genome</td>
+<td>All exonic regions</td>
+<td>Selected genes or regions</td>
+</tr>
+<tr>
+<td><strong>Data volume</strong></td>
+<td>Very large</td>
+<td>Moderate</td>
+<td>Small</td>
+</tr>
+<tr>
+<td><strong>Detection capability</strong></td>
+<td>Most comprehensive; theoretically no blind spots</td>
+<td>Focuses on functional regions and is well suited to finding disease-causing variants</td>
+<td>High depth and precise targeting</td>
+</tr>
+<tr>
+<td><strong>Estimated cost</strong></td>
+<td>¥8,000–15,000</td>
+<td>¥3,000–6,000</td>
+<td>¥800–2,000</td>
+</tr>
+<tr>
+<td><strong>Suitable applications</strong></td>
+<td>Research, complex diseases, and structural variants</td>
+<td>Routine clinical diagnosis, rare diseases, and cancer</td>
+<td>Well-defined diagnostic objectives and pharmacogenomics</td>
+</tr>
+</tbody>
+</table>
+<p>One way to think about the three approaches is:</p>
+<ul>
+<li><p><strong>WGS is a panoramic map</strong>: it can show you everything, but the files are large and the price is high;</p></li>
+<li><p><strong>WES is a focused scan</strong>: it specifically sequences the parts where the “plot” unfolds;</p></li>
+<li><p><strong>A panel is a precision close-up</strong>: it takes you directly to the few pages of the “manual” that interest you.</p></li>
+</ul>
+<hr />
+<h2 id="dna-01-whole-genome-sequencing-wgs-comprehensive-coverage-and-a-clear-view">🧬 01. Whole-Genome Sequencing (WGS): Comprehensive Coverage and a Clear View</h2>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li><p>Has the broadest sequencing scope, covering the entire human genome (approximately 3 billion bases);</p></li>
+<li><p>Can identify variants in coding, noncoding, and regulatory regions, as well as structural variants;</p></li>
+<li><p>Suitable for studying unknown mechanisms, complex inherited disorders, and multifactorial diseases.</p></li>
+</ul>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li><p>🔍 Unbiased, with theoretically no “blind spots”;</p></li>
+<li><p>🔄 Can be reanalyzed repeatedly, making it suitable for long-term data accumulation;</p></li>
+<li><p>🧠 Also well suited to epigenetics, structural variants, and rare variants.</p></li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li><p>💰 High cost: sequencing, data analysis, and storage are all expensive;</p></li>
+<li><p>💾 Enormous datasets: a single sample often exceeds 100 GB;</p></li>
+<li><p>🤯 Difficult interpretation, because the functions of many noncoding variants remain unclear.</p></li>
+</ul>
+<p><strong>Cost reference:</strong> ¥8,000–15,000 per sample (depending on platform and depth)</p>
+<p><strong>Suitable populations/applications:</strong></p>
+<ul>
+<li><p>Basic research at scientific institutions;</p></li>
+<li><p>A clinical “last resort” when other tests have produced no answer;</p></li>
+<li><p>Investigation of complex disease mechanisms, such as those involved in psychiatric disorders and autism.</p></li>
+</ul>
+<hr />
+<h2 id="mag-02-whole-exome-sequencing-wes-focusing-on-the-key-plot-points">🔍 02. Whole-Exome Sequencing (WES): Focusing on the “Key Plot Points”</h2>
+<p>If WGS is like filming an entire documentary, WES is like filming only its most important chapters.</p>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li><p>Sequences only the exonic regions, which account for approximately 1% of the genome;</p></li>
+<li><p>Yet this 1% contains more than 85% of known disease-causing variants.</p></li>
+</ul>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li><p>🎯 Highly cost-effective and often “sufficient” for medical testing;</p></li>
+<li><p>🚀 Faster data processing and moderate cost, making it suitable for clinical use;</p></li>
+<li><p>🧬 High sensitivity, especially for single-gene disorders and cancer research.</p></li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li><p>📭 Cannot identify variants in noncoding regions;</p></li>
+<li><p>🧲 Some regions have poor capture efficiency and may therefore not be sequenced;</p></li>
+<li><p>🧱 Limited ability to identify structural variants and copy-number variants (CNVs).</p></li>
+</ul>
+<p><strong>Cost reference:</strong> ¥3,000–6,000 per sample (standard platform)</p>
+<p><strong>Suitable populations/applications:</strong></p>
+<ul>
+<li><p>Rare-disease diagnosis, especially trio WES of a child and both parents;</p></li>
+<li><p>Detecting variants in tumor tissue and analyzing targeted-treatment strategies;</p></li>
+<li><p>The “gold standard” for general clinical genetic testing.</p></li>
+</ul>
+<hr />
+<h2 id="dart-03-targeted-gene-panels-precision-strikers">🎯 03. Targeted Gene Panels: Precision Strikers</h2>
+<p>A panel is like opening a manual and reading only the few pages that concern you: <strong>the target is clear and the efficiency remarkable</strong>.</p>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li><p>Uses a predefined list of genes to be tested, ranging from dozens to hundreds;</p></li>
+<li><p>Often used for rapid screening of a disease category, such as breast cancer or cardiomyopathy.</p></li>
+</ul>
+<p><strong>Advantages:</strong></p>
+<ul>
+<li><p>💡 Extremely high depth and high accuracy;</p></li>
+<li><p>💸 Lowest cost and fastest results;</p></li>
+<li><p>📋 Customizable and suitable for standardized use in hospitals and companies.</p></li>
+</ul>
+<p><strong>Limitations:</strong></p>
+<ul>
+<li><p>🎯 Limited scope and cannot identify variants outside the panel;</p></li>
+<li><p>🔄 Cannot be used to discover new genes or unknown mechanisms;</p></li>
+<li><p>🚫 Poor extensibility for later analyses; best suited to “known questions requiring quick answers.”</p></li>
+</ul>
+<p><strong>Cost reference:</strong> ¥800–2,000 per sample</p>
+<p><strong>Suitable populations/applications:</strong></p>
+<ul>
+<li><p>Testing drug-target genes such as EGFR and KRAS in patients with cancer;</p></li>
+<li><p>Screening for hereditary cancer, such as BRCA1/2-associated disease;</p></li>
+<li><p>Pharmacogenomics, such as genes associated with CYP450 metabolism.</p></li>
+</ul>
+<hr />
+<h2 id="bulb-common-questions-about-choosing-a-method">💡 Common Questions About Choosing a Method</h2>
+<p><strong>What if the budget is limited?</strong> If the question is well defined, choose a panel directly. If the disease-causing gene is uncertain, WES is the safer choice. For research or exploration of the unknown, use WGS.</p>
+<p><strong>Could the test produce too much useless information?</strong> Possibly, especially with WGS and WES. Genetic counseling before and after testing is therefore advisable to help interpret and filter the information.</p>
+<p><strong>Can I start with a panel and add WES or WGS later?</strong> Technically, yes. However, compatibility between data from different platforms can be problematic, so it is best to plan the strategy from the outset.</p>
+<hr />
+<h2 id="brain-summary-your-question-determines-your-choice">🧠 Summary: Your Question Determines Your Choice</h2>
+<p>We recommend using a “sequencing decision tree” like the following:</p>
+<pre><code>Do you have a specific disease or family history?
+├── Yes → What type of disease?
+│   ├── Common disease-causing genes are well established → Panel
+│   └── Multiple unknown genes may be involved → WES
+└── No → Are you seeking a health-risk assessment or conducting research?
+    ├── Research or exploration of the unknown → WGS
+    └── Preliminary risk screening → Panel/WES</code></pre>
+<hr />
+<h2 id="mega-conclusion-choose-the-right-tool-to-see-the-problem-clearly">📣 Conclusion: Choose the Right Tool to See the Problem Clearly</h2>
+<p>No sequencing technology is absolutely better or worse than another; it is a matter of suitability. The key is to define the problem you want to solve and then choose the appropriate tool. Remember: data are only the starting point. Their true value lies in how they are interpreted.</p>
+<hr />
+<p>📌<strong>Next in the series</strong>:</p>
+<p>“A Brief History of WES: From Sanger to NGS—A Technological Revolution in Gene Sequencing” will review the story of the technology's evolution and explain how exome sequencing entered the mainstream.</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 02</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-introduction/"><span>Previous</span><strong>WES Series 1 | What Is Whole-Exome Sequencing?</strong></a><a class="series-nav-item next" href="/en/articles/wes-history/"><span>Next</span><strong>WES Series 3 | A Brief History of WES: From Sanger to NGS</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

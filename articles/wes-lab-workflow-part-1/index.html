@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列④｜WES实验流程全解析（上）｜见山 · 生信笔记</title><meta name="description" content="“在基因组学的世界里，一管血不仅仅是红色的液体，它还是承载着你全部遗传信息的‘数据硬盘’。” 🧬 1. 起点：样本采集与质控 1.1 样本类型 在临床和科研中，WES 常…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-lab-workflow-part-1/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-lab-workflow-part-1/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-lab-workflow-part-1/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-lab-workflow-part-1/"><meta property="og:title" content="WES系列④｜WES实验流程全解析（上）｜见山 · 生信笔记"><meta property="og:description" content="“在基因组学的世界里，一管血不仅仅是红色的液体，它还是承载着你全部遗传信息的‘数据硬盘’。” 🧬 1. 起点：样本采集与质控 1.1 样本类型 在临床和科研中，WES 常…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-lab-workflow-part-1/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-lab-workflow-part-1/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-lab-workflow-part-1/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 04/30</span><time datetime="2025-08-10">2025.08.10</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#dna-1-起点样本采集与质控"><span>01</span>🧬 1. 起点：样本采集与质控</a></li><li><a href="#test_tube-2-dna提取从细胞到纯净的遗传信息"><span>02</span>🧪 2. DNA提取：从细胞到纯净的遗传信息</a></li><li><a href="#scissors-3-dna片段化为测序做准备"><span>03</span>✂️ 3. DNA片段化：为测序做准备</a></li><li><a href="#safety_pin-4-文库构建让-dna-有身份证"><span>04</span>🧷 4. 文库构建：让 DNA 有“身份证”</a></li><li><a href="#dart-5-外显子捕获锁定关键目标"><span>05</span>🎯 5. 外显子捕获：锁定关键目标</a></li><li><a href="#receipt-6-质量控制与产物检测"><span>06</span>🧾 6. 质量控制与产物检测</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#dna-1-起点样本采集与质控">🧬 1. 起点：样本采集与质控</a></li><li><a href="#test_tube-2-dna提取从细胞到纯净的遗传信息">🧪 2. DNA提取：从细胞到纯净的遗传信息</a></li><li><a href="#scissors-3-dna片段化为测序做准备">✂️ 3. DNA片段化：为测序做准备</a></li><li><a href="#safety_pin-4-文库构建让-dna-有身份证">🧷 4. 文库构建：让 DNA 有“身份证”</a></li><li><a href="#dart-5-外显子捕获锁定关键目标">🎯 5. 外显子捕获：锁定关键目标</a></li><li><a href="#receipt-6-质量控制与产物检测">🧾 6. 质量控制与产物检测</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列④wes实验流程全解析上">WES系列④｜WES实验流程全解析（上）</h1>
+<blockquote>
+<p>“在基因组学的世界里，一管血不仅仅是红色的液体，它还是承载着你全部遗传信息的‘数据硬盘’。”</p>
+</blockquote>
+<hr />
+<h2 id="dna-1-起点样本采集与质控">🧬 1. 起点：样本采集与质控</h2>
+<p><strong>1.1 样本类型</strong><br />
+在临床和科研中，WES 常用的样本类型包括：</p>
+<ul>
+<li><p><strong>外周血</strong>（最常见，DNA 质量好）</p></li>
+<li><p><strong>唾液</strong>（方便，但可能有细菌 DNA 污染）</p></li>
+<li><p><strong>新鲜或冷冻组织</strong>（肿瘤检测常用）</p></li>
+<li><p><strong>石蜡包埋组织（FFPE）</strong>（适合回溯性研究，但 DNA 可能降解）</p></li>
+</ul>
+<p><strong>1.2 采集与保存要点</strong></p>
+<ul>
+<li><p>血液样本通常采集 2–5 mL，放入含有抗凝剂（EDTA）的紫色管中；</p></li>
+<li><p>采集后应尽快冷冻或提取 DNA，避免降解；</p></li>
+<li><p>对肿瘤样本，要有对应的正常对照（如血液），方便后续分析中区分体细胞变异和胚系变异。</p></li>
+</ul>
+<p><strong>1.3 质控标准</strong><br />
+在正式进入测序前，必须检测 DNA 的<strong>浓度</strong>和<strong>纯度</strong>：</p>
+<ul>
+<li><p><strong>浓度</strong>：Qubit 荧光法测量，确保 ≥ 50 ng/μL；</p></li>
+<li><p><strong>纯度</strong>：Nanodrop 检测 OD260/280 比值应在 1.8–2.0 之间；</p></li>
+<li><p><strong>完整性</strong>：通过琼脂糖凝胶或 Bioanalyzer 查看条带。</p></li>
+</ul>
+<hr />
+<h2 id="test_tube-2-dna提取从细胞到纯净的遗传信息">🧪 2. DNA提取：从细胞到纯净的遗传信息</h2>
+<p>DNA 提取方法有很多，常用的包括：</p>
+<ul>
+<li><p><strong>硅胶膜法</strong>（如 Qiagen kit）：快速、操作简单，适合多数样本；</p></li>
+<li><p><strong>磁珠法</strong>：适合自动化提取，高通量实验室常用；</p></li>
+<li><p><strong>酚氯仿法</strong>：经典方法，适合处理难提取的样本，但有毒性。</p></li>
+</ul>
+<p>在这一步，目标是获取<strong>高质量、无降解、无污染</strong>的基因组 DNA，为后续建库打下基础。</p>
+<hr />
+<h2 id="scissors-3-dna片段化为测序做准备">✂️ 3. DNA片段化：为测序做准备</h2>
+<p>Illumina 等 NGS 平台对 DNA 片段大小有要求（通常 150–300 bp），所以必须将长链 DNA 打断成适合的片段。常见方法：</p>
+<ul>
+<li><p><strong>超声破碎</strong>（如 Covaris）：可控性好，片段均一；</p></li>
+<li><p><strong>酶切法</strong>：用特定酶切断 DNA，简单但可能有偏好性。</p></li>
+</ul>
+<hr />
+<h2 id="safety_pin-4-文库构建让-dna-有身份证">🧷 4. 文库构建：让 DNA 有“身份证”</h2>
+<p>文库构建的核心步骤包括：</p>
+<ol type="1">
+<li><p><strong>末端修复</strong>：修整 DNA 片段末端，确保兼容接头连接；</p></li>
+<li><p><strong>加 A 尾</strong>：在 3’ 末端加上一个腺嘌呤（A）；</p></li>
+<li><p><strong>接头连接</strong>：接上含有测序引物结合位点和条形码（Index）的双链接头；</p></li>
+<li><p><strong>PCR 扩增</strong>：扩增文库，增加 DNA 量。</p></li>
+</ol>
+<p>此时的 DNA 文库，就像给每一段 DNA 装上了“邮寄标签”，后续测序时能知道它来自哪个样本。</p>
+<hr />
+<h2 id="dart-5-外显子捕获锁定关键目标">🎯 5. 外显子捕获：锁定关键目标</h2>
+<p>这是 WES 与 WGS、Panel 的最大不同之处。WGS 会无差别地测所有序列，而 Panel 只针对少数已知的目标基因，且捕获方式通常是使用针对这些基因特定区域设计的短寡核苷酸探针进行杂交捕获，有时甚至直接通过 PCR 扩增目标片段来实现富集。相比之下，WES 则需要一个“外显子捕获”步骤：使用<strong>生物素标记的寡核苷酸探针</strong>与目标 DNA 片段杂交，然后用<strong>链霉亲和素磁珠</strong>将这些目标片段富集起来，从而集中测定外显子区域。</p>
+<p>常用捕获方案：</p>
+<ul>
+<li><p><strong>Agilent SureSelect</strong></p></li>
+<li><p><strong>Illumina Nextera Rapid Capture</strong></p></li>
+<li><p><strong>Roche SeqCap EZ</strong></p></li>
+</ul>
+<p><strong>质控要点</strong>：</p>
+<ul>
+<li><p>杂交时间和温度要精确控制，确保捕获效率；</p></li>
+<li><p>捕获后再次进行 PCR 扩增，并检测片段大小。</p></li>
+</ul>
+<hr />
+<h2 id="receipt-6-质量控制与产物检测">🧾 6. 质量控制与产物检测</h2>
+<p>在捕获完成后，需要再次质控：</p>
+<ul>
+<li><p><strong>DNA 浓度</strong>（Qubit）</p></li>
+<li><p><strong>片段分布</strong>（Bioanalyzer 或 TapeStation）</p></li>
+<li><p><strong>文库大小</strong>（通常 300–500 bp）</p></li>
+</ul>
+<p>确保所有指标合格后，文库就可以送上测序平台了。</p>
+<hr />
+<p>📌 <strong>小结</strong><br />
+今天我们走完了从采样到 DNA 文库构建的全流程，这是 WES 的前半段，也是决定测序数据质量的关键环节。可以把它想象成做菜的前期准备——食材（DNA）要新鲜、处理要精细、调料（捕获探针）要准确，否则成品的味道会大打折扣。</p>
+<p>下一篇，我们将进入测序上机和原始数据生成的环节，带你走进高通量测序仪的“厨房”，看看这些准备好的 DNA 是如何一步步变成一行行 ACTG 序列的，并聊聊不同测序平台在数据生成上的差异和优劣。</p>
+<hr />
+<h3 id="参考文献">参考文献</h3>
+<ol type="1">
+<li><p>Sims D, Sudbery I, Ilott NE, Heger A, Ponting CP. Sequencing depth and coverage: key considerations in genomic analyses. <em>Nat Rev Genet</em>. 2014;15(2):121–132. doi:<a href="https://doi.org/10.1038/nrg3642" target="_blank" rel="noopener">10.1038/nrg3642</a></p></li>
+<li><p>Quail MA, Smith M, Coupland P, et al. A tale of three next generation sequencing platforms: comparison of Ion Torrent, Pacific Biosciences and Illumina MiSeq sequencers. <em>BMC Genomics</em>. 2012;13:341. doi:<a href="https://doi.org/10.1186/1471-2164-13-341" target="_blank" rel="noopener">10.1186/1471-2164-13-341</a></p></li>
+<li><p>Clark MJ, Chen R, Lam HY, et al. Performance comparison of exome DNA sequencing technologies. <em>Nat Biotechnol</em>. 2011;29(10):908–914. doi:<a href="https://doi.org/10.1038/nbt.1975" target="_blank" rel="noopener">10.1038/nbt.1975</a></p></li>
+</ol>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 04</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-history/"><span>上一篇</span><strong>WES系列③｜WES简史：从Sanger到NGS，一场基因测序的技术革命</strong></a><a class="series-nav-item next" href="/articles/wes-lab-workflow-part-2/"><span>下一篇</span><strong>WES系列⑤｜WES实验流程全解析（下）</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

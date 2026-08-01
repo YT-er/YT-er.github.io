@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑱｜药物基因组学：预测药物反应与不良事件｜见山 · 生信笔记</title><meta name="description" content="门诊里常见的两个问题：同一剂量，为何有人药到病除，有人几乎无效；又为何有人只轻微不适，有人却出现严重不良反应？药物基因组学的回答是： 你与药物的关系，部分写在天生的基因里…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-pharmacogenomics/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-pharmacogenomics/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-pharmacogenomics/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-pharmacogenomics/"><meta property="og:title" content="WES系列⑱｜药物基因组学：预测药物反应与不良事件｜见山 · 生信笔记"><meta property="og:description" content="门诊里常见的两个问题：同一剂量，为何有人药到病除，有人几乎无效；又为何有人只轻微不适，有人却出现严重不良反应？药物基因组学的回答是： 你与药物的关系，部分写在天生的基因里…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-pharmacogenomics/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-pharmacogenomics/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-pharmacogenomics/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 18/30</span><time datetime="2025-08-27">2025.08.27</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-药物在体内的旅程与基因"><span>01</span>1. 药物在体内的“旅程”与基因</a></li><li><a href="#2-wes-能帮助哪些经典场景用真实临床语气来讲"><span>02</span>2. WES 能帮助哪些经典场景？（用真实临床语气来讲）</a></li><li><a href="#3-wes-的强项与短板"><span>03</span>3. WES 的强项与短板</a></li><li><a href="#4-从基因型到表型的那一步"><span>04</span>4. 从“基因型”到“表型”的那一步</a></li><li><a href="#5-何时做检测反应性-vs-预防性"><span>05</span>5. 何时做检测：反应性 vs 预防性</a></li><li><a href="#6-患者与医生的协作清单"><span>06</span>6. 患者与医生的“协作清单”</a></li><li><a href="#7-一句话小结"><span>07</span>7. 一句话小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-药物在体内的旅程与基因">1. 药物在体内的“旅程”与基因</a></li><li><a href="#2-wes-能帮助哪些经典场景用真实临床语气来讲">2. WES 能帮助哪些经典场景？（用真实临床语气来讲）</a></li><li><a href="#3-wes-的强项与短板">3. WES 的强项与短板</a></li><li><a href="#4-从基因型到表型的那一步">4. 从“基因型”到“表型”的那一步</a></li><li><a href="#5-何时做检测反应性-vs-预防性">5. 何时做检测：反应性 vs 预防性</a></li><li><a href="#6-患者与医生的协作清单">6. 患者与医生的“协作清单”</a></li><li><a href="#7-一句话小结">7. 一句话小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑱药物基因组学预测药物反应与不良事件">WES系列⑱｜药物基因组学：预测药物反应与不良事件</h1>
+<p>门诊里常见的两个问题：同一剂量，为何有人药到病除，有人几乎无效；又为何有人只轻微不适，有人却出现严重不良反应？药物基因组学的回答是：<strong>你与药物的关系，部分写在天生的基因里</strong>。WES（全外显子组测序）把这段“说明书”照亮，让医生在用药前就尽量避开坑。</p>
+<hr />
+<h2 id="1-药物在体内的旅程与基因">1. 药物在体内的“旅程”与基因</h2>
+<p>可以把一粒药想成经过多个关卡的旅客：</p>
+<ul>
+<li><p><strong>吸收/转运</strong>：经肠道进入血液，由转运体带到各处（如 SLCO1B1 把他汀送入肝细胞）。</p></li>
+<li><p><strong>代谢</strong>：肝脏里一组“加工酶”给药物加减小尾巴，让它生效或失效（CYP450 家族、UGT、TPMT、NUDT15 等）。</p></li>
+<li><p><strong>作用/靶点</strong>：药物与受体或酶结合（如 VKORC1 是华法林的靶点）。</p></li>
+<li><p><strong>免疫识别</strong>：少数药物会与 HLA 相关，诱发严重免疫性不良反应。 这些环节中，<strong>关键基因的“拼写差异”</strong> 就能改变药效与毒性。</p></li>
+</ul>
+<hr />
+<h2 id="2-wes-能帮助哪些经典场景用真实临床语气来讲">2. WES 能帮助哪些经典场景？（用真实临床语气来讲）</h2>
+<ul>
+<li><p><strong>氟嘧啶类（5‑FU/卡培他滨）与 DPYD</strong>： 一位结直肠癌患者术后需化疗。WES 报告提示 <strong>DPYD 功能缺陷变异</strong>，意味着药物清除能力差。临床据此选择降剂量或替代方案，避免严重骨髓抑制与黏膜炎。</p></li>
+<li><p><strong>伊立替康与 UGT1A1</strong>： 另一位患者准备含伊立替康方案，WES 显示 <strong>UGT1A1 star-allele *6/*28（分别对应 c.211G&gt;A 与启动子 (TA)7；综合为功能降低表型）</strong>（或等效功能变异），提示高胆红素血症/严重中性粒细胞减少风险，首剂量便做了下调。</p></li>
+<li><p><strong>氯吡格雷与 CYP2C19</strong>： 心内科常见情境。若为 <strong>CYP2C19 代谢慢/极慢代谢者</strong>，活性代谢物生成不足，抗血小板效果打折，医生会考虑替换为替格瑞洛/普拉格雷。</p></li>
+<li><p><strong>卡马西平与 HLA‑B*15:02 / HLA‑A*31:01</strong>： 在部分亚裔人群中，携带 <strong>HLA‑B*15:02</strong> 用卡马西平可显著增加 SJS/TEN 风险； <strong>HLA‑A*31:01</strong> 也与超敏反应相关。WES 若能间接提示相关等位位点，将促使医生改选药物。</p></li>
+<li><p><strong>辛伐他汀与 SLCO1B1</strong>： <strong>SLCO1B1 低功能</strong>使药物更难进入肝细胞，血药浓度升高，肌病风险上升。报告提示后，医生会换他汀种类或降低剂量。</p></li>
+<li><p><strong>华法林与 VKORC1/CYP2C9</strong>： 二者共同影响起始剂量与维持剂量。基因型“慢代谢+高敏感”组合，往往意味着要谨慎起步。</p></li>
+<li><p><strong>硫嘌呤类（6‑MP/AZA）与 TPMT/NUDT15</strong>： 儿科/肿瘤/消化科常见。<strong>TPMT 或 NUDT15 功能低</strong>者，常需大幅降剂量以避免重度骨髓抑制。</p></li>
+</ul>
+<p>这些案例的共同点：<strong>提前知道，少走弯路</strong>。临床指南（如 CPIC/DPWG）通常会给出基于基因型的用药建议，而 WES 提供了基础材料。</p>
+<hr />
+<h2 id="3-wes-的强项与短板">3. WES 的强项与短板</h2>
+<p><strong>强项</strong>：</p>
+<ul>
+<li><p>一次采血、一次测序，<strong>覆盖众多药物相关基因</strong>的外显子变异；</p></li>
+<li><p>便于<strong>长期复用与二次解读</strong>（随着数据库更新，解读更准）。</p></li>
+</ul>
+<p><strong>短板</strong>（必须正视）：</p>
+<ul>
+<li><p><strong>星座等位（star‑allele）判读不完全</strong>：如 CYP2D6 涉及拷贝数、基因转换与串联杂合，WES 往往<strong>难以精准分型</strong>；</p></li>
+<li><p><strong>非编码/启动子变异</strong>易漏：如 <strong>UGT1A1*28</strong>（TA 重复位点在启动子区），常需要补充方法；</p></li>
+<li><p><strong>高分辨 HLA 分型</strong>：常需专门分型或高深度 WGS 支持，WES 只能给出有限线索；</p></li>
+<li><p><strong>结构变异与拷贝数</strong>：部分基因座（如 CYP2D6）对 CNV 非常敏感，WES 解析力有限；</p></li>
+<li><p><strong>族群差异</strong>：不同人群等位频率不同，阈值与证据等级要结合人群背景。</p></li>
+</ul>
+<blockquote>
+<p>临床上常见的做法是：<strong>WES 打底 + 针对性补充检测</strong>（如 HLA 分型、CYP2D6 CNV/结构变异、UGT1A1 启动子、特定基因的靶向测序或 MLPA）。</p>
+</blockquote>
+<hr />
+<h2 id="4-从基因型到表型的那一步">4. 从“基因型”到“表型”的那一步</h2>
+<p>报告上不仅有变异位点，还会给出<strong>代谢表型</strong>（如超快/正常/中间/慢代谢者）或<strong>风险分型</strong>（如高/中/低风险）。这一步依赖<strong>规则集与证据库</strong>（例如 CPIC 的分型规则、药物剂量建议）。临床会综合：</p>
+<ul>
+<li><p>基因型/表型；</p></li>
+<li><p>合并用药（酶诱导/抑制作用）；</p></li>
+<li><p>年龄、肝肾功能、体重、合并疾病；</p></li>
+<li><p>既往不良反应史。 最终给出“换药/降剂量/常规剂量+密切监测”的决策。</p></li>
+</ul>
+<hr />
+<h2 id="5-何时做检测反应性-vs-预防性">5. 何时做检测：反应性 vs 预防性</h2>
+<ul>
+<li><p><strong>反应性</strong>：准备某药前（如化疗前查 DPYD/UGT1A1；上卡马西平前查 HLA；上氯吡格雷前看 CYP2C19）。优点是直接、相关；</p></li>
+<li><p><strong>预防性（预置式）</strong>：一次 WES/药物基因 panel，建立“基因用药档案”，以后处方系统自动提示。优点是<strong>随时可用</strong>，尤其适合多病共存、长期多药治疗的人群。</p></li>
+</ul>
+<hr />
+<h2 id="6-患者与医生的协作清单">6. 患者与医生的“协作清单”</h2>
+<ul>
+<li><p><strong>带上清单</strong>：正在用的药、曾用过的药及不良反应；</p></li>
+<li><p><strong>问三句</strong>：这次治疗的关键药物有哪些？与哪些基因相关？若“基因不利”，替代方案或监测策略是什么？</p></li>
+<li><p><strong>留存结果</strong>：把基因结果录入电子病历与个人健康档案，便于后续科室共享；</p></li>
+<li><p><strong>家族沟通</strong>：少数药物基因变异具有家族意义（胚系），可以提醒直系亲属在类似用药前咨询。</p></li>
+</ul>
+<hr />
+<h2 id="7-一句话小结">7. 一句话小结</h2>
+<p><strong>WES 让“先看路再开车”成为可能</strong>。它能在很多药物场景里降低试错成本、减少严重不良反应，但绝不是“万能遥控器”——对 CYP2D6、UGT1A1 启动子、HLA 等关键位点，往往需要<strong>专门方法补齐短板</strong>。把基因信息与病情、合并用药、指南证据放在一起，才是可靠的个体化用药。</p>
+<hr />
+<p><strong>下期预告</strong>：下一篇《产前诊断与植入前遗传学检测（PGT）中的 WES》，我们将聊聊 WES 在生殖与产前场景的机会与争议：哪些问题可以回答，哪些仍需更合适的技术与更慎重的伦理考量。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 18</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-hereditary-cancer-syndromes/"><span>上一篇</span><strong>WES系列⑰｜遗传性肿瘤综合征的筛查</strong></a><a class="series-nav-item next" href="/articles/wes-pgt/"><span>下一篇</span><strong>WES系列⑲｜PGT中的 WES</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

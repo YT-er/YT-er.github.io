@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列㉒｜当 WES 遇到 RNA‑Seq｜见山 · 生信笔记</title><meta name="description" content="把外显子组测序（WES）与转录组测序（RNA‑Seq）放在一起，不只是把两堆数据拼接，而是建立一条“ 从变异到后果 ”的证据链：一个 DNA 变异出现了 → 它在 RNA…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-rna-seq-integration/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-rna-seq-integration/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-rna-seq-integration/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-rna-seq-integration/"><meta property="og:title" content="WES系列㉒｜当 WES 遇到 RNA‑Seq｜见山 · 生信笔记"><meta property="og:description" content="把外显子组测序（WES）与转录组测序（RNA‑Seq）放在一起，不只是把两堆数据拼接，而是建立一条“ 从变异到后果 ”的证据链：一个 DNA 变异出现了 → 它在 RNA…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-rna-seq-integration/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-rna-seq-integration/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-rna-seq-integration/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 22/30</span><time datetime="2025-08-30">2025.08.30</time><span>约 5 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#一为什么要整合一句话动机"><span>01</span>一、为什么要整合？一句话动机</a></li><li><a href="#二五种常用的基因型--rna-功能路径"><span>02</span>二、五种常用的“基因型 → RNA 功能”路径</a></li><li><a href="#三端到端工作流"><span>03</span>三、端到端工作流</a></li><li><a href="#四三个典型小片段"><span>04</span>四、三个“典型小片段”</a></li><li><a href="#五常见坑与绕行术"><span>05</span>五、常见坑与绕行术</a></li><li><a href="#小结"><span>06</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#一为什么要整合一句话动机">一、为什么要整合？一句话动机</a></li><li><a href="#二五种常用的基因型--rna-功能路径">二、五种常用的“基因型 → RNA 功能”路径</a></li><li><a href="#三端到端工作流">三、端到端工作流</a></li><li><a href="#四三个典型小片段">四、三个“典型小片段”</a></li><li><a href="#五常见坑与绕行术">五、常见坑与绕行术</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列㉒当-wes-遇到-rnaseq">WES系列㉒｜当 WES 遇到 RNA‑Seq</h1>
+<p>把外显子组测序（WES）与转录组测序（RNA‑Seq）放在一起，不只是把两堆数据拼接，而是建立一条“<strong>从变异到后果</strong>”的证据链：一个 DNA 变异出现了 → 它在 RNA 层面造成了什么 → 这些改变是否能解释表型、支持致病性或指导治疗。下面用<strong>临床可落地</strong>的方式，讲清楚如何把两者结合起来用。</p>
+<hr />
+<h2 id="一为什么要整合一句话动机">一、为什么要整合？一句话动机</h2>
+<ul>
+<li><p><strong>WES 说“哪里改了”</strong>（位点、类型、基因）；<strong>RNA‑Seq 说“改出了什么后果”</strong>（表达、剪接、等位基因偏倚、融合）。</p></li>
+<li><p>在<strong>致病性判读</strong>里，RNA 证据可触发 ACMG/AMP 的功能证据（如 PS3/BS3）或 ClinGen SVI 的剪接判据；在<strong>肿瘤用药</strong>里，RNA 证据能确认<strong>突变是否表达</strong>、<strong>通路是否被激活</strong>、<strong>新抗原是否可呈递</strong>。</p></li>
+</ul>
+<hr />
+<h2 id="二五种常用的基因型--rna-功能路径">二、五种常用的“基因型 → RNA 功能”路径</h2>
+<h3 id="1-剪接异常与-nmd最常用也最有力">1) 剪接异常与 NMD（最常用也最有力）</h3>
+<p><strong>适用变异</strong>：±1/2 位点、深度学习预测致剪接（SpliceAI/MMSplice）位点、外显子边界附近错义/同义、微小插入缺失。</p>
+<p><strong>RNA 证据</strong>：</p>
+<ul>
+<li><p><strong>外显子跳跃/内含子滞留/新剪接位点</strong>：rMATS、MAJIQ、LeafCutter 等检测；</p></li>
+<li><p><strong>阅读框改变 → 早停码</strong>：触发<strong>无义介导的降解（NMD）</strong>，表现为<strong>该等位表达量下降</strong>；</p></li>
+<li><p><strong>事件共识</strong>：剪接位点周围 reads 的可视化证据（IGV 的 Sashimi plot（剪接可视化图））。 <strong>判读要点</strong>：事件与表型一致；对照/父母样本无此异常；在相近组织中可重复观察。</p></li>
+</ul>
+<h3 id="2-等位基因特异表达ase与等位不平衡ai">2) 等位基因特异表达（ASE）与等位不平衡（AI）</h3>
+<p><strong>适用变异</strong>：疑似致病的错义/无义/启动子变异、肿瘤中的体细胞变异。</p>
+<p><strong>RNA 证据</strong>：GATK ASEReadCounter 或 phASER 统计突变等位 reads 明显偏高/偏低；肿瘤中常与<strong>拷贝数改变/LOH</strong>共同出现。</p>
+<p><strong>判读要点</strong>：排除<strong>参考偏倚</strong>、比对偏差、低表达与测序深度不足；与 WES 的 CNV/LOH 结果相互印证。</p>
+<h3 id="3-表达异常与个体化离群点expression-outlier">3) 表达异常与“个体化离群点”（Expression Outlier）</h3>
+<p><strong>适用变异</strong>：启动子/增强子附近变异（WES 有时能碰到）、转录调控相关基因、未知机制候选基因。</p>
+<p><strong>RNA 证据</strong>：在匹配队列中以<strong>z‑score/OUTRIDER</strong>等方法寻找<strong>表达离群</strong>；可结合蛋白组/代谢组进一步验证通路层影响。</p>
+<p><strong>判读要点</strong>：离群方向与疾病机制匹配（缺失→下调、抑癌基因→下调等）；注意<strong>组织特异性</strong>与批次效应。</p>
+<h3 id="4-融合与重排的功能读出">4) 融合与重排的功能读出</h3>
+<p><strong>适用场景</strong>：肿瘤、部分遗传病（如肌营养不良谱系）。</p>
+<p><strong>RNA 证据</strong>：STAR‑Fusion、FusionCatcher、Arriba 等<strong>直接读到融合转录本</strong>；用 WES 佐证双方基因的<strong>拷贝数/断点附近 SNV 密集</strong>。</p>
+<p><strong>判读要点</strong>：融合读段方向一致、断点处读段支持充分、排除测序伪影；与表型/肿瘤类型相符（例如肺癌中的 ALK/RET/ROS1）。</p>
+<h3 id="5-突变表达免疫一条线是否可呈递">5) “突变—表达—免疫”一条线：是否“可呈递”</h3>
+<p><strong>适用场景</strong>：肿瘤新生抗原评估、免疫治疗选择。</p>
+<p><strong>RNA 证据</strong>：突变位点所在转录本<strong>在 RNA 中表达</strong>；HLA 分型 + 结合亲和力预测；必要时结合免疫肽组学验证。</p>
+<p><strong>判读要点</strong>：只有<strong>被表达</strong>的突变才有机会成为新抗原；RNA 还能指出<strong>免疫抑制/炎症</strong>通路活性，帮助联合用药设计。</p>
+<hr />
+<h2 id="三端到端工作流">三、端到端工作流</h2>
+<p><strong>Step 0｜样本与场景</strong></p>
+<ul>
+<li><p><strong>罕见病/发育异常</strong>：优先取<strong>致病组织</strong>或其可替代组织（例如肌病取肌肉，无法取时考虑诱导多能干细胞分化模型）；</p></li>
+<li><p><strong>肿瘤</strong>：尽量同步采集<strong>肿瘤组织 + 正常对照 + RNA</strong>；评估<strong>肿瘤纯度</strong>与 FFPE 质量。</p></li>
+</ul>
+<p><strong>Step 1｜WES 流程</strong></p>
+<p>比对（BWA‑MEM）→ 去重/重校正 → 体细胞/胚系变异检测（Mutect2、HaplotypeCaller 等）→ CNV/LOH（CNVkit、FACETS）→ 变异注释（VEP/ANNOVAR + SpliceAI/MMSplice + MPC/REVEL/PolyPhen/SIFT）。</p>
+<p><strong>Step 2｜RNA‑Seq 流程</strong></p>
+<p>比对（STAR/HISAT2；或准比对 Salmon/Kallisto）→ 定量（基因/转录本 TPM/Counts）→ 差异表达/离群表达（DESeq2/edgeR/OUTRIDER）→ 剪接事件（rMATS/MAJIQ/LeafCutter）→ 融合（STAR‑Fusion/Arriba）→ ASE/AI（GATK ASEReadCounter）。</p>
+<p><strong>Step 3｜整合与分层回报</strong></p>
+<ul>
+<li><p><strong>Tier 1（强）</strong>：RNA 直接证明<strong>异常剪接/新外显子/阅读框改变 + NMD</strong>；</p></li>
+<li><p><strong>Tier 2（中）</strong>：<strong>ASE/AI</strong> 支持致病等位表达异常；</p></li>
+<li><p><strong>Tier 3（辅）</strong>：<strong>表达离群/通路异常</strong> 与基因功能一致；</p></li>
+<li><p><strong>附加（肿瘤）</strong>：<strong>融合</strong>、<strong>通路激活</strong>、<strong>新抗原表达</strong>、<strong>药物靶点表达</strong>。 每条证据给出可视化（IGV、sashimi、MA/火山图）与方法学备注，映射到 ACMG/AMP 或肿瘤分级（AMP/ASCO/CAP）。</p></li>
+</ul>
+<hr />
+<h2 id="四三个典型小片段">四、三个“典型小片段”</h2>
+<p><strong>A｜罕见病—隐匿剪接</strong>：</p>
+<p>WES 在某肌病患儿发现一个外显子末端“同义变异”，预测工具提示剪接受损。RNA‑Seq 显示该外显子<strong>被整体跳过</strong>，并出现<strong>移码 + NMD</strong>，同基因另一条等位为无义突变——<strong>复合杂合</strong>解释成立，证据升级到致病。</p>
+<p><strong>B｜肿瘤—表达决定可药性</strong>：</p>
+<p>乳腺癌 WES 显示<strong>ERBB2</strong>扩增，RNA‑Seq 证实<strong>ERBB2 高表达</strong>且下游<strong>MAPK/PI3K</strong>通路活跃；同时突变面板中某少见错义并<strong>无表达</strong>，因此不作为用药依据。治疗选择据此收敛。</p>
+<p><strong>C｜免疫—“有突变不等于有新抗原”</strong>：</p>
+<p>TMB 偏高的患者进行 RNA‑Seq，发现许多体细胞突变<strong>未表达</strong>或处在<strong>极低表达</strong>的转录本上；结合 HLA 呈递预测后仅少数肽段具备潜在免疫原性，提示需要<strong>联合疗法或预热策略</strong>。</p>
+<hr />
+<h2 id="五常见坑与绕行术">五、常见坑与绕行术</h2>
+<ul>
+<li><p><strong>组织错配</strong>：做肌病去取血、做脑病去取皮肤——RNA 可能“听不见关键声部”。→ 选<strong>致病组织</strong>或建立<strong>细胞模型</strong>；</p></li>
+<li><p><strong>NMD 与低表达</strong>：真正致病的等位可能被 NMD“清干净”，导致看不到 reads。→ 关注<strong>剪接结构证据</strong>、必要时<strong>环己酰亚胺</strong>体外阻断；</p></li>
+<li><p><strong>比对/参考偏倚</strong>：ASE 偏倚可能来自<strong>参考序列偏好与映射差异</strong>。→ 使用<strong>双向比对、假等位基因参考</strong>；</p></li>
+<li><p><strong>肿瘤纯度/异质性</strong>：表达与 ASE 会被稀释。→ 宏切/数字病理评估纯度，或结合<strong>ctRNA</strong>/空间转录组；</p></li>
+<li><p><strong>FFPE 降解与 3' 偏倚</strong>：→ 采用<strong>RIN/ DV200</strong> 质控、3' 捕获方案时谨慎做剪接分析；</p></li>
+<li><p><strong>RNA 编辑/伪突变</strong>：ADAR 介导的 A&gt;G 信号可能误当 DNA 变异。→ 与 WES 交叉过滤；</p></li>
+<li><p><strong>批次效应</strong>：表达/剪接比较须做<strong>批次与协变量校正</strong>（SVA、RUV）。</p></li>
+</ul>
+<hr />
+<h2 id="小结">小结</h2>
+<p><strong>WES 定位“变异”——RNA‑Seq 证明“后果”。</strong> 当两者合起来，致病性从“可能”变成“有证据”；可药性从“存在突变”变成“突变被表达且通路活跃”。把这条证据链搭得扎实，是从发现走向临床与机制的关键一步。</p>
+<hr />
+<p><strong>下期预告</strong>：下一篇《功能验证：从一个候选变异到证实其致病性的漫漫长路》，WES找到了候选变异，然后呢？介绍后续的功能实验验证方法，如细胞实验、动物模型（斑马鱼、小鼠）等。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 22</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-complex-disease-research/"><span>上一篇</span><strong>WES系列㉑｜WES在复杂疾病研究中的角色</strong></a><a class="series-nav-item next" href="/articles/wes-functional-validation/"><span>下一篇</span><strong>WES系列㉓｜功能验证：从候选变异到致病性证据</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 6 | Quality Control for Raw WES FASTQ Data | Jianshan Bioinformatics Notes</title><meta name="description" content="“Raw data are like freshly cooked rice: they may look steaming hot and ready, but their quality must still be checked before they can be made into excellent sushi.” 🎯 1. Why Perform Quality…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-fastq-quality-control/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-fastq-quality-control/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-fastq-quality-control/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-fastq-quality-control/"><meta property="og:title" content="WES Series 6 | Quality Control for Raw WES FASTQ Data | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Raw data are like freshly cooked rice: they may look steaming hot and ready, but their quality must still be checked before they can be made into excellent sushi.” 🎯 1. Why Perform Quality…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-fastq-quality-control/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-fastq-quality-control/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-fastq-quality-control/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 06/30</span><time datetime="2026-07-30">2026.07.30</time><span>Approx. 4 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#dart-1-why-perform-quality-control-qc"><span>01</span>🎯 1. Why Perform Quality Control (QC)?</a></li><li><a href="#open_file_folder-2-reviewing-the-fastq-file-structure"><span>02</span>📂 2. Reviewing the FASTQ File Structure</a></li><li><a href="#-3-common-quality-control-metrics"><span>03</span>🛠 3. Common Quality-Control Metrics</a></li><li><a href="#mag-4-quality-control-and-processing-workflow"><span>04</span>🔍 4. Quality-Control and Processing Workflow</a></li><li><a href="#bulb-5-tips-for-interpreting-qc-results"><span>05</span>💡 5. Tips for Interpreting QC Results</a></li><li><a href="#pushpin-summary"><span>06</span>📌 Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#dart-1-why-perform-quality-control-qc">🎯 1. Why Perform Quality Control (QC)?</a></li><li><a href="#open_file_folder-2-reviewing-the-fastq-file-structure">📂 2. Reviewing the FASTQ File Structure</a></li><li><a href="#-3-common-quality-control-metrics">🛠 3. Common Quality-Control Metrics</a></li><li><a href="#mag-4-quality-control-and-processing-workflow">🔍 4. Quality-Control and Processing Workflow</a></li><li><a href="#bulb-5-tips-for-interpreting-qc-results">💡 5. Tips for Interpreting QC Results</a></li><li><a href="#pushpin-summary">📌 Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-6--quality-control-for-raw-wes-fastq-data">WES Series 6 | Quality Control for Raw WES FASTQ Data</h1>
+<blockquote>
+<p>“Raw data are like freshly cooked rice: they may look steaming hot and ready, but their quality must still be checked before they can be made into excellent sushi.”</p>
+</blockquote>
+<hr />
+<h2 id="dart-1-why-perform-quality-control-qc">🎯 1. Why Perform Quality Control (QC)?</h2>
+<p>When we receive raw FASTQ files from a sequencing platform, we cannot proceed directly to variant analysis. The reason is simple: sequencing can introduce various forms of “contamination” or noise, including:</p>
+<ul>
+<li><p><strong>Low-quality bases</strong>: common near the ends of reads and detrimental to alignment accuracy.</p></li>
+<li><p><strong>Adapter-sequence contamination</strong>: adapters may be sequenced when the read length exceeds the insert size.</p></li>
+<li><p><strong>GC-content bias</strong>: extreme-GC regions can produce uneven coverage.</p></li>
+<li><p><strong>Duplicate sequences</strong>: potentially redundant data introduced by PCR amplification.</p></li>
+</ul>
+<p>The purpose of QC is to identify and address these potential problems before analysis begins.</p>
+<hr />
+<h2 id="open_file_folder-2-reviewing-the-fastq-file-structure">📂 2. Reviewing the FASTQ File Structure</h2>
+<p>Each sequencing read consists of four lines:</p>
+<ol type="1">
+<li><p><strong>An ID line beginning with @</strong>: contains the sample name, sequencing lane, and other information</p></li>
+<li><p><strong>The nucleotide sequence</strong>: composed of A/T/C/G</p></li>
+<li><p><strong>The + separator</strong>: may optionally be followed by the ID</p></li>
+<li><p><strong>The quality-value line</strong>: contains the Phred quality score for each base</p></li>
+</ol>
+<p>The relationship between a Phred quality score (Q score) and the sequencing error rate is:</p>
+<ul>
+<li><p>Q20: error rate of approximately 1%</p></li>
+<li><p>Q30: error rate of approximately 0.1%</p></li>
+</ul>
+<p>WES data generally require ≥80% of bases to reach Q30. As sequencing technology has advanced, some platforms and projects have begun to use higher quality benchmarks, such as Q40 (an error rate of approximately 0.01%) or even Q50 (approximately 0.001%), in pursuit of greater sequencing accuracy and more reliable downstream analysis.</p>
+<hr />
+<h2 id="-3-common-quality-control-metrics">🛠 3. Common Quality-Control Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+<th>Reference standard or consideration</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Base-quality distribution</strong></td>
+<td>Examines the distribution of quality values at each position; low quality is common near read ends</td>
+<td>WES generally requires Q30≥80%</td>
+</tr>
+<tr>
+<td><strong>Sequence-length distribution</strong></td>
+<td>Sequencing reads should have a consistent length</td>
+<td>An abnormal distribution may indicate a library or sequencing problem</td>
+</tr>
+<tr>
+<td><strong>GC-content distribution</strong></td>
+<td>Should approximate the GC content of the human genome (approximately 38%–42%)</td>
+<td>Large deviations may indicate library bias or contamination; because sequencing platforms have GC-related preferences, the observed mean GC content may approach 50%</td>
+</tr>
+<tr>
+<td><strong>Adapter-contamination rate</strong></td>
+<td>Adapter sequence may be read during sequencing</td>
+<td>Residual adapter sequence can cause alignment errors and should be removed before analysis</td>
+</tr>
+<tr>
+<td><strong>Sequence-duplication rate</strong></td>
+<td>Proportion of reads with duplicate sequences</td>
+<td>A high duplication rate may reduce usable information and is often caused by excessive PCR amplification or excessive sequencing depth</td>
+</tr>
+</tbody>
+</table>
+<p>This sequence-duplication rate is a FASTQ-level statistic and cannot be equated directly with positional duplicates in a BAM file. For the distinction between these definitions, see NGS Duplicates: What Exactly Is Being Duplicated?</p>
+<hr />
+<h2 id="mag-4-quality-control-and-processing-workflow">🔍 4. Quality-Control and Processing Workflow</h2>
+<p>Many current analysis workflows use <strong>fastp</strong> directly. It combines quality control and read cleaning in a single tool, can replace combinations such as FastQC plus Cutadapt, is fast and resource-efficient, and automatically generates <strong>HTML</strong> and <strong>JSON</strong> reports containing quality distributions, GC content, adapter detection, and other information for rapid review.</p>
+<p><strong>fastp</strong> can automatically detect and remove adapters; perform per-position quality trimming, sliding-window trimming, and length/low-complexity filtering; process <strong>polyG/polyX</strong> sequences; correct overlaps and remove adapters from paired-end reads; estimate duplication; parse and record <strong>UMIs</strong>; and run in parallel across multiple threads.</p>
+<p><strong>Common command example (paired-end data)</strong>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">fastp</span> <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">-i</span> sample_R1.fastq.gz <span class="at">-I</span> sample_R2.fastq.gz <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">-o</span> sample_R1.clean.fastq.gz <span class="at">-O</span> sample_R2.clean.fastq.gz <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">--detect_adapter_for_pe</span> <span class="dt">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">--cut_front</span> <span class="at">--cut_tail</span> <span class="at">--cut_window_size</span> 4 <span class="at">--cut_mean_quality</span> 20 <span class="dt">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">--length_required</span> 50 <span class="dt">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">--thread</span> 8 <span class="dt">\</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">--html</span> sample_fastp.html <span class="at">--json</span> sample_fastp.json</span></code></pre></div>
+<p>Parameters: <code>--detect_adapter_for_pe</code> automatically identifies paired-end adapters; <code>--cut_*</code> controls sliding-window quality trimming; <code>--length_required</code> sets the minimum retained length; <code>--html/--json</code> produces reports; and <code>--thread</code> specifies the number of threads.</p>
+<hr />
+<h2 id="bulb-5-tips-for-interpreting-qc-results">💡 5. Tips for Interpreting QC Results</h2>
+<ul>
+<li><p>If <strong>Q scores are low overall</strong>: check library-preparation quality or sequencer status.</p></li>
+<li><p>If the <strong>GC distribution is abnormal</strong>: consider contamination, such as bacterial DNA.</p></li>
+<li><p>If the <strong>duplication rate is high</strong>: sequencing depth or PCR amplification may be excessive.</p></li>
+</ul>
+<hr />
+<h2 id="pushpin-summary">📌 Summary</h2>
+<p>Quality control is the first “security checkpoint” in WES analysis. It effectively reduces noise in downstream analyses and gives us greater confidence when interpreting the final results.</p>
+<hr />
+<p><strong>Next in the series</strong>: “From Raw Sequences to Genetic Variants: Alignment and the Mysteries of BAM Files.” We will explore how ACTG sequences are placed precisely onto the human reference genome and explain the structure and uses of BAM files.</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 06</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-lab-workflow-part-2/"><span>Previous</span><strong>WES Series 5 | The WES Laboratory Workflow, Part 2</strong></a><a class="series-nav-item next" href="/en/articles/wes-alignment-to-bam/"><span>Next</span><strong>WES Series 7 | From FASTQ Alignment to SAM/BAM</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

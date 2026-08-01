@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑤｜WES实验流程全解析（下）｜见山 · 生信笔记</title><meta name="description" content="“当DNA文库准备就绪，就像食材已经切配好，现在是时候走进测序仪的厨房，烹饪出数据的盛宴了。” ⚙️ 1. 上机前的准备 1.1 测序平台选择 目前主流的WES测序平台以I…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-lab-workflow-part-2/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-lab-workflow-part-2/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-lab-workflow-part-2/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-lab-workflow-part-2/"><meta property="og:title" content="WES系列⑤｜WES实验流程全解析（下）｜见山 · 生信笔记"><meta property="og:description" content="“当DNA文库准备就绪，就像食材已经切配好，现在是时候走进测序仪的厨房，烹饪出数据的盛宴了。” ⚙️ 1. 上机前的准备 1.1 测序平台选择 目前主流的WES测序平台以I…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-lab-workflow-part-2/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-lab-workflow-part-2/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-lab-workflow-part-2/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 05/30</span><time datetime="2025-08-11">2025.08.11</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#gear-1-上机前的准备"><span>01</span>⚙️ 1. 上机前的准备</a></li><li><a href="#microscope-2-测序原理简述"><span>02</span>🔬 2. 测序原理简述</a></li><li><a href="#-3-原始数据的生成"><span>03</span>🗂 3. 原始数据的生成</a></li><li><a href="#bar_chart-4-数据质控qc"><span>04</span>📊 4. 数据质控（QC）</a></li><li><a href="#balance_scale-5-不同测序平台的差异与优劣"><span>05</span>⚖️ 5. 不同测序平台的差异与优劣</a></li><li><a href="#pushpin-小结"><span>06</span>📌 小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#gear-1-上机前的准备">⚙️ 1. 上机前的准备</a></li><li><a href="#microscope-2-测序原理简述">🔬 2. 测序原理简述</a></li><li><a href="#-3-原始数据的生成">🗂 3. 原始数据的生成</a></li><li><a href="#bar_chart-4-数据质控qc">📊 4. 数据质控（QC）</a></li><li><a href="#balance_scale-5-不同测序平台的差异与优劣">⚖️ 5. 不同测序平台的差异与优劣</a></li><li><a href="#pushpin-小结">📌 小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑤wes实验流程全解析下">WES系列⑤｜WES实验流程全解析（下）</h1>
+<blockquote>
+<p>“当DNA文库准备就绪，就像食材已经切配好，现在是时候走进测序仪的厨房，烹饪出数据的盛宴了。”</p>
+</blockquote>
+<hr />
+<h2 id="gear-1-上机前的准备">⚙️ 1. 上机前的准备</h2>
+<p><strong>1.1 测序平台选择</strong><br />
+目前主流的WES测序平台以Illumina为主，如NovaSeq、HiSeq、NextSeq等。它们都采用“边合成边测序（Sequencing by Synthesis）”的原理，不同的是通量和成本：</p>
+<ul>
+<li><p><strong>NovaSeq</strong>：超高通量，适合大规模项目</p></li>
+<li><p><strong>HiSeq</strong>：高通量，性价比高</p></li>
+<li><p><strong>NextSeq/MiSeq</strong>：中小通量，灵活快捷</p></li>
+</ul>
+<p><strong>1.2 文库上机前QC</strong></p>
+<ul>
+<li><p><strong>浓度检测</strong>：Qubit或qPCR，确保文库浓度在平台要求范围内</p></li>
+<li><p><strong>片段大小检测</strong>：Bioanalyzer/TapeStation，确保片段分布均一</p></li>
+</ul>
+<hr />
+<h2 id="microscope-2-测序原理简述">🔬 2. 测序原理简述</h2>
+<p>Illumina测序的核心流程：</p>
+<ol type="1">
+<li><p><strong>簇生成（Cluster Generation）</strong>：文库通过流动槽（flow cell）上的引物固定，并在桥式扩增（bridge amplification）下形成簇，每个簇来源于单个DNA分子</p></li>
+<li><p><strong>边合成边测序（SBS）</strong>：每轮引入带有荧光标记的可逆终止核苷酸，被整合到DNA链中并拍照记录</p></li>
+<li><p><strong>信号检测与数据输出</strong>：每个循环记录一次荧光信号，最终转化为ACTG序列</p></li>
+</ol>
+<hr />
+<h2 id="-3-原始数据的生成">🗂 3. 原始数据的生成</h2>
+<p>测序完成后，平台会输出原始数据文件：</p>
+<ul>
+<li><p><strong>BCL（Base Call）文件</strong>：Illumina平台的原始输出，记录每个循环的信号</p></li>
+<li><p><strong>FASTQ文件</strong>：经过BCL转FASTQ（如使用<code>bcl2fastq</code>软件）后生成，包含序列和对应的质量值（Phred score）</p></li>
+</ul>
+<p>FASTQ的每条记录由四行组成：</p>
+<ol type="1">
+<li><p>序列标识符（包含样本信息和测序信息）</p></li>
+<li><p>DNA序列（ACTG）</p></li>
+<li><p>分隔符“+”</p></li>
+<li><p>质量值（对应每个碱基的测序置信度）</p></li>
+</ol>
+<hr />
+<h2 id="bar_chart-4-数据质控qc">📊 4. 数据质控（QC）</h2>
+<p>高质量的原始数据是后续分析的基石。常用的QC步骤包括：</p>
+<ul>
+<li><p><strong>碱基质量分布</strong>（一般要求Q30比例≥80%）</p></li>
+<li><p><strong>接头污染检测</strong>（如有需去除）</p></li>
+<li><p><strong>GC含量分布</strong>（评估测序均一性）</p></li>
+<li><p><strong>序列重复率</strong>（过高可能影响有效信息量）</p></li>
+</ul>
+<p>工具推荐：</p>
+<ul>
+<li><p><strong>FastQC</strong>：单样本快速质控</p></li>
+<li><p><strong>MultiQC</strong>：整合多样本QC报告</p></li>
+</ul>
+<hr />
+<h2 id="balance_scale-5-不同测序平台的差异与优劣">⚖️ 5. 不同测序平台的差异与优劣</h2>
+<p>虽然Illumina是WES的主力平台，但不同型号和不同厂商的平台在数据生成上存在差异：</p>
+<ul>
+<li><p><strong>Illumina NovaSeq vs HiSeq</strong>：NovaSeq速度更快、通量更高，适合大规模队列研究；HiSeq性价比高、稳定性好，适合中等规模项目。</p></li>
+<li><p><strong>Illumina NextSeq/MiSeq</strong>：灵活性强、适合小规模或快速出结果的项目，但成本/每Gb数据相对较高。</p></li>
+<li><p><strong>MGI平台（如MGISEQ-2000）</strong>：通量与NovaSeq相当，部分项目中表现出更高的性价比，在中国本土市场尤其具有明显的价格与服务优势，且在本地化支持、售后响应和与国内科研项目的契合度方面表现突出。</p></li>
+<li><p><strong>Ion Torrent平台</strong>：测序速度快、设备成本低，但读长较短、同聚物（homopolymer）区域准确性稍低。</p></li>
+</ul>
+<p>选择平台时需综合考虑样本量、预算、测序深度要求以及实验室可用设备。</p>
+<hr />
+<h2 id="pushpin-小结">📌 小结</h2>
+<p>至此，WES的湿实验部分告一段落，从一管血到一堆存储在硬盘中的ACTG序列，过程虽复杂但逻辑清晰。可以把它看作一次“烹饪”：前半段是食材准备，后半段则是烹饪过程，不同的厨具（测序平台）会影响最终菜肴的风味。</p>
+<p>接下来，生物信息学分析将接过接力棒，把这些原始数据转化为可解读的生物学信息。</p>
+<hr />
+<p><strong>下期预告</strong>：《生物信息学分析入门：WES原始数据（FASTQ）的质量控制》，我们将深入探讨如何对原始序列进行质控、常见问题的处理方法，并延伸比较不同质控策略对分析结果的影响。</p>
+<hr />
+<h3 id="参考文献">参考文献</h3>
+<ol type="1">
+<li><p>Bentley DR, Balasubramanian S, Swerdlow HP, et al. Accurate whole human genome sequencing using reversible terminator chemistry. <em>Nature</em>. 2008;456(7218):53–59. doi:<a href="https://doi.org/10.1038/nature07517" target="_blank" rel="noopener">10.1038/nature07517</a></p></li>
+<li><p>Illumina Inc. (2023). <em>Illumina Sequencing Introduction</em>. Retrieved from <a href="https://www.illumina.com/" target="_blank" rel="noopener"><span>https://www.illumina.com</span></a></p></li>
+<li><p>Andrews S. (2010). <em>FastQC: A Quality Control tool for High Throughput Sequence Data</em>. Retrieved from <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/" target="_blank" rel="noopener"><span>http://www.bioinformatics.babraham.ac.uk/projects/fastqc/</span></a></p></li>
+</ol>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 05</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-lab-workflow-part-1/"><span>上一篇</span><strong>WES系列④｜WES实验流程全解析（上）</strong></a><a class="series-nav-item next" href="/articles/wes-fastq-quality-control/"><span>下一篇</span><strong>WES系列⑥｜WES原始数据（FASTQ）的质量控制</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

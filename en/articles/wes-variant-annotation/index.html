@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 9 | Variant Annotation: Giving Genomic Variants an Identity | Jianshan Bioinformatics Notes</title><meta name="description" content="“Finding a variant is only the first step. Knowing what it is and what it can do is the key to unlocking genetic mysteries.” 1. Why Is Variant Annotation Necessary? After variant calling pro…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-variant-annotation/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-variant-annotation/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-variant-annotation/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-variant-annotation/"><meta property="og:title" content="WES Series 9 | Variant Annotation: Giving Genomic Variants an Identity | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Finding a variant is only the first step. Knowing what it is and what it can do is the key to unlocking genetic mysteries.” 1. Why Is Variant Annotation Necessary? After variant calling pro…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-variant-annotation/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-variant-annotation/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-variant-annotation/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 09/30</span><time datetime="2025-08-15">2025.08.15</time><span>Approx. 4 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#1-why-is-variant-annotation-necessary"><span>01</span>1. Why Is Variant Annotation Necessary?</a></li><li><a href="#2-main-components-of-variant-annotation"><span>02</span>2. Main Components of Variant Annotation</a></li><li><a href="#3-mainstream-annotation-tools"><span>03</span>3. Mainstream Annotation Tools</a></li><li><a href="#4-database-resources"><span>04</span>4. Database Resources</a></li><li><a href="#5-differences-between-germline-and-somatic-annotation"><span>05</span>5. Differences Between Germline and Somatic Annotation</a></li><li><a href="#6-interpreting-annotation-results"><span>06</span>6. Interpreting Annotation Results</a></li><li><a href="#7-important-considerations"><span>07</span>7. Important Considerations</a></li><li><a href="#summary"><span>08</span>Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#1-why-is-variant-annotation-necessary">1. Why Is Variant Annotation Necessary?</a></li><li><a href="#2-main-components-of-variant-annotation">2. Main Components of Variant Annotation</a></li><li><a href="#3-mainstream-annotation-tools">3. Mainstream Annotation Tools</a></li><li><a href="#4-database-resources">4. Database Resources</a></li><li><a href="#5-differences-between-germline-and-somatic-annotation">5. Differences Between Germline and Somatic Annotation</a></li><li><a href="#6-interpreting-annotation-results">6. Interpreting Annotation Results</a></li><li><a href="#7-important-considerations">7. Important Considerations</a></li><li><a href="#summary">Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-9--variant-annotation-giving-genomic-variants-an-identity">WES Series 9 | Variant Annotation: Giving Genomic Variants an Identity</h1>
+<blockquote>
+<p>“Finding a variant is only the first step. Knowing what it is and what it can do is the key to unlocking genetic mysteries.”</p>
+</blockquote>
+<hr />
+<h2 id="1-why-is-variant-annotation-necessary">1. Why Is Variant Annotation Necessary?</h2>
+<p>After variant calling produces a VCF file, each site is merely a coordinate accompanied by some nucleotide information. Which gene contains it? Will it alter protein structure? Is it common in the general population? Has it previously been reported as disease-causing? Answering these questions requires <strong>variant annotation</strong>.</p>
+<p>The purpose of variant annotation is to add background information to each variant, transforming a “coordinate” into a “story” with biological meaning and clinical relevance. In research, annotation helps investigators identify sites with potentially important functions. In clinical practice, it is a core component of precision-medicine reports.</p>
+<hr />
+<h2 id="2-main-components-of-variant-annotation">2. Main Components of Variant Annotation</h2>
+<p>Variant annotation usually includes the following categories of information:</p>
+<ul>
+<li><p><strong>Gene information</strong>: the name of the affected gene, transcript ID, and precise location within an exon, intron, or splice region</p></li>
+<li><p><strong>Functional consequence</strong>: whether the variant causes an amino-acid change (missense, nonsense, or frameshift), creates a premature stop codon, affects splicing, or has another consequence</p></li>
+<li><p><strong>Population frequency</strong>: allele frequencies in databases such as gnomAD, 1000 Genomes, and ExAC</p></li>
+<li><p><strong>Pathogenicity information</strong>: existing clinical-significance classifications and supporting evidence in databases such as ClinVar and HGMD</p></li>
+<li><p><strong>Evolutionary conservation</strong>: whether the variant site is conserved across species, as measured by PhyloP, PhastCons, or GERP</p></li>
+<li><p><strong>Prediction scores</strong>: predicted functional effects from tools such as SIFT, PolyPhen-2, CADD, and REVEL</p></li>
+<li><p><strong>Drug and treatment information</strong>: matching drug-response data and treatment recommendations from resources such as OncoKB and CIViC</p></li>
+</ul>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p><small>Annotation schematic</small></figure>
+<hr />
+<h2 id="3-mainstream-annotation-tools">3. Mainstream Annotation Tools</h2>
+<h3 id="31-annovar">3.1 ANNOVAR</h3>
+<ul>
+<li><p>Supports annotation against many databases</p></li>
+<li><p>Highly flexible, with customizable annotation content</p></li>
+<li><p>Offers powerful filtering and can apply selection criteria directly during annotation</p></li>
+</ul>
+<h3 id="32-vep-variant-effect-predictor">3.2 VEP (Variant Effect Predictor)</h3>
+<ul>
+<li><p>Provided by Ensembl, with promptly updated databases</p></li>
+<li><p>Supports REST API calls and is suitable for cloud-based and large-scale batch analyses</p></li>
+<li><p>Produces detailed output, including annotations for multiple transcripts</p></li>
+</ul>
+<h3 id="33-snpeff--snpsift">3.3 SnpEff / SnpSift</h3>
+<ul>
+<li><p>Fast annotation</p></li>
+<li><p>Good genome support across many species</p></li>
+<li><p>Can be paired with SnpSift for flexible variant filtering</p></li>
+</ul>
+<hr />
+<h2 id="4-database-resources">4. Database Resources</h2>
+<p>Common variant-annotation databases include:</p>
+<ul>
+<li><p><strong>dbSNP</strong>: a collection of known single-nucleotide polymorphisms, suitable as a background reference</p></li>
+<li><p><strong>gnomAD</strong>: large-scale population variant-frequency data that help distinguish common polymorphisms from rare variants</p></li>
+<li><p><strong>ClinVar</strong>: clinical significance of variants and the corresponding evidence level</p></li>
+<li><p><strong>HGMD</strong>: a collection of known disease-causing mutations; some features require a subscription</p></li>
+<li><p><strong>COSMIC</strong>: a database of somatic cancer variants</p></li>
+<li><p><strong>OMIM</strong>: an authoritative resource on inherited disorders and associated genes</p></li>
+</ul>
+<hr />
+<h2 id="5-differences-between-germline-and-somatic-annotation">5. Differences Between Germline and Somatic Annotation</h2>
+<ul>
+<li><p><strong>Germline annotation</strong> focuses more heavily on inherited-disease databases such as ClinVar and OMIM, population-frequency databases such as gnomAD, and the results of familial cosegregation analysis.</p></li>
+<li><p><strong>Somatic annotation</strong> relies more extensively on cancer-specific databases such as COSMIC and OncoKB, drug-target information resources such as CIViC and MyCancerGenome, and molecular-subtyping information.</p></li>
+</ul>
+<p>In practice, the annotation workflow is adapted to the purpose of testing: inherited-disease screening emphasizes rare pathogenic variants, whereas cancer testing prioritizes druggable driver variants.</p>
+<hr />
+<h2 id="6-interpreting-annotation-results">6. Interpreting Annotation Results</h2>
+<p>Annotation results often take the form of a table containing dozens to more than one hundred columns, with one variant per row. For example:</p>
+<ul>
+<li><p>Gene: BRCA1</p></li>
+<li><p>Variant type: missense (p.Glu23Lys)</p></li>
+<li><p>ClinVar pathogenicity: pathogenic</p></li>
+<li><p>gnomAD frequency: 0.0001</p></li>
+<li><p>SIFT prediction: deleterious</p></li>
+<li><p>PolyPhen-2 prediction: probably damaging</p></li>
+<li><p>OncoKB evidence level: Level 1 (FDA-approved targeted therapy)</p></li>
+</ul>
+<figure class="figure-unavailable" role="note"><span>ORIGINAL FIGURE</span><p>The signed image link in the original note has expired.</p><small>Types of mutations</small></figure>
+<p>Interpretation must integrate multiple lines of evidence:</p>
+<ul>
+<li><p>Agreement among multiple databases</p></li>
+<li><p>Availability of publications reporting functional validation</p></li>
+<li><p>Consistency with the patient's clinical phenotype</p></li>
+</ul>
+<hr />
+<h2 id="7-important-considerations">7. Important Considerations</h2>
+<ul>
+<li><p>Database versions must match the reference-genome version (hg19/hg38)</p></li>
+<li><p>Information may conflict across databases and requires integrated judgment</p></li>
+<li><p>Prediction-tool results are supporting information only and cannot establish a conclusion on their own</p></li>
+<li><p>Variants of uncertain significance (VUSs) should be investigated further through familial validation, functional experiments, or long-term follow-up</p></li>
+<li><p>In tumor samples, distinguish driver variants from passenger mutations</p></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>Variant annotation gives cold coordinates a “name” and a “story,” bridging sequencing data and clinical decisions. In both research and clinical practice, thorough and rigorous annotation provides the essential foundation for variant filtering, pathogenicity assessment, and precision medicine.</p>
+<hr />
+<p><strong>Next in the series</strong>: “Variant Filtering: Narrowing Tens of Thousands of Variants Down to the ‘Suspects.’” We will discuss how population frequency, functional predictions, family information, and clinical evidence can progressively reduce a vast set of variants to the candidates most likely to cause disease.</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 09</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-variant-calling/"><span>Previous</span><strong>WES Series 8 | Variant Calling: Finding What Differs in a Genome</strong></a><a class="series-nav-item next" href="/en/articles/wes-variant-filtering/"><span>Next</span><strong>WES Series 10 | Variant Filtering: Finding Meaningful Mutations Among Thousands of Candidates</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑨｜变异注释：给基因变异一个“身份”｜见山 · 生信笔记</title><meta name="description" content="“找到变异只是第一步，知道它是谁、能干什么，才是解开基因奥秘的关键。” 1. 为什么要做变异注释？ 在变异检测得到 VCF 文件后，每个位点只是一个坐标加上一些碱基信息。它…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-variant-annotation/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-variant-annotation/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-variant-annotation/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-variant-annotation/"><meta property="og:title" content="WES系列⑨｜变异注释：给基因变异一个“身份”｜见山 · 生信笔记"><meta property="og:description" content="“找到变异只是第一步，知道它是谁、能干什么，才是解开基因奥秘的关键。” 1. 为什么要做变异注释？ 在变异检测得到 VCF 文件后，每个位点只是一个坐标加上一些碱基信息。它…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-variant-annotation/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-variant-annotation/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-variant-annotation/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 09/30</span><time datetime="2025-08-15">2025.08.15</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-为什么要做变异注释"><span>01</span>1. 为什么要做变异注释？</a></li><li><a href="#2-变异注释的主要内容"><span>02</span>2. 变异注释的主要内容</a></li><li><a href="#3-主流的注释工具"><span>03</span>3. 主流的注释工具</a></li><li><a href="#4-数据库资源"><span>04</span>4. 数据库资源</a></li><li><a href="#5-germline-与-somatic-注释的差异"><span>05</span>5. Germline 与 Somatic 注释的差异</a></li><li><a href="#6-注释结果的解读"><span>06</span>6. 注释结果的解读</a></li><li><a href="#7-注意事项"><span>07</span>7. 注意事项</a></li><li><a href="#小结"><span>08</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-为什么要做变异注释">1. 为什么要做变异注释？</a></li><li><a href="#2-变异注释的主要内容">2. 变异注释的主要内容</a></li><li><a href="#3-主流的注释工具">3. 主流的注释工具</a></li><li><a href="#4-数据库资源">4. 数据库资源</a></li><li><a href="#5-germline-与-somatic-注释的差异">5. Germline 与 Somatic 注释的差异</a></li><li><a href="#6-注释结果的解读">6. 注释结果的解读</a></li><li><a href="#7-注意事项">7. 注意事项</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑨变异注释给基因变异一个身份">WES系列⑨｜变异注释：给基因变异一个“身份”</h1>
+<blockquote>
+<p>“找到变异只是第一步，知道它是谁、能干什么，才是解开基因奥秘的关键。”</p>
+</blockquote>
+<hr />
+<h2 id="1-为什么要做变异注释">1. 为什么要做变异注释？</h2>
+<p>在变异检测得到 VCF 文件后，每个位点只是一个坐标加上一些碱基信息。它到底落在哪个基因？是不是会改变蛋白质结构？在普通人群中常见吗？有没有已知的致病记录？这些问题都需要<strong>变异注释</strong>来回答。</p>
+<p>变异注释的目的，就是为每个变异添加背景信息，让它从“坐标”变成一个有生物学意义和临床参考价值的“故事”。在科研中，它能帮助研究者锁定潜在功能重要的位点；在临床中，它则是精准医疗报告的核心内容之一。</p>
+<hr />
+<h2 id="2-变异注释的主要内容">2. 变异注释的主要内容</h2>
+<p>变异注释通常包含以下几类信息：</p>
+<ul>
+<li><p><strong>基因信息</strong>：变异所在的基因名称、转录本 ID、位于外显子/内含子/剪接区的具体位置</p></li>
+<li><p><strong>功能影响</strong>：是否导致氨基酸改变（错义、无义、移码）、产生提前终止密码子、影响剪接等</p></li>
+<li><p><strong>人群频率</strong>：在 gnomAD、1000 Genomes、ExAC 等数据库中的等位基因频率</p></li>
+<li><p><strong>致病性信息</strong>：ClinVar、HGMD 等数据库中已有的临床意义分类及相关证据</p></li>
+<li><p><strong>进化保守性</strong>：变异位点在不同物种中是否保守（PhyloP、PhastCons、GERP）</p></li>
+<li><p><strong>预测打分</strong>：SIFT、PolyPhen-2、CADD、REVEL 等工具对功能影响的预测结果</p></li>
+<li><p><strong>药物与治疗信息</strong>：OncoKB、CIViC 等药物反应及治疗建议数据库的匹配信息</p></li>
+</ul>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p><small>注释示意图</small></figure>
+<hr />
+<h2 id="3-主流的注释工具">3. 主流的注释工具</h2>
+<h3 id="31-annovar">3.1 ANNOVAR</h3>
+<ul>
+<li><p>支持多种数据库注释</p></li>
+<li><p>灵活性高，可定制化注释内容</p></li>
+<li><p>有强大的过滤功能，能在注释时直接设定条件筛选</p></li>
+</ul>
+<h3 id="32-vepvariant-effect-predictor">3.2 VEP（Variant Effect Predictor）</h3>
+<ul>
+<li><p>由 Ensembl 提供，数据库更新及时</p></li>
+<li><p>支持 REST API 调用，适合云端和大规模批量分析</p></li>
+<li><p>输出结果详细，包括多转录本的注释信息</p></li>
+</ul>
+<h3 id="33-snpeff--snpsift">3.3 SnpEff / SnpSift</h3>
+<ul>
+<li><p>注释速度快</p></li>
+<li><p>对多种物种的基因组支持较好</p></li>
+<li><p>配合 SnpSift 可进行灵活的变异过滤</p></li>
+</ul>
+<hr />
+<h2 id="4-数据库资源">4. 数据库资源</h2>
+<p>常用的变异注释数据库包括：</p>
+<ul>
+<li><p><strong>dbSNP</strong>：已知的单核苷酸多态性集合，适合做背景参考</p></li>
+<li><p><strong>gnomAD</strong>：大规模人群变异频率数据，帮助区分常见多态与罕见突变</p></li>
+<li><p><strong>ClinVar</strong>：临床变异意义及其证据等级</p></li>
+<li><p><strong>HGMD</strong>：已知致病突变集合（部分功能需订阅）</p></li>
+<li><p><strong>COSMIC</strong>：肿瘤体细胞变异数据库</p></li>
+<li><p><strong>OMIM</strong>：遗传病与相关基因的权威资源</p></li>
+</ul>
+<hr />
+<h2 id="5-germline-与-somatic-注释的差异">5. Germline 与 Somatic 注释的差异</h2>
+<ul>
+<li><p><strong>Germline 注释</strong> 更关注遗传性疾病数据库（如 ClinVar、OMIM）、人群频率数据库（如 gnomAD）以及家系共分离分析结果。</p></li>
+<li><p><strong>Somatic 注释</strong> 则更多依赖肿瘤特异数据库（如 COSMIC、OncoKB）、药物靶向信息库（如 CIViC、MyCancerGenome）以及分子分型信息。</p></li>
+</ul>
+<p>在实际工作中，注释流程会根据检测目的调整：遗传病筛查侧重罕见致病变异，肿瘤检测则会优先报告可药靶向的驱动变异。</p>
+<hr />
+<h2 id="6-注释结果的解读">6. 注释结果的解读</h2>
+<p>注释的结果往往是一个包含几十到上百列信息的表格，每行一个变异。例如：</p>
+<ul>
+<li><p>基因名：BRCA1</p></li>
+<li><p>变异类型：错义（p.Glu23Lys）</p></li>
+<li><p>ClinVar 致病性：致病</p></li>
+<li><p>gnomAD 频率：0.0001</p></li>
+<li><p>SIFT 预测：有害</p></li>
+<li><p>PolyPhen-2 预测：可能有害</p></li>
+<li><p>OncoKB 证据等级：Level 1（FDA 批准的靶向药）</p></li>
+</ul>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p><small>突变类型图</small></figure>
+<p>解读过程中需要结合多方面证据：</p>
+<ul>
+<li><p>多数据库一致性</p></li>
+<li><p>是否有功能验证文献</p></li>
+<li><p>在患者临床表型中是否合理</p></li>
+</ul>
+<hr />
+<h2 id="7-注意事项">7. 注意事项</h2>
+<ul>
+<li><p>数据库版本要与参考基因组版本匹配（hg19/hg38）</p></li>
+<li><p>不同数据库之间信息可能冲突，需要综合判断</p></li>
+<li><p>预测工具的结果仅为参考，不能单独作为结论</p></li>
+<li><p>对于意义不明确的变异（VUS），应结合家系验证、功能实验或长期随访进一步分析</p></li>
+<li><p>肿瘤样本要区分驱动变异与乘客变异（passenger mutation）</p></li>
+</ul>
+<hr />
+<h2 id="小结">小结</h2>
+<p>变异注释让冰冷的坐标有了“姓名”和“故事”，是连接测序数据与临床决策的桥梁。无论是科研还是临床，只有经过充分且严谨的注释，变异过滤、致病性评估和精准医疗才有坚实的基础。</p>
+<hr />
+<p><strong>下期预告</strong>：《变异过滤（Variant Filtering）：从数万个变异中锁定“嫌疑犯”》，我们将聊聊如何结合频率、功能预测、家系信息和临床证据，把海量的变异一步步筛到最可能致病的候选位点。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 09</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-variant-calling/"><span>上一篇</span><strong>WES系列⑧｜变异检测：如何在你的基因组中找到“不同”？</strong></a><a class="series-nav-item next" href="/articles/wes-variant-filtering/"><span>下一篇</span><strong>WES系列⑩｜变异过滤：从海量候选中筛出真正有价值的突变</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

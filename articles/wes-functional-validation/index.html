@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列㉓｜功能验证：从候选变异到致病性证据｜见山 · 生信笔记</title><meta name="description" content="WES 把“怀疑对象”放到了台面上，但 从“统计学的相关”走到“生物学的因果” ，常常是一条漫长的路。下面我们把这条路拆成可执行的步骤：先明确要证明什么、再选择合适的模型与…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-functional-validation/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-functional-validation/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-functional-validation/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-functional-validation/"><meta property="og:title" content="WES系列㉓｜功能验证：从候选变异到致病性证据｜见山 · 生信笔记"><meta property="og:description" content="WES 把“怀疑对象”放到了台面上，但 从“统计学的相关”走到“生物学的因果” ，常常是一条漫长的路。下面我们把这条路拆成可执行的步骤：先明确要证明什么、再选择合适的模型与…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-functional-validation/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-functional-validation/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-functional-validation/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 23/30</span><time datetime="2025-09-02">2025.09.02</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#一先问清楚要证实的到底是什么"><span>01</span>一、先问清楚：要“证实”的到底是什么？</a></li><li><a href="#二体外模型从基因到分子细胞层面的评估指标"><span>02</span>二、体外模型：从基因到分子/细胞层面的评估指标</a></li><li><a href="#三动物模型把机制投影到表型"><span>03</span>三、动物模型：把“机制”投影到“表型”</a></li><li><a href="#四把证据串起来整合-omics-与可药性"><span>04</span>四、把证据串起来：整合 ‑OMICS 与可药性</a></li><li><a href="#五质量与对照让结果站得住"><span>05</span>五、质量与对照：让结果“站得住”</a></li><li><a href="#六把实验证据落地到临床分级"><span>06</span>六、把实验证据“落地”到临床分级</a></li><li><a href="#七三个一口气能记住的范式"><span>07</span>七、三个一口气能记住的范式</a></li><li><a href="#小结"><span>08</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#一先问清楚要证实的到底是什么">一、先问清楚：要“证实”的到底是什么？</a></li><li><a href="#二体外模型从基因到分子细胞层面的评估指标">二、体外模型：从基因到分子/细胞层面的评估指标</a></li><li><a href="#三动物模型把机制投影到表型">三、动物模型：把“机制”投影到“表型”</a></li><li><a href="#四把证据串起来整合-omics-与可药性">四、把证据串起来：整合 ‑OMICS 与可药性</a></li><li><a href="#五质量与对照让结果站得住">五、质量与对照：让结果“站得住”</a></li><li><a href="#六把实验证据落地到临床分级">六、把实验证据“落地”到临床分级</a></li><li><a href="#七三个一口气能记住的范式">七、三个一口气能记住的范式</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列㉓功能验证从候选变异到致病性证据">WES系列㉓｜功能验证：从候选变异到致病性证据</h1>
+<p>WES 把“怀疑对象”放到了台面上，但<strong>从“统计学的相关”走到“生物学的因果”</strong> ，常常是一条漫长的路。下面我们把这条路拆成可执行的步骤：先明确要证明什么、再选择合适的模型与实验、最后把证据对齐到临床判读与机制图谱上。</p>
+<hr />
+<h2 id="一先问清楚要证实的到底是什么">一、先问清楚：要“证实”的到底是什么？</h2>
+<ol type="1">
+<li><p><strong>致病机制假设</strong>：这个基因对细胞/组织做了什么？常见机制有 <strong>丧失功能（LoF）</strong>、<strong>获得功能（GoF）</strong>、<strong>显性负效应（DN）</strong>、<strong>致剪接异常</strong> 等。不同机制决定不同策略。</p></li>
+<li><p><strong>证据类型目标</strong>：我们期望拿到什么强度的证据——<strong>细胞层机制证据</strong>、<strong>动物层表型证据</strong>、还是<strong>临床可操作证据</strong>（药物反应/通路可药性）？</p></li>
+<li><p><strong>疾病背景</strong>：神经、肌病、免疫、代谢、心血管……不同系统决定样本与读出指标；选择<strong>与致病组织贴近</strong>的模型更有说服力。</p></li>
+</ol>
+<hr />
+<h2 id="二体外模型从基因到分子细胞层面的评估指标">二、体外模型：从基因到分子/细胞层面的评估指标</h2>
+<h3 id="1-过表达抑制与-crispr-编辑">1) 过表达/抑制与 CRISPR 编辑</h3>
+<ul>
+<li><p><strong>过表达/突变体载体</strong>：把野生型与突变体 cDNA 分别导入细胞，比较<strong>定位、稳定性、相互作用、下游信号</strong>。</p></li>
+<li><p><strong>siRNA/shRNA/CRISPR‑i</strong>：模拟 <strong>LoF</strong>；</p></li>
+<li><p><strong>CRISPR‑KO/CRISPR‑KI</strong>：直接在细胞系里<strong>敲除/敲入</strong>患者的具体突变（更接近真实背景）。</p></li>
+</ul>
+<h3 id="2-评估指标readoutassay怎么选">2) 评估指标（readout/assay）怎么选？</h3>
+<ul>
+<li><p><strong>蛋白层面</strong>：表达量/稳定性（Western/脉冲追踪）、定位（免疫荧光/活细胞成像）、复合体组装（Co‑IP/质谱）；</p></li>
+<li><p><strong>功能层面</strong>：通道电生理、酶活、报告基因、转录活性、信号通路活性指标（例如 MAPK/PI3K）；</p></li>
+<li><p><strong>剪接与NMD</strong>：<strong>Minigene</strong> 验证异常剪接；NMD 抑制实验 + qPCR/长读长测序；</p></li>
+<li><p><strong>细胞表型</strong>：增殖、迁移、分化、凋亡、线粒体功能等。</p></li>
+</ul>
+<h3 id="3-选择合适的细胞背景">3) 选择合适的细胞“背景”</h3>
+<ul>
+<li><p><strong>通用细胞系</strong>：HEK293、HeLa、U2OS 等，操作简便但生理相关性有限；</p></li>
+<li><p><strong>近源细胞系/原代细胞</strong>：如心肌、神经元、肌管；</p></li>
+<li><p><strong>患者衍生 iPSC模型</strong>：把患者细胞重编程为 <strong>iPSC</strong> 并分化为目标细胞类型，能“还原”患者背景；</p></li>
+<li><p><strong>类器官（organoid）</strong>：在三维环境中重构组织结构（脑、肝、肠、肾）。</p></li>
+</ul>
+<hr />
+<h2 id="三动物模型把机制投影到表型">三、动物模型：把“机制”投影到“表型”</h2>
+<h3 id="1-模型物种的选择">1) 模型物种的选择</h3>
+<ul>
+<li><p><strong>斑马鱼（Daniorerio）</strong>：发育快、透明、便于高通量筛查，适用于<strong>形态与发育</strong>相关表型（心脑血管、颅颜、肌肉）。</p></li>
+<li><p><strong>小鼠（Mus musculus）</strong>：哺乳动物、遗传工具成熟，适合<strong>系统层复杂表型</strong>与<strong>行为学</strong>；</p></li>
+<li><p><strong>线虫/果蝇</strong>：通路保守、周期快，适合初筛与遗传互作图谱；</p></li>
+<li><p><strong>大动物</strong>（猪、非人灵长类）：在心血管、代谢、神经退行等研究中用于关键验证，但成本高。</p></li>
+</ul>
+<h3 id="2-构建方式与策略">2) 构建方式与策略</h3>
+<ul>
+<li><p><strong>KO（敲除）</strong>：验证 <strong>LoF</strong>；</p></li>
+<li><p><strong>KI（敲入）</strong>：引入<strong>患者特定突变</strong>，观察表型与剂量效应；</p></li>
+<li><p><strong>条件性/组织特异</strong>：Cre‑loxP 精准到组织或发育阶段；</p></li>
+<li><p><strong>转基因</strong>：过表达野生型或突变体以模拟 <strong>GoF/DN</strong>。</p></li>
+</ul>
+<h3 id="3-评估指标与量化">3) 评估指标与量化</h3>
+<ul>
+<li><p><strong>发育/形态</strong>：器官大小、结构、形态计量；</p></li>
+<li><p><strong>生理功能</strong>：心电、代谢、肌力、神经电生理；</p></li>
+<li><p><strong>行为学</strong>：运动、学习记忆、社交谱系行为（ASD 研究常用）；</p></li>
+<li><p><strong>组织学/分子</strong>：免疫组化、原位杂交、单细胞转录组。</p></li>
+</ul>
+<hr />
+<h2 id="四把证据串起来整合-omics-与可药性">四、把证据串起来：整合 ‑OMICS 与可药性</h2>
+<ul>
+<li><p><strong>WES + RNA‑Seq</strong>：确认<strong>表达/剪接后果</strong>（见前一篇）。</p></li>
+<li><p><strong>蛋白组/代谢组</strong>：把分子改变投射到通路层；</p></li>
+<li><p><strong>空间转录组/单细胞组学</strong>：定位受影响的细胞亚群与微环境；</p></li>
+<li><p><strong>药理学验证</strong>：若推断通路可药（如激酶亢进、离子通道开放概率变化），在细胞/模型动物上<strong>用药逆转</strong>，形成“因果—可逆”的强证据。</p></li>
+</ul>
+<hr />
+<h2 id="五质量与对照让结果站得住">五、质量与对照：让结果“站得住”</h2>
+<ul>
+<li><p><strong>对照成套</strong>：野生型、突变体、救援（rescue：通过补回 WT 或校正突变，观察表型是否恢复）、阴性/阳性对照；</p></li>
+<li><p><strong>复现与统计</strong>：生物学复现 + 技术复现；盲法/随机化；合适统计学方法（样本量估计、功效分析）；</p></li>
+<li><p><strong>避免过度外推</strong>：细胞系阳性不等于生理相关；动物表型需与人类疾病<strong>可映射</strong>；</p></li>
+<li><p><strong>记录可追溯</strong>：序列、质粒、细胞/动物背景、实验流程、原始数据共享。</p></li>
+</ul>
+<hr />
+<h2 id="六把实验证据落地到临床分级">六、把实验证据“落地”到临床分级</h2>
+<ul>
+<li><p><strong>ACMG/AMP（胚系）与 AMP/ASCO/CAP（肿瘤）</strong>：把功能证据映射到 <strong>PS3/BS3</strong> 等条款（经过良好设计、可重复、与机制一致的实验，才算“强证据”）。</p></li>
+<li><p><strong>与“疾病机制”一致</strong>：例如该基因明确为 LoF 机制致病时，证明突变造成 LoF 更有说服力；若该病多为 GoF，LoF 的证据则不支持致病。</p></li>
+<li><p><strong>与临床相衔接</strong>：把功能结果写进<strong>可操作建议</strong>：用药敏感性、监测指标、家族管理。</p></li>
+</ul>
+<hr />
+<h2 id="七三个一口气能记住的范式">七、三个一口气能记住的范式</h2>
+<ol type="1">
+<li><p><strong>剪接/VUS → Minigene/RNA → iPSC‑分化 → rescue</strong>：逐级加码，最后以救援实验定音；</p></li>
+<li><p><strong>LoF 候选 → CRISPR‑KO/KI 细胞 → 关键功能指标下降 → 小鼠 KI 复现 → 小分子/抗体逆转</strong>；</p></li>
+<li><p><strong>GoF 候选 → 过表达/电生理 → 通道/激酶活性上调 → 抑制剂阻断 → 行为/生理改善</strong>。</p></li>
+</ol>
+<hr />
+<h2 id="小结">小结</h2>
+<p>WES 找到“谁可疑”，<strong>功能验证</strong>回答“为什么”和“怎么办”。细胞与动物模型不是“形式主义的打卡”，它们是连接临床与机制的桥梁。走完这条路，才能把“候选变异”变成“可信证据”，把“统计关联”变成“因果链条”，并为<strong>治疗与管理</strong>留下真正可用的抓手。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 23</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-rna-seq-integration/"><span>上一篇</span><strong>WES系列㉒｜当 WES 遇到 RNA‑Seq</strong></a><a class="series-nav-item next" href="/articles/wes-limitations/"><span>下一篇</span><strong>WES系列㉔｜WES的局限性：我们看不到什么？</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

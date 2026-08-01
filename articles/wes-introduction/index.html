@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列①｜什么是全外显子组测序？｜见山 · 生信笔记</title><meta name="description" content="“如果把人的基因组比作一本百科全书，那么全外显子组，就是那几页写着‘最重要条目’的内容。” 在这个谈“精准医疗”如谈天气的时代，你可能已经听说过各种关于基因检测的说法：有人…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-introduction/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-introduction/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-introduction/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-introduction/"><meta property="og:title" content="WES系列①｜什么是全外显子组测序？｜见山 · 生信笔记"><meta property="og:description" content="“如果把人的基因组比作一本百科全书，那么全外显子组，就是那几页写着‘最重要条目’的内容。” 在这个谈“精准医疗”如谈天气的时代，你可能已经听说过各种关于基因检测的说法：有人…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-introduction/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-introduction/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-introduction/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 01/30</span><time datetime="2025-08-07">2025.08.07</time><span>约 5 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#dna-从-dna-到外显子组"><span>01</span>🧬 从 DNA 到外显子组</a></li><li><a href="#mag-那么什么是-wes"><span>02</span>🔍 那么，什么是 WES？</a></li><li><a href="#dart-wes-有什么优势"><span>03</span>🎯 WES 有什么优势？</a></li><li><a href="#stethoscope-wes-能做什么"><span>04</span>🩺 WES 能做什么？</a></li><li><a href="#thinking-wes-和其他测序方法有什么区别"><span>05</span>🤔 WES 和其他测序方法有什么区别？</a></li><li><a href="#warning-wes-也不是万能的"><span>06</span>⚠️ WES 也不是万能的</a></li><li><a href="#writing_hand-小结wes是你了解遗传秘密的一把钥匙"><span>07</span>✍️ 小结：WES，是你了解遗传秘密的一把钥匙</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#dna-从-dna-到外显子组">🧬 从 DNA 到外显子组</a></li><li><a href="#mag-那么什么是-wes">🔍 那么，什么是 WES？</a></li><li><a href="#dart-wes-有什么优势">🎯 WES 有什么优势？</a></li><li><a href="#stethoscope-wes-能做什么">🩺 WES 能做什么？</a></li><li><a href="#thinking-wes-和其他测序方法有什么区别">🤔 WES 和其他测序方法有什么区别？</a></li><li><a href="#warning-wes-也不是万能的">⚠️ WES 也不是万能的</a></li><li><a href="#writing_hand-小结wes是你了解遗传秘密的一把钥匙">✍️ 小结：WES，是你了解遗传秘密的一把钥匙</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列①什么是全外显子组测序">WES系列①｜什么是全外显子组测序？</h1>
+<blockquote>
+<p>“如果把人的基因组比作一本百科全书，那么全外显子组，就是那几页写着‘最重要条目’的内容。”</p>
+</blockquote>
+<hr />
+<p>在这个谈“精准医疗”如谈天气的时代，你可能已经听说过各种关于基因检测的说法：有人通过它找到了罕见病的“元凶”，有人借它预测了癌症的风险，也有人因此调整了药物使用方案……但这些“神奇”的背后，离不开一个重要的技术：<strong>全外显子组测序（Whole Exome Sequencing，简称 WES）</strong>。</p>
+<p>这篇文章，我们就来聊聊：WES 到底是个什么？它为什么这么重要？又适合用来干什么？</p>
+<p>让我们从最基础的地方讲起——DNA。</p>
+<hr />
+<h2 id="dna-从-dna-到外显子组">🧬 从 DNA 到外显子组</h2>
+<p>人类身体的“设计图”藏在细胞核里的 DNA 中。DNA 是由 4 种碱基（A、T、C、G）组成的长链分子，包含我们遗传的全部信息。</p>
+<p>DNA 进一步构成了<strong>基因</strong>。而一个人的<strong>基因组（Genome）</strong>，就是所有基因加上非编码区域的总和。</p>
+<p>但要注意，并不是所有的 DNA 都直接参与功能运作。基因中的一部分叫<strong>外显子（Exon）</strong>，它们就像电影中的正片内容，会被“转录-翻译”成蛋白质；而剩下的叫<strong>内含子（Intron）</strong>，虽然不直接翻译，但也有调控等作用。</p>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p></figure>
+<blockquote>
+<p>图：基因由外显子（exon）和内含子（intron）构成，外显子最终翻译成蛋白质</p>
+</blockquote>
+<p>虽然外显子只占整个基因组的 <strong>1%</strong>，但超过 <strong>85% 的已知致病突变</strong>都发生在这里。</p>
+<p>所以，WES 就是把注意力集中在“最有可能出问题的那 1% 区域”，在效率和效果之间，达到了一个黄金平衡。</p>
+<hr />
+<h2 id="mag-那么什么是-wes">🔍 那么，什么是 WES？</h2>
+<p>全外显子组测序（WES）是一种基因检测方法，专门对人类基因组中所有外显子区域进行高通量测序。</p>
+<p>它的目标不是测完你全部的 DNA，而是重点“扫描”所有编码蛋白的部分——因为这些区域和疾病最相关。</p>
+<p>WES 的典型流程包括：</p>
+<ol type="1">
+<li><p><strong>提取 DNA</strong>：一般来自血液或唾液样本；</p></li>
+<li><p><strong>文库构建</strong>：把 DNA 切成小段，加入“标签”；</p></li>
+<li><p><strong>外显子捕获</strong>：使用探针把外显子区域“钓”出来；</p></li>
+<li><p><strong>上机测序</strong>：使用高通量测序仪读取碱基序列；</p></li>
+<li><p><strong>数据分析</strong>：从海量数据中找出变异，并注释其意义。</p></li>
+</ol>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p></figure>
+<blockquote>
+<p>图：WES的典型流程示意图</p>
+</blockquote>
+<hr />
+<h2 id="dart-wes-有什么优势">🎯 WES 有什么优势？</h2>
+<p>相比其它测序方法，WES 既“聪明”又“经济”：</p>
+<table>
+<thead>
+<tr>
+<th>特点</th>
+<th>WES 的表现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>覆盖范围</strong></td>
+<td>全部外显子区域（约20,000个基因）</td>
+</tr>
+<tr>
+<td><strong>与疾病的关联性</strong></td>
+<td>高（85%致病突变发生于外显子）</td>
+</tr>
+<tr>
+<td><strong>数据量</strong></td>
+<td>适中，便于存储与分析</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>显著低于全基因组测序（WGS）</td>
+</tr>
+<tr>
+<td><strong>广泛适用性</strong></td>
+<td>适用于遗传病、肿瘤、药物基因组学等多个领域</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="stethoscope-wes-能做什么">🩺 WES 能做什么？</h2>
+<p>说了这么多，它到底能帮我们解决什么问题？举几个真实又典型的例子：</p>
+<h3 id="white_check_mark-案例一解开孩子多年的疑难病">✅ 案例一：解开孩子多年的疑难病</h3>
+<p>一名孩子从出生后一直反复发烧、免疫异常，各种检查都查不出原因。后来做了 WES，发现他有一个罕见的遗传缺陷，终于对症下药，家长也如释重负。</p>
+<h3 id="white_check_mark-案例二肿瘤治疗的定制导航">✅ 案例二：肿瘤治疗的“定制导航”</h3>
+<p>一位肺癌患者在常规治疗无效后，通过 WES 发现了一个罕见突变，提示可以尝试某种靶向药物。结果用药后肿瘤明显缩小，延长了生存时间。</p>
+<h3 id="white_check_mark-案例三预防胜于治疗">✅ 案例三：预防胜于治疗</h3>
+<p>健康人群中，有人通过 WES 意外发现自己携带某些肿瘤易感基因（如 BRCA1/2），提前干预，大大降低了患病风险。</p>
+<hr />
+<h2 id="thinking-wes-和其他测序方法有什么区别">🤔 WES 和其他测序方法有什么区别？</h2>
+<p>目前主流的测序策略包括三种：</p>
+<ul>
+<li><p><strong>WGS（全基因组测序）</strong>：测整个基因组，包括编码区和非编码区。</p></li>
+<li><p><strong>WES（全外显子组测序）</strong>：只测外显子区域。</p></li>
+<li><p><strong>Panel（目标区域测序）</strong>：只测一小部分相关基因。</p></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>WGS</th>
+<th>WES</th>
+<th>Panel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>测序范围</strong></td>
+<td>全基因组</td>
+<td>所有外显子</td>
+<td>指定基因</td>
+</tr>
+<tr>
+<td><strong>数据量</strong></td>
+<td>超大</td>
+<td>中等</td>
+<td>小</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>高</td>
+<td>中</td>
+<td>低</td>
+</tr>
+<tr>
+<td><strong>适用范围</strong></td>
+<td>研究全面变异、结构变异等</td>
+<td>寻找致病变异、临床检测通用方案</td>
+<td>针对特定疾病、药物反应</td>
+</tr>
+</tbody>
+</table>
+<p>👉 如果你是做研究，预算充足，想看得全一点——<strong>选 WGS</strong>。</p>
+<p>👉 如果你是做临床诊断、追求效率与性价比——<strong>选 WES</strong>。</p>
+<p>👉 如果你目标明确，比如只想看 BRCA1/2——<strong>选 Panel</strong>。</p>
+<p>下期会专门讲清楚这三者该怎么选！</p>
+<hr />
+<h2 id="warning-wes-也不是万能的">⚠️ WES 也不是万能的</h2>
+<p>当然了，WES 也不是“包治百病”的法宝。它有一些天然的局限：</p>
+<ul>
+<li><p>看不到非编码区的变异（例如调控区域）；</p></li>
+<li><p>有些外显子区域捕获不到（技术限制）；</p></li>
+<li><p>难以检测大结构变异（如大片段重复、缺失等）；</p></li>
+<li><p>数据分析和解读需要专业团队支持。</p></li>
+</ul>
+<p>但这并不影响它在大多数场景中，依然是效率与效果的最佳平衡点。</p>
+<hr />
+<h2 id="writing_hand-小结wes是你了解遗传秘密的一把钥匙">✍️ 小结：WES，是你了解遗传秘密的一把钥匙</h2>
+<p>全外显子组测序（WES）就像是从浩瀚的基因组“百科全书”中，精准翻阅那仅占1%、却蕴藏85%以上致病突变信息的"最重要条目”。它以适中的成本、高效的覆盖和广泛的适用性，在遗传病诊断、肿瘤精准治疗、药物基因组学及健康风险评估中发挥着关键作用。虽然它无法覆盖全部遗传信息（如非编码区或大结构变异），但在大多数临床与科研场景中，WES以“聚焦核心、平衡效率与效果”的优势，成为探索遗传奥秘、守护健康的实用利器。如果说基因组是人类生命的“全景地图”，那么WES就是那张帮你快速锁定关键线索的“精准导航图”。</p>
+<hr />
+<p>📌 <strong>下期预告</strong>：</p>
+<p>《WES、WGS 和基因 Panel：如何选择最适合的基因测序策略？》</p>
+<p>将详细对比三种主流测序方法的优缺点、成本和适用场景，这三者之间究竟有何不同？又该如何选择？</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 01</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><span></span><a class="series-nav-item next" href="/articles/wes-vs-wgs-vs-panel/"><span>下一篇</span><strong>WES系列②｜WES vs WGS vs Panel：如何选择最适合的基因测序策略？</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

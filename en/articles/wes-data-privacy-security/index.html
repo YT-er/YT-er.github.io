@@ -1,0 +1,112 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 28 | Data Privacy and Security: Who Protects Our Genetic Information? | Jianshan Bioinformatics Notes</title><meta name="description" content="Introduction At night, only one light is on in the archive room. The key rests in the administrator's pocket, and the fingerprint lock quietly flashes blue. You can hear the wind slipping th…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-data-privacy-security/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-data-privacy-security/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-data-privacy-security/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-data-privacy-security/"><meta property="og:title" content="WES Series 28 | Data Privacy and Security: Who Protects Our Genetic Information? | Jianshan Bioinformatics Notes"><meta property="og:description" content="Introduction At night, only one light is on in the archive room. The key rests in the administrator's pocket, and the fingerprint lock quietly flashes blue. You can hear the wind slipping th…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-data-privacy-security/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-data-privacy-security/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-data-privacy-security/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 28/30</span><time datetime="2025-09-07">2025.09.07</time><span>Approx. 6 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#introduction"><span>01</span>Introduction</a></li><li><a href="#1-the-data-lifeline-a-river-from-collection-to-farewell"><span>02</span>1. The Data Lifeline: A River from Collection to Farewell</a></li><li><a href="#2-risk-sketches-three-common-types-of-risk"><span>03</span>2. Risk Sketches: Three Common Types of Risk</a></li><li><a href="#3-technical-toolkit-managing-the-doors-windows-and-keys"><span>04</span>3. Technical Toolkit: Managing the Doors, Windows, and Keys</a></li><li><a href="#4-governance-and-compliance-writing-the-how-into-an-sop"><span>05</span>4. Governance and Compliance: Writing the &quot;How&quot; into an SOP</a></li><li><a href="#5-patients-and-families-turning-abstractions-into-four-actions"><span>06</span>5. Patients and Families: Turning Abstractions into Four Actions</a></li><li><a href="#6-research-sharing-finding-the-right-speed-between-openness-and-restraint"><span>07</span>6. Research Sharing: Finding the Right Speed between Openness and Restraint</a></li><li><a href="#7-new-risks-in-the-ai-era-models-can-remember-people-too"><span>08</span>7. New Risks in the AI Era: Models Can &quot;Remember People&quot; Too</a></li><li><a href="#8-incident-response-when-the-wind-really-gets-in"><span>09</span>8. Incident Response: When the Wind Really Gets In</a></li><li><a href="#9-a-maturity-ladder-from-usable-to-auditable"><span>10</span>9. A Maturity Ladder: From &quot;Usable&quot; to &quot;Auditable&quot;</a></li><li><a href="#summary-and-preview"><span>11</span>Summary and Preview</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#introduction">Introduction</a></li><li><a href="#1-the-data-lifeline-a-river-from-collection-to-farewell">1. The Data Lifeline: A River from Collection to Farewell</a></li><li><a href="#2-risk-sketches-three-common-types-of-risk">2. Risk Sketches: Three Common Types of Risk</a></li><li><a href="#3-technical-toolkit-managing-the-doors-windows-and-keys">3. Technical Toolkit: Managing the Doors, Windows, and Keys</a></li><li><a href="#4-governance-and-compliance-writing-the-how-into-an-sop">4. Governance and Compliance: Writing the &quot;How&quot; into an SOP</a></li><li><a href="#5-patients-and-families-turning-abstractions-into-four-actions">5. Patients and Families: Turning Abstractions into Four Actions</a></li><li><a href="#6-research-sharing-finding-the-right-speed-between-openness-and-restraint">6. Research Sharing: Finding the Right Speed between Openness and Restraint</a></li><li><a href="#7-new-risks-in-the-ai-era-models-can-remember-people-too">7. New Risks in the AI Era: Models Can &quot;Remember People&quot; Too</a></li><li><a href="#8-incident-response-when-the-wind-really-gets-in">8. Incident Response: When the Wind Really Gets In</a></li><li><a href="#9-a-maturity-ladder-from-usable-to-auditable">9. A Maturity Ladder: From &quot;Usable&quot; to &quot;Auditable&quot;</a></li><li><a href="#summary-and-preview">Summary and Preview</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-28--data-privacy-and-security-who-protects-our-genetic-information">WES Series 28 | Data Privacy and Security: Who Protects Our Genetic Information?</h1>
+<h2 id="introduction">Introduction</h2>
+<p>At night, only one light is on in the archive room. The key rests in the administrator's pocket, and the fingerprint lock quietly flashes blue. You can hear the wind slipping through the window frame, but you cannot see the silent footsteps.</p>
+<p>Genetic data are like the most distinctive file in this archive—<strong>unchanging throughout life, capable of identifying an individual, and capable of revealing biological relationships</strong>. Protecting them is therefore both a technical problem and an ethical and social one. We must answer three questions: <strong>Where do the data come from, through whose hands do they pass, and where do they ultimately go?</strong></p>
+<hr />
+<h2 id="1-the-data-lifeline-a-river-from-collection-to-farewell">1. The Data Lifeline: A River from Collection to Farewell</h2>
+<blockquote>
+<p>Draw the map before discussing the guards.</p>
+</blockquote>
+<ol type="1">
+<li><p><strong>Collection</strong>: blood/saliva -&gt; library preparation -&gt; sequencing -&gt; raw sequences (FASTQ)</p></li>
+<li><p><strong>Processing</strong>: alignment/variant detection -&gt; BAM/CRAM, VCF -&gt; annotation and interpretation</p></li>
+<li><p><strong>Use</strong>: clinical diagnosis, follow-up, family analysis, reuse in research</p></li>
+<li><p><strong>Sharing</strong>: multicenter collaboration, controlled-access platforms, supplementary data for publications</p></li>
+<li><p><strong>Storage</strong>: cold storage, hot storage, and archiving, together with versions and logs</p></li>
+<li><p><strong>Exit</strong>: deletion at the end of the retention period, long-term retention after anonymization, or complete erasure upon request</p></li>
+</ol>
+<p>Each stage has distinct risks and responsible parties. Without this "river map," security remains only a slogan.</p>
+<hr />
+<h2 id="2-risk-sketches-three-common-types-of-risk">2. Risk Sketches: Three Common Types of Risk</h2>
+<ul>
+<li><p><strong>Internal risks</strong>: Excessive permissions, password sharing, unclear handover when staff leave, or copying data to a personal device for "temporary analysis."</p></li>
+<li><p><strong>External risks</strong>: Ransomware, exposure caused by cloud misconfiguration, phishing email, or compromise of the supply chain (dependent SaaS/hardware).</p></li>
+<li><p><strong>Reidentification risk</strong>: So-called "anonymization" does not mean that identification is impossible; <strong>the genetic sequence itself is identifiable information</strong>, and linking it to public information can trace it back to an individual or family.</p></li>
+</ul>
+<hr />
+<h2 id="3-technical-toolkit-managing-the-doors-windows-and-keys">3. Technical Toolkit: Managing the Doors, Windows, and Keys</h2>
+<p><strong>1) Encryption and Transmission</strong></p>
+<ul>
+<li><p><strong>Encryption at rest</strong>: Strong encryption (such as AES-256) + managed keys (KMS/HSM); <strong>physically/logically separate</strong> keys from data and rotate them regularly.</p></li>
+<li><p><strong>Encryption in transit</strong>: TLS/HTTPS/SSH and end-to-end encryption; disable plaintext protocols.</p></li>
+</ul>
+<p><strong>2) Access Control</strong></p>
+<ul>
+<li><p><strong>Least privilege (RBAC/ABAC)</strong>: Grant access by "role/attribute" down to the "dataset/field" level; <strong>separate authority and domains</strong> for research and clinical work.</p></li>
+<li><p><strong>Multifactor authentication</strong>: VPN/SSO/MFA, secondary confirmation for sensitive operations, session timeouts, and geofencing.</p></li>
+<li><p><strong>Fine-grained auditing</strong>: Track who accessed which file, when, and how many rows were exported; make activity <strong>traceable and alertable</strong>.</p></li>
+</ul>
+<p><strong>3) Tiered Storage and Isolation</strong></p>
+<ul>
+<li><p><strong>Partition</strong> raw data (FASTQ/BAM) and derived data (VCF/reports); maintain <strong>three environments</strong> for production, analysis, and backup, with controlled channels for cross-environment transfer.</p></li>
+<li><p>Conduct external collaboration through a <strong>controlled data enclave</strong>: browse without downloading; require approval for downloads; apply data fingerprinting and watermarks.</p></li>
+</ul>
+<p><strong>4) De-identification/Reversibility</strong></p>
+<ul>
+<li><p><strong>Pseudonymization/tokenization</strong>: Replace names, identification numbers, and similar identifiers with research IDs; keep the mapping table encrypted offline and minimize the exposure surface.</p></li>
+<li><p>Note: <strong>Genetic data remain identifiable</strong>; pseudonymization is not a free pass.</p></li>
+</ul>
+<p><strong>5) Backups and Drills</strong></p>
+<ul>
+<li><p><strong>3-2-1 strategy</strong>: 3 copies, 2 types of media, and 1 off-site copy; encrypt backups and practice restoration.</p></li>
+<li><p>Ransomware drills: An SOP should define the time and steps required <strong>from isolation to recovery</strong>.</p></li>
+</ul>
+<p><strong>6) Endpoint and Code Security</strong></p>
+<ul>
+<li><p>Install <strong>EDR/antivirus software</strong> on research workstations and servers; disable USB drives; enforce full-disk encryption.</p></li>
+<li><p>Generate an <strong>SBOM</strong> for code dependencies and container images and scan them for vulnerabilities; never place secrets in code repositories.</p></li>
+</ul>
+<hr />
+<h2 id="4-governance-and-compliance-writing-the-how-into-an-sop">4. Governance and Compliance: Writing the "How" into an SOP</h2>
+<ul>
+<li><p><strong>Data minimization</strong>: Collect only necessary fields; restrict use to the stated purpose; regularly remove "data forgotten in the corner."</p></li>
+<li><p><strong>Consent and choice</strong>: Clearly explain purposes, scope of sharing, reanalysis, and withdrawal procedures; document <strong>choices that can be changed</strong> (such as whether to receive secondary findings and whether to share data with controlled-access databases).</p></li>
+<li><p><strong>Third-party management</strong>: Sign <strong>data-processing agreements</strong> with vendors/cloud services; review their <strong>security audits and certifications</strong> (such as classified cybersecurity protection/ISO/SOC types); define responsibilities for breach notification and response.</p></li>
+<li><p><strong>Cross-border transfer and local law</strong>: Follow applicable privacy and health-data laws in the relevant jurisdiction (such as health-privacy, general data-protection, and personal-information-protection laws), and conduct an <strong>impact assessment</strong> before cross-border transfers.</p></li>
+<li><p><strong>Versioning and traceability</strong>: Log every interpretation, download, and sharing event; state database and algorithm versions in reports.</p></li>
+</ul>
+<hr />
+<h2 id="5-patients-and-families-turning-abstractions-into-four-actions">5. Patients and Families: Turning Abstractions into Four Actions</h2>
+<ol type="1">
+<li><p><strong>Choice</strong>: State clearly in the consent form whether incidental/secondary findings are accepted and whether de-identified data may be shared on a controlled-access platform.</p></li>
+<li><p><strong>Recipients of information</strong>: Who may receive your results? A spouse or adult children? Record the <strong>notification priority</strong>.</p></li>
+<li><p><strong>Recontact</strong>: If new evidence emerges in the future, do you want to be contacted? Through whom? By telephone/email/family physician?</p></li>
+<li><p><strong>Withdrawal and deletion</strong>: Know how to withdraw: where to apply, what can be deleted, and what will be <strong>retained long-term in de-identified form</strong> because of research-compliance requirements.</p></li>
+</ol>
+<hr />
+<h2 id="6-research-sharing-finding-the-right-speed-between-openness-and-restraint">6. Research Sharing: Finding the Right Speed between Openness and Restraint</h2>
+<ul>
+<li><p><strong>Controlled access</strong>: Place sensitive data in a <strong>controlled repository</strong>, using a three-step application-review-authorization process; <strong>automatically revoke</strong> access when the project ends.</p></li>
+<li><p><strong>Minimum-necessary principle</strong>: If derived statistics suffice, do not share raw sequences; if intervals suffice, do not share detailed coordinates.</p></li>
+<li><p><strong>Protection against reidentification</strong>: Apply <strong>differential noise/aggregation thresholds</strong> to externally released tables to prevent individuals from being reverse-engineered.</p></li>
+<li><p><strong>Federated and in-place computing</strong>: Keep the data in place and send the model to run; alternatively, use <strong>secure multiparty computation</strong> to produce collaborative results.</p></li>
+</ul>
+<hr />
+<h2 id="7-new-risks-in-the-ai-era-models-can-remember-people-too">7. New Risks in the AI Era: Models Can "Remember People" Too</h2>
+<ul>
+<li><p><strong>Membership inference/inversion attacks</strong>: Models may leak characteristics of training samples; conduct <strong>privacy audits</strong> on released models and parameters.</p></li>
+<li><p><strong>Synthetic data and debiasing</strong>: Use synthetic data in some scenarios instead of real data, but assess the risks of <strong>information leakage and bias</strong>.</p></li>
+<li><p><strong>Minimize retained traces</strong>: Do not retain identifiable fields in training logs; perform <strong>model downsampling and truncation</strong> before export.</p></li>
+</ul>
+<hr />
+<h2 id="8-incident-response-when-the-wind-really-gets-in">8. Incident Response: When the Wind Really Gets In</h2>
+<ul>
+<li><p><strong>Detection and classification</strong>: Define thresholds for an "incident" (misdirected email/unauthorized download/exposed cloud bucket/stolen device, and so on) and severity levels.</p></li>
+<li><p><strong>Containment and notification</strong>: Technical containment (disable accounts/revoke keys/quarantine servers) and notify regulators and affected individuals <strong>within the statutory time limit</strong>.</p></li>
+<li><p><strong>Evidence and post-incident review</strong>: Preserve logs and the forensic chain of custody; review process gaps before assigning responsibility; update SOPs and training.</p></li>
+<li><p><strong>Psychological and public communication</strong>: Provide counseling and remediation for affected individuals; maintain consistent messaging and transparency with the media.</p></li>
+</ul>
+<hr />
+<h2 id="9-a-maturity-ladder-from-usable-to-auditable">9. A Maturity Ladder: From "Usable" to "Auditable"</h2>
+<ul>
+<li><p><strong>L1 Baseline</strong>: MFA, encryption, least privilege, logging, and backups; a data map and designated owner are in place.</p></li>
+<li><p><strong>L2 Standardized</strong>: Fine-grained auditing, data enclaves, third-party assessments, regular privacy-impact assessments, and penetration testing.</p></li>
+<li><p><strong>L3 Auditable</strong>: End-to-end traceability, automated triggers, federated/in-place computing, and a staged-release mechanism for cross-domain collaboration.</p></li>
+</ul>
+<hr />
+<h2 id="summary-and-preview">Summary and Preview</h2>
+<p>Protecting genetic data is not as simple as guarding a door; it means safeguarding a river—knowing where it comes from, through whose hands it passes, where it is used, and how it ultimately departs. Technology gives us locks, windows, and fences; governance sets the rules; and <strong>respect and trust</strong> turn all of it into genuine protection.</p>
+<blockquote>
+<p><strong>Next issue</strong>: We will enter the "future outlook": <strong>Will long-read sequencing replace WES?</strong> We will discuss "complementarity" and "shifting boundaries" through three lenses: the capability curve, the cost curve, and clinical accessibility.</p>
+</blockquote>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 28</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-incidental-findings/"><span>Previous</span><strong>WES Series 27 | Incidental Findings: When WES Reveals Something You Did Not Want to Know</strong></a><a class="series-nav-item next" href="/en/articles/long-read-vs-wes/"><span>Next</span><strong>WES Series 29 | Will Long-Read Sequencing Replace WES?</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

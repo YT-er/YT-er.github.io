@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES Series 5 | The WES Laboratory Workflow, Part 2 | Jianshan Bioinformatics Notes</title><meta name="description" content="“Once the DNA library is ready, it is as if the ingredients have been cut and prepared. Now it is time to enter the sequencer's kitchen and cook up a feast of data.” ⚙️ 1. Preparation Before…"><link rel="canonical" href="https://yt-er.github.io/en/articles/wes-lab-workflow-part-2/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-lab-workflow-part-2/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-lab-workflow-part-2/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-lab-workflow-part-2/"><meta property="og:title" content="WES Series 5 | The WES Laboratory Workflow, Part 2 | Jianshan Bioinformatics Notes"><meta property="og:description" content="“Once the DNA library is ready, it is as if the ingredients have been cut and prepared. Now it is time to enter the sequencer's kitchen and cook up a feast of data.” ⚙️ 1. Preparation Before…"><meta property="og:url" content="https://yt-er.github.io/en/articles/wes-lab-workflow-part-2/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">Skip to content</a><header class="site-header article-header"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><div class="header-actions"><a class="back-link" href="/en/series/wes/"><span aria-hidden="true">←</span> WES Series</a><div class="language-switcher" aria-label="Language"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-lab-workflow-part-2/">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-lab-workflow-part-2/" aria-current="page">EN</a></div></div></header><div class="article-topline" aria-label="Article information"><span>WES Series · 05/30</span><time datetime="2025-08-11">2025.08.11</time><span>Approx. 4 min</span></div><div class="article-shell"><aside class="toc" aria-label="Table of contents"><p>Contents</p><ol><li><a href="#gear-1-preparation-before-sequencing"><span>01</span>⚙️ 1. Preparation Before Sequencing</a></li><li><a href="#microscope-2-a-brief-overview-of-the-sequencing-principle"><span>02</span>🔬 2. A Brief Overview of the Sequencing Principle</a></li><li><a href="#-3-generating-raw-data"><span>03</span>🗂 3. Generating Raw Data</a></li><li><a href="#bar_chart-4-data-quality-control-qc"><span>04</span>📊 4. Data Quality Control (QC)</a></li><li><a href="#balance_scale-5-differences-advantages-and-disadvantages-of-sequencing-platforms"><span>05</span>⚖️ 5. Differences, Advantages, and Disadvantages of Sequencing Platforms</a></li><li><a href="#pushpin-summary"><span>06</span>📌 Summary</a></li></ol></aside><details class="mobile-toc"><summary>Table of contents</summary><ol><li><a href="#gear-1-preparation-before-sequencing">⚙️ 1. Preparation Before Sequencing</a></li><li><a href="#microscope-2-a-brief-overview-of-the-sequencing-principle">🔬 2. A Brief Overview of the Sequencing Principle</a></li><li><a href="#-3-generating-raw-data">🗂 3. Generating Raw Data</a></li><li><a href="#bar_chart-4-data-quality-control-qc">📊 4. Data Quality Control (QC)</a></li><li><a href="#balance_scale-5-differences-advantages-and-disadvantages-of-sequencing-platforms">⚖️ 5. Differences, Advantages, and Disadvantages of Sequencing Platforms</a></li><li><a href="#pushpin-summary">📌 Summary</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes-series-5--the-wes-laboratory-workflow-part-2">WES Series 5 | The WES Laboratory Workflow, Part 2</h1>
+<blockquote>
+<p>“Once the DNA library is ready, it is as if the ingredients have been cut and prepared. Now it is time to enter the sequencer's kitchen and cook up a feast of data.”</p>
+</blockquote>
+<hr />
+<h2 id="gear-1-preparation-before-sequencing">⚙️ 1. Preparation Before Sequencing</h2>
+<p><strong>1.1 Choosing a sequencing platform</strong><br />
+Illumina systems—including NovaSeq, HiSeq, and NextSeq—currently dominate WES sequencing. All use sequencing by synthesis (SBS), but they differ in throughput and cost:</p>
+<ul>
+<li><p><strong>NovaSeq</strong>: ultra-high throughput, suitable for large-scale projects</p></li>
+<li><p><strong>HiSeq</strong>: high throughput and cost-effective</p></li>
+<li><p><strong>NextSeq/MiSeq</strong>: medium to low throughput, flexible and fast</p></li>
+</ul>
+<p><strong>1.2 Library QC before sequencing</strong></p>
+<ul>
+<li><p><strong>Concentration measurement</strong>: Qubit or qPCR, to ensure that the library concentration falls within the platform's required range</p></li>
+<li><p><strong>Fragment-size assessment</strong>: Bioanalyzer/TapeStation, to ensure a uniform fragment-size distribution</p></li>
+</ul>
+<hr />
+<h2 id="microscope-2-a-brief-overview-of-the-sequencing-principle">🔬 2. A Brief Overview of the Sequencing Principle</h2>
+<p>The core Illumina sequencing workflow is:</p>
+<ol type="1">
+<li><p><strong>Cluster generation</strong>: library molecules bind to primers on a flow cell and form clusters through bridge amplification; each cluster originates from a single DNA molecule</p></li>
+<li><p><strong>Sequencing by synthesis (SBS)</strong>: in each cycle, fluorescently labeled reversible-terminator nucleotides are introduced, incorporated into the DNA strand, and imaged</p></li>
+<li><p><strong>Signal detection and data output</strong>: a fluorescent signal is recorded during every cycle and ultimately converted into an ACTG sequence</p></li>
+</ol>
+<hr />
+<h2 id="-3-generating-raw-data">🗂 3. Generating Raw Data</h2>
+<p>After sequencing is complete, the platform outputs raw-data files:</p>
+<ul>
+<li><p><strong>BCL (base-call) files</strong>: the raw output from an Illumina platform, recording the signal from each cycle</p></li>
+<li><p><strong>FASTQ files</strong>: generated by converting BCL to FASTQ, for example with <code>bcl2fastq</code>; they contain sequences and their corresponding quality values (Phred scores)</p></li>
+</ul>
+<p>Each FASTQ record consists of four lines:</p>
+<ol type="1">
+<li><p>A sequence identifier containing sample and sequencing information</p></li>
+<li><p>The DNA sequence (ACTG)</p></li>
+<li><p>The “+” separator</p></li>
+<li><p>Quality values representing the sequencing confidence for each base</p></li>
+</ol>
+<hr />
+<h2 id="bar_chart-4-data-quality-control-qc">📊 4. Data Quality Control (QC)</h2>
+<p>High-quality raw data are the foundation of all subsequent analyses. Common QC checks include:</p>
+<ul>
+<li><p><strong>Base-quality distribution</strong> (generally, ≥80% of bases should reach Q30)</p></li>
+<li><p><strong>Adapter-contamination detection</strong> (adapters should be removed if present)</p></li>
+<li><p><strong>GC-content distribution</strong> (to assess sequencing uniformity)</p></li>
+<li><p><strong>Sequence-duplication rate</strong> (an excessive rate may reduce the amount of usable information)</p></li>
+</ul>
+<p>Recommended tools:</p>
+<ul>
+<li><p><strong>FastQC</strong>: rapid quality control for individual samples</p></li>
+<li><p><strong>MultiQC</strong>: integrates QC reports from multiple samples</p></li>
+</ul>
+<hr />
+<h2 id="balance_scale-5-differences-advantages-and-disadvantages-of-sequencing-platforms">⚖️ 5. Differences, Advantages, and Disadvantages of Sequencing Platforms</h2>
+<p>Although Illumina is the principal platform for WES, data generation differs among instrument models and manufacturers:</p>
+<ul>
+<li><p><strong>Illumina NovaSeq vs. HiSeq</strong>: NovaSeq is faster and offers higher throughput, making it suitable for large cohort studies; HiSeq is cost-effective and stable, making it suitable for medium-scale projects.</p></li>
+<li><p><strong>Illumina NextSeq/MiSeq</strong>: highly flexible and suitable for small projects or those requiring rapid results, but the cost per Gb of data is relatively high.</p></li>
+<li><p><strong>MGI platforms (e.g., MGISEQ-2000)</strong>: throughput is comparable to NovaSeq, and some projects achieve greater cost-effectiveness. These platforms have especially clear price and service advantages in China's domestic market and perform strongly in localized support, after-sales response, and compatibility with Chinese research projects.</p></li>
+<li><p><strong>Ion Torrent platforms</strong>: fast sequencing and low instrument cost, but shorter reads and slightly lower accuracy in homopolymer regions.</p></li>
+</ul>
+<p>Platform selection should consider sample volume, budget, required sequencing depth, and the equipment available in the laboratory.</p>
+<hr />
+<h2 id="pushpin-summary">📌 Summary</h2>
+<p>This concludes the wet-lab component of WES. The journey from a tube of blood to a collection of ACTG sequences stored on a hard drive is complex but logically straightforward. It can be viewed as a cooking process: the first half is ingredient preparation, and the second half is cooking. Different utensils (sequencing platforms) affect the flavor of the final dish.</p>
+<p>Bioinformatics analysis will now take the baton, transforming these raw data into interpretable biological information.</p>
+<hr />
+<p><strong>Next in the series</strong>: “An Introduction to Bioinformatics Analysis: Quality Control for Raw WES FASTQ Data.” We will examine how raw sequences are quality controlled, how common problems are addressed, and how different QC strategies affect analytical results.</p>
+<hr />
+<h3 id="references">References</h3>
+<ol type="1">
+<li><p>Bentley DR, Balasubramanian S, Swerdlow HP, et al. Accurate whole human genome sequencing using reversible terminator chemistry. <em>Nature</em>. 2008;456(7218):53–59. doi:<a href="https://doi.org/10.1038/nature07517" target="_blank" rel="noopener">10.1038/nature07517</a></p></li>
+<li><p>Illumina Inc. (2023). <em>Illumina Sequencing Introduction</em>. Retrieved from <a href="https://www.illumina.com/" target="_blank" rel="noopener"><span>https://www.illumina.com</span></a></p></li>
+<li><p>Andrews S. (2010). <em>FastQC: A Quality Control tool for High Throughput Sequence Data</em>. Retrieved from <a href="http://www.bioinformatics.babraham.ac.uk/projects/fastqc/" target="_blank" rel="noopener"><span>http://www.bioinformatics.babraham.ac.uk/projects/fastqc/</span></a></p></li>
+</ol>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 05</p><h2>Continue through the complete WES journey.</h2><a class="read-link" href="/en/series/wes/">← View all 30 chapters</a></section><nav class="series-navigation" aria-label="WES series navigation"><a class="series-nav-item previous" href="/en/articles/wes-lab-workflow-part-1/"><span>Previous</span><strong>WES Series 4 | The WES Laboratory Workflow, Part 1</strong></a><a class="series-nav-item next" href="/en/articles/wes-fastq-quality-control/"><span>Next</span><strong>WES Series 6 | Quality Control for Raw WES FASTQ Data</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/en/" aria-label="Jianshan Bioinformatics Notes home"><span class="brand-mark" aria-hidden="true">见</span><span><strong>Jianshan</strong><small>Bioinformatics Notes</small></span></a><p>Writing makes judgment more evidence-based.</p><a href="#article-content">Back to top ↑</a></footer></main></body></html>

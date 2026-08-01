@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列⑩｜变异过滤：从海量候选中筛出真正有价值的突变｜见山 · 生信笔记</title><meta name="description" content="“基因测序就像大海捞针，变异过滤就是帮我们从成千上万的候选里，找到那几根真正重要的针。” 1. 为什么要做变异过滤？ 在完成变异检测（Variant Calling）后，我…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-variant-filtering/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-variant-filtering/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-variant-filtering/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-variant-filtering/"><meta property="og:title" content="WES系列⑩｜变异过滤：从海量候选中筛出真正有价值的突变｜见山 · 生信笔记"><meta property="og:description" content="“基因测序就像大海捞针，变异过滤就是帮我们从成千上万的候选里，找到那几根真正重要的针。” 1. 为什么要做变异过滤？ 在完成变异检测（Variant Calling）后，我…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-variant-filtering/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-variant-filtering/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-variant-filtering/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 10/30</span><time datetime="2025-08-18">2025.08.18</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#1-为什么要做变异过滤"><span>01</span>1. 为什么要做变异过滤？</a></li><li><a href="#2-常见的过滤维度"><span>02</span>2. 常见的过滤维度</a></li><li><a href="#3-肿瘤患者案例解析"><span>03</span>3. 肿瘤患者案例解析</a></li><li><a href="#4-germline-与-somatic-的不同"><span>04</span>4. Germline 与 Somatic 的不同</a></li><li><a href="#5-常见工具"><span>05</span>5. 常见工具</a></li><li><a href="#6-注意事项"><span>06</span>6. 注意事项</a></li><li><a href="#小结"><span>07</span>小结</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#1-为什么要做变异过滤">1. 为什么要做变异过滤？</a></li><li><a href="#2-常见的过滤维度">2. 常见的过滤维度</a></li><li><a href="#3-肿瘤患者案例解析">3. 肿瘤患者案例解析</a></li><li><a href="#4-germline-与-somatic-的不同">4. Germline 与 Somatic 的不同</a></li><li><a href="#5-常见工具">5. 常见工具</a></li><li><a href="#6-注意事项">6. 注意事项</a></li><li><a href="#小结">小结</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列⑩变异过滤从海量候选中筛出真正有价值的突变">WES系列⑩｜变异过滤：从海量候选中筛出真正有价值的突变</h1>
+<blockquote>
+<p>“基因测序就像大海捞针，变异过滤就是帮我们从成千上万的候选里，找到那几根真正重要的针。”</p>
+</blockquote>
+<hr />
+<h2 id="1-为什么要做变异过滤">1. 为什么要做变异过滤？</h2>
+<p>在完成变异检测（Variant Calling）后，我们通常会得到一个巨大的候选变异集合。以一次典型的 WES 分析为例，初步检测可能会产生数万个突变。如果不经过进一步筛选，就很难分辨哪些是真正有意义的生物学事件，哪些只是噪音。</p>
+<p>变异过滤（Variant Filtering）的任务，就是从这些候选中筛掉测序错误、低质量或无关紧要的变异，保留最可能与疾病或研究目标相关的部分。</p>
+<hr />
+<h2 id="2-常见的过滤维度">2. 常见的过滤维度</h2>
+<ol type="1">
+<li><strong>测序质量相关</strong></li>
+</ol>
+<ul>
+<li><p><strong>深度（Depth, DP）</strong>：覆盖该位点的 reads 数量过低，可能不可靠。</p></li>
+<li><p><strong>质量值（QUAL）</strong>：变异的统计置信度过低，需要过滤。</p></li>
+<li><p><strong>比对质量（MAPQ）</strong>：比对到该位点的 reads 是否可靠。</p></li>
+</ul>
+<ol start="2" type="1">
+<li><strong>群体频率相关</strong></li>
+</ol>
+<ul>
+<li><p>候选变异是否在 <strong>gnomAD</strong>、<strong>1000 Genomes</strong> 等数据库中高频出现？</p></li>
+<li><p>如果在普通人群中频率很高（比如 &gt;1%），往往不是致病突变，而是常见多态性。</p></li>
+</ul>
+<ol start="3" type="1">
+<li><strong>功能注释相关</strong></li>
+</ol>
+<ul>
+<li><p>是否位于外显子或剪接区？</p></li>
+<li><p>是否导致氨基酸变化（错义、无义、移码等）？</p></li>
+<li><p>是否位于已知的致病基因中？</p></li>
+</ul>
+<ol start="4" type="1">
+<li><strong>技术和实验相关</strong></li>
+</ol>
+<ul>
+<li><p>过滤掉 PCR 重复或低复杂度区域的假阳性。</p></li>
+<li><p>注意 panel 或 WES 特定区域的测序偏好性，避免误判。</p></li>
+</ul>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p></figure>
+<hr />
+<h2 id="3-肿瘤患者案例解析">3. 肿瘤患者案例解析</h2>
+<p>为了让过滤过程更直观，我们来看一个真实的场景：</p>
+<p>一位 52 岁的女性患者，因乳腺癌接受 WES 检测。初步 Variant Calling 得到大约<strong>35,000 个候选突变</strong>。研究人员依次进行了如下过滤：</p>
+<ol type="1">
+<li><p><strong>测序质量过滤</strong>：去掉 DP &lt; 10 或 QUAL &lt; 30 的位点，剩下约 <strong>20,000 个突变</strong>。</p></li>
+<li><p><strong>群体频率过滤</strong>：参考 gnomAD 和 1000 Genomes，排除人群频率 &gt;1% 的常见多态，剩下约 <strong>3,000 个突变</strong>。</p></li>
+<li><p><strong>功能注释过滤</strong>：仅保留位于外显子和剪接区、且影响蛋白功能的突变，剩下约 <strong>200 个突变</strong>。</p></li>
+<li><p><strong>临床数据库比对</strong>：进一步筛查 ClinVar、COSMIC 等数据库，保留已报道的可能致病或肿瘤相关突变，最后得到 <strong>5 个高置信度候选突变</strong>。</p></li>
+</ol>
+<p>最终，研究团队发现患者的<strong>BRCA2 基因存在一个无义突变</strong>，结合临床病史，这一突变被认为是驱动乳腺癌的重要原因，并指导了患者后续的靶向治疗策略。</p>
+<hr />
+<h2 id="4-germline-与-somatic-的不同">4. Germline 与 Somatic 的不同</h2>
+<ul>
+<li><p><strong>Germline（生殖系）</strong>：通常通过检测患者的正常组织（如外周血），识别在所有细胞中都存在的突变。这些突变多与遗传易感相关。</p></li>
+<li><p><strong>Somatic（体细胞）</strong>：只在肿瘤组织中出现，而在正常组织中缺失。过滤时需要更严格的质量控制，并结合等位基因频率（VAF）判断。</p></li>
+</ul>
+<p>在肿瘤分析中，往往同时进行 germline 与 somatic 的分析，前者帮助识别遗传易感基因，后者揭示驱动肿瘤发生发展的体细胞事件。</p>
+<hr />
+<h2 id="5-常见工具">5. 常见工具</h2>
+<ul>
+<li><p><strong>GATK VariantFiltration</strong>：基于质量、深度等参数进行过滤的经典工具。</p></li>
+<li><p><strong>bcftools filter</strong>：轻量化工具，支持自定义逻辑表达式进行过滤。</p></li>
+<li><p><strong>VEP/SnpEff</strong>：不仅能注释，还能结合功能信息进行过滤。</p></li>
+</ul>
+<hr />
+<h2 id="6-注意事项">6. 注意事项</h2>
+<ul>
+<li><p>不要过度过滤：<strong>有些真实突变可能质量值偏低，但在临床上有意义。</strong></p></li>
+<li><p>注意肿瘤样本的纯度：低纯度样本的突变可能有较低的 VAF，不应轻易丢弃。</p></li>
+<li><p>保持记录：每一步过滤都应有参数和阈值记录，保证分析的可追溯性。</p></li>
+</ul>
+<hr />
+<h2 id="小结">小结</h2>
+<p>变异过滤是将“海量候选”转化为“少量关键”的关键一步。在肿瘤患者的案例中，我们看到如何从数万个变异逐步缩小范围，最终找到指导治疗的重要突变。对于 WES 或 Panel 的临床应用，这一步往往决定了报告的临床价值。</p>
+<hr />
+<p><strong>下期预告</strong>：《临床解读（Clinical Interpretation）：如何把基因变异转化为诊疗决策？》</p>
+<p>下一篇我们将重点介绍<strong>ACMG 的变异分类指南</strong>。这是目前国际上最广泛使用的临床解读标准，用于将基因变异分为致病、可能致病、意义未明、可能良性和良性五大类。我们会详细讲解 ACMG 分类的 28 条证据标准，以及在实际临床中的应用案例。特别需要强调的是，这一分类体系在<strong>遗传病解读</strong>中极其重要。而在<strong>肿瘤临床基因检测</strong>中，除了 ACMG 分类外，通常还会结合<strong>AMP（Association for Molecular Pathology）指南</strong>来进行解读。AMP 的指南更侧重于肿瘤体细胞变异的分级，直接影响临床报告和用药决策。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 10</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-variant-annotation/"><span>上一篇</span><strong>WES系列⑨｜变异注释：给基因变异一个“身份”</strong></a><a class="series-nav-item next" href="/articles/wes-clinical-interpretation/"><span>下一篇</span><strong>WES系列⑪｜临床解读：如何把基因变异转化为诊疗决策？</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>

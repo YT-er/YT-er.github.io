@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>WES系列②｜WES vs WGS vs Panel：如何选择最适合的基因测序策略？｜见山 · 生信笔记</title><meta name="description" content="“你想全景式看世界，还是专注看重点？不同测序技术，就像不同的‘望远镜’，各有优劣。” 随着基因检测在医学和科研中的广泛应用，我们面临着一个越来越常见的问题： 该选哪种测序方…"><link rel="canonical" href="https://yt-er.github.io/articles/wes-vs-wgs-vs-panel/"><link rel="alternate" hreflang="zh-CN" href="https://yt-er.github.io/articles/wes-vs-wgs-vs-panel/"><link rel="alternate" hreflang="en" href="https://yt-er.github.io/en/articles/wes-vs-wgs-vs-panel/"><link rel="alternate" hreflang="x-default" href="https://yt-er.github.io/articles/wes-vs-wgs-vs-panel/"><meta property="og:title" content="WES系列②｜WES vs WGS vs Panel：如何选择最适合的基因测序策略？｜见山 · 生信笔记"><meta property="og:description" content="“你想全景式看世界，还是专注看重点？不同测序技术，就像不同的‘望远镜’，各有优劣。” 随着基因检测在医学和科研中的广泛应用，我们面临着一个越来越常见的问题： 该选哪种测序方…"><meta property="og:url" content="https://yt-er.github.io/articles/wes-vs-wgs-vs-panel/"><meta property="og:type" content="article"><meta name="twitter:card" content="summary"><link rel="icon" href="/icon.png"><link rel="stylesheet" href="/assets/index-BNOyXF6v.css"><link rel="stylesheet" href="/assets/blog-articles.css"></head><body><main class="article-page series-article"><a class="skip-link" href="#article-content">跳到正文</a><header class="site-header article-header"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><div class="header-actions"><a class="back-link" href="/series/wes/"><span aria-hidden="true">←</span> WES 系列</a><div class="language-switcher" aria-label="语言"><a lang="zh-CN" hreflang="zh-CN" href="/articles/wes-vs-wgs-vs-panel/" aria-current="page">中</a><span aria-hidden="true">/</span><a lang="en" hreflang="en" href="/en/articles/wes-vs-wgs-vs-panel/">EN</a></div></div></header><div class="article-topline" aria-label="文章信息"><span>WES 系列 · 02/30</span><time datetime="2025-08-09">2025.08.09</time><span>约 4 分钟</span></div><div class="article-shell"><aside class="toc" aria-label="文章目录"><p>目录</p><ol><li><a href="#compass-一句话总结三者的视野不同"><span>01</span>🧭 一句话总结：三者的“视野”不同</a></li><li><a href="#dna-01-全基因组测序-wgs测得全看得清"><span>02</span>🧬 01. 全基因组测序 WGS：测得全，看得清</a></li><li><a href="#mag-02-全外显子组测序-wes关注关键剧情"><span>03</span>🔍 02. 全外显子组测序 WES：关注“关键剧情”</a></li><li><a href="#dart-03-靶向基因-panel精准打击型选手"><span>04</span>🎯 03. 靶向基因 Panel：精准打击型选手</a></li><li><a href="#bulb-常见选择困惑"><span>05</span>💡 常见选择困惑</a></li><li><a href="#brain-总结你的问题决定你的选择"><span>06</span>🧠 总结：你的问题，决定你的选择</a></li><li><a href="#mega-小结选对工具才能看清问题"><span>07</span>📣 小结：选对工具，才能看清问题</a></li></ol></aside><details class="mobile-toc"><summary>文章目录</summary><ol><li><a href="#compass-一句话总结三者的视野不同">🧭 一句话总结：三者的“视野”不同</a></li><li><a href="#dna-01-全基因组测序-wgs测得全看得清">🧬 01. 全基因组测序 WGS：测得全，看得清</a></li><li><a href="#mag-02-全外显子组测序-wes关注关键剧情">🔍 02. 全外显子组测序 WES：关注“关键剧情”</a></li><li><a href="#dart-03-靶向基因-panel精准打击型选手">🎯 03. 靶向基因 Panel：精准打击型选手</a></li><li><a href="#bulb-常见选择困惑">💡 常见选择困惑</a></li><li><a href="#brain-总结你的问题决定你的选择">🧠 总结：你的问题，决定你的选择</a></li><li><a href="#mega-小结选对工具才能看清问题">📣 小结：选对工具，才能看清问题</a></li></ol></details><article class="article-body" id="article-content"><h1 id="wes系列②wes-vs-wgs-vs-panel如何选择最适合的基因测序策略">WES系列②｜WES vs WGS vs Panel：如何选择最适合的基因测序策略？</h1>
+<blockquote>
+<p>“你想全景式看世界，还是专注看重点？不同测序技术，就像不同的‘望远镜’，各有优劣。”</p>
+</blockquote>
+<hr />
+<p>随着基因检测在医学和科研中的广泛应用，我们面临着一个越来越常见的问题：<strong>该选哪种测序方法？</strong></p>
+<p>今天，我们就来聊聊三个最主流的策略：</p>
+<ul>
+<li><p><strong>WGS：全基因组测序（Whole Genome Sequencing）</strong></p></li>
+<li><p><strong>WES：全外显子组测序（Whole Exome Sequencing）</strong></p></li>
+<li><p><strong>Panel：靶向基因测序（Targeted Gene Panel）</strong></p></li>
+</ul>
+<p>不同需求、不同预算、不同目标下，选对测序方法，事半功倍。</p>
+<hr />
+<h2 id="compass-一句话总结三者的视野不同">🧭 一句话总结：三者的“视野”不同</h2>
+<figure class="figure-unavailable" role="note"><span>原始示意图</span><p>原笔记中的签名图片链接已失效。</p></figure>
+<blockquote>
+<p>WGS vs. WES vs. panel 对比示意图</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>WGS</th>
+<th>WES</th>
+<th>Panel</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>测序范围</strong></td>
+<td>全基因组</td>
+<td>所有外显子区域</td>
+<td>指定基因或区域</td>
+</tr>
+<tr>
+<td><strong>数据量</strong></td>
+<td>超大</td>
+<td>中等</td>
+<td>小</td>
+</tr>
+<tr>
+<td><strong>检测能力</strong></td>
+<td>最全面，理论上无死角</td>
+<td>聚焦功能区，适合找致病突变</td>
+<td>高深度、精准靶向</td>
+</tr>
+<tr>
+<td><strong>成本预算（估算）</strong></td>
+<td>¥8000–15000</td>
+<td>¥3000–6000</td>
+<td>¥800–2000</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>科研、复杂病、结构变异</td>
+<td>临床常规诊断、罕见病、肿瘤</td>
+<td>明确诊断目的，药物基因组</td>
+</tr>
+</tbody>
+</table>
+<p>可以理解为：</p>
+<ul>
+<li><p><strong>WGS 是全景地图</strong>，啥都能看，但文件大、价格高；</p></li>
+<li><p><strong>WES 是重点扫描</strong>，专挑“有剧情”的部分测；</p></li>
+<li><p><strong>Panel 是精准聚焦</strong>，直接看你关心的那几页“说明书”。</p></li>
+</ul>
+<hr />
+<h2 id="dna-01-全基因组测序-wgs测得全看得清">🧬 01. 全基因组测序 WGS：测得全，看得清</h2>
+<p><strong>特点：</strong></p>
+<ul>
+<li><p>测序范围最大，覆盖全人类基因组（约30亿个碱基）；</p></li>
+<li><p>可以发现编码区、非编码区、调控区、结构变异等全部内容；</p></li>
+<li><p>适合研究未知机制、复杂遗传病、多因素疾病等。</p></li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li><p>🔍 无偏见，理论上没有“盲区”；</p></li>
+<li><p>🔄 可重复挖掘，适合长期数据积累；</p></li>
+<li><p>🧠 对表观遗传学、结构变异、罕见变异等也友好。</p></li>
+</ul>
+<p><strong>局限：</strong></p>
+<ul>
+<li><p>💰 成本高：测序费用+数据分析+存储都很“烧钱”；</p></li>
+<li><p>💾 数据巨大：一个样本往往是 100G+ 级别；</p></li>
+<li><p>🤯 解读难度大，非编码区变异功能尚不明确。</p></li>
+</ul>
+<p><strong>成本参考：</strong>¥8000–15000/样本（根据平台深度不同）</p>
+<p><strong>适合人群/场景：</strong></p>
+<ul>
+<li><p>科研机构开展基础研究；</p></li>
+<li><p>临床上对其他检测无果时“背水一战”；</p></li>
+<li><p>复杂疾病机制探索（如精神疾病、自闭症等）。</p></li>
+</ul>
+<hr />
+<h2 id="mag-02-全外显子组测序-wes关注关键剧情">🔍 02. 全外显子组测序 WES：关注“关键剧情”</h2>
+<p>如果说 WGS 是拍摄一整部纪录片，WES 就像只拍重点章节。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li><p>只测占基因组约 1% 的外显子区域；</p></li>
+<li><p>但这 1% 中，包含了 85% 以上的已知致病突变。</p></li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li><p>🎯 高性价比：在医学检测中常常“够用”；</p></li>
+<li><p>🚀 数据处理快，成本适中，适合临床使用；</p></li>
+<li><p>🧬 敏感度高，尤其适合单基因病、肿瘤研究。</p></li>
+</ul>
+<p><strong>局限：</strong></p>
+<ul>
+<li><p>📭 无法发现非编码区变异；</p></li>
+<li><p>🧲 某些区域捕获效率不高，存在“测不到”的可能；</p></li>
+<li><p>🧱 对结构变异、CNV 等识别能力有限。</p></li>
+</ul>
+<p><strong>成本参考：</strong>¥3000–6000/样本（标准平台）</p>
+<p><strong>适合人群/场景：</strong></p>
+<ul>
+<li><p>罕见病诊断（尤其家系三联测序：Trio-WES）；</p></li>
+<li><p>肿瘤组织的突变检测、靶向治疗策略分析；</p></li>
+<li><p>一般临床基因检测的“黄金标准”。</p></li>
+</ul>
+<hr />
+<h2 id="dart-03-靶向基因-panel精准打击型选手">🎯 03. 靶向基因 Panel：精准打击型选手</h2>
+<p>Panel 就像是打开说明书只看那几页你关心的部分，<strong>目标明确、效率惊人</strong>。</p>
+<p><strong>特点：</strong></p>
+<ul>
+<li><p>提前设定好需要检测的基因列表（几十至几百个不等）；</p></li>
+<li><p>常用于某一类疾病（如乳腺癌、心肌病等）的快速筛查。</p></li>
+</ul>
+<p><strong>优点：</strong></p>
+<ul>
+<li><p>💡 超高覆盖度、准确率高；</p></li>
+<li><p>💸 成本最低，结果最快；</p></li>
+<li><p>📋 可定制，适合医院和企业标准化应用。</p></li>
+</ul>
+<p><strong>局限：</strong></p>
+<ul>
+<li><p>🎯 检测范围有限，不能发现Panel外的变异；</p></li>
+<li><p>🔄 无法用于发现新基因、未知机制；</p></li>
+<li><p>🚫 后期扩展性差，适合“已知问题，快速解答”。</p></li>
+</ul>
+<p><strong>成本参考：</strong>¥800–2000/样本</p>
+<p><strong>适合人群/场景：</strong></p>
+<ul>
+<li><p>肿瘤患者靶向用药基因检测（如EGFR, KRAS）；</p></li>
+<li><p>遗传性肿瘤筛查（如BRCA1/2）；</p></li>
+<li><p>药物基因组学（如CYP450代谢相关基因）。</p></li>
+</ul>
+<hr />
+<h2 id="bulb-常见选择困惑">💡 常见选择困惑</h2>
+<p>**预算有限怎么办？**如果问题很明确，直接做 Panel；如果不确定致病基因，选 WES 更稳妥；科研或想探索未知，就上 WGS。</p>
+<p>**会不会测出太多没用的信息？**会有可能，尤其是 WGS 和 WES，所以检测前后最好有遗传咨询，帮你解读和筛选信息。</p>
+<p>**能不能先做 Panel，后面再补 WES 或 WGS？**技术上没问题，但不同平台的数据兼容性可能是个坑，所以最好一开始就规划好。</p>
+<hr />
+<h2 id="brain-总结你的问题决定你的选择">🧠 总结：你的问题，决定你的选择</h2>
+<p>我们建议用这样一个“测序决策树”思路来判断：</p>
+<pre><code>你有明确疾病或家族史吗？
+├── 有 → 是哪类疾病？
+│   ├── 常见致病基因明确 → Panel
+│   └── 可能涉及多个未知基因 → WES
+└── 没有 → 想做健康风险评估或科研？
+    ├── 科研、探索未知 → WGS
+    └── 初步风险筛查 → Panel/WES </code></pre>
+<hr />
+<h2 id="mega-小结选对工具才能看清问题">📣 小结：选对工具，才能看清问题</h2>
+<p>测序技术没有绝对的优劣，只有适合与否。关键是弄清楚自己想解决的问题，再选工具。别忘了，数据只是起点，真正的价值在于如何解读它。</p>
+<hr />
+<p>📌<strong>下期预告</strong>：</p>
+<p>《WES 简史：从 Sanger 到 NGS，一场基因测序的技术革命》——带你回顾技术进化的故事，看看外显子测序是如何走进主流视野的。</p>
+</article></div><section class="article-end"><p class="eyebrow">WES SERIES · 02</p><h2>继续沿着 WES 全流程读下去。</h2><a class="read-link" href="/series/wes/">← 查看全部 30 篇</a></section><nav class="series-navigation" aria-label="WES 系列文章导航"><a class="series-nav-item previous" href="/articles/wes-introduction/"><span>上一篇</span><strong>WES系列①｜什么是全外显子组测序？</strong></a><a class="series-nav-item next" href="/articles/wes-history/"><span>下一篇</span><strong>WES系列③｜WES简史：从Sanger到NGS，一场基因测序的技术革命</strong></a></nav><footer class="site-footer article-footer"><a class="brand" href="/" aria-label="见山 · 生信笔记首页"><span class="brand-mark" aria-hidden="true">见</span><span><strong>见山</strong><small>生信笔记</small></span></a><p>写作，是为了让判断更有依据。</p><a href="#article-content">回到顶部 ↑</a></footer></main></body></html>
